@@ -89,9 +89,10 @@ $nb = 0;
     <input id="but" type="submit" value="Valider" class="btn btn-success"/>
     <button id="reset" type="button" class="btn btn-danger">Réintinaliser</button>
 </form>
-<form method="get" action="../gsb/controleurs/c_majFichefrais.php">
+
+<form class="form-inline" method="get" action="../gsb/controleurs/c_majFichefrais.php">
     <table class="table table-bordered" style="text-align: center;">
-        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait</caption>
+        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php echo $nom ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php echo $prenom ?> " disabled/></caption>
 
 
         <tr>
@@ -125,7 +126,7 @@ $nb = 0;
         }
         if (isset($_POST['lstMois'])) {
             $nbJ = $nbJustifi[0]['nbjustificatifs'];
-            echo '<br> Nombre de Justification : <b>' . "<input type='text' value='$nbJ' class='form-control' id='usr'>" . '</b>';
+            echo ' Nombre de Justification : <b>' . "<input type='text' value='$nbJ' class='form-control' id='usr'>" . '</b>';
 
             foreach ($elem as $elements) {
 
@@ -133,14 +134,18 @@ $nb = 0;
                 $libelem = $elements['libelle'];
                 $montelem = $elements['montant'];
                 $rez = $quanti * $montelem;
-                echo '<br>', $libelem, ' : <br>', "<input type='text' value='$rez' class='form-control'>";
+                echo ' ', $libelem, ' : ', "<input style='width: 6%' type='text' value='$rez' class='form-control'>";
             }
         }
-        echo '<br>';
+        echo '<br><br>';
         $nblignemax = $nb;
+        
         ?>    
     </table>
-    <div id="gensub"></div>
+    
+    <div id="gensub"><input type="submit" class="btn btn-warning" value="Valider tout et enregistrer dans la base de donnée"/></div>
+    <br>
+    <br>
 </form>
 <script type="text/javascript">
     var i = 1;
@@ -175,8 +180,5 @@ $nb = 0;
         document.getElementById(libsel).value=ancdes;
         
     }
-    document.getElementById("but").addEventListener("click", function () {
-        console.log("SLT");
-    document.getElementById("gensub").InnerHTML += '<input type="submit" class="btn btn-warning"/>';
-    });
+
 </script>

@@ -9,6 +9,9 @@ include '../includes/classMajLigneDeFrais.php';
 $i = 1;
 $j = 1;
 $max = 1;
+if (isset($_GET["$j"])) {
+   
+
 while (isset($_GET["$j"])) {
     $max++;
     $j++;
@@ -29,5 +32,9 @@ var_dump($arrdate);
 echo '<br>';
 var_dump($arrlib);
 
+}
+else{
 
-
+      header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+      exit();
+}
