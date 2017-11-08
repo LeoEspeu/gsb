@@ -1,5 +1,4 @@
 <form action="index.php?uc=suivreFrais&action=confirmerFrais" method="post">
-    Choix du visiteur: 
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span> Choix du visiteur</span>
         <select class="form-control" name="listVisiteur" id="listNom"  required="" aria-describedby="basic-addon1"> 
@@ -44,7 +43,7 @@
                 <h3 class="text-center">Fiches de frais à mettre en payement</h3>
             </div>
             <div class="panel-body">
-                <h3>La sélection d'une fiche de frais aura pour conséquence de la mettre en payement aprés validation</h3>
+                <h3>La sélection d'une fiche de frais aura pour conséquence de la mettre en payement aprés validation ,puis plus tard ,le visiteur sera remboursé</h3>
             </div>
             <ul class="list-group">
                 <?php
@@ -86,7 +85,7 @@
                         }
                         echo 'Fiche de frais du ', $numMois . '/' . $numAnnee;
                         ?>
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal<?php echo $compteur; ?>">
+                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal<?php echo $compteur; ?>">
                             Voir détails
                         </button>
 
@@ -169,8 +168,8 @@
             </ul>
         </div>
         <p>
-            <button id="créer" type="submit" class="btn btn-success btn-lg" name="cocher">Tout sélectionner</button>
-            <button id="créer" type="submit" class="btn btn-danger btn-lg" name="submit">Mettre en payement</button>
+            <button id="créer" type="submit" class="btn btn-success " name="cocher">Tout sélectionner</button>
+            <button id="créer" type="submit" class="btn btn-danger " name="submit">Mettre en payement</button>
         </p>
         <?php
     }

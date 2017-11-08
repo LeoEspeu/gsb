@@ -91,6 +91,7 @@ INSERT INTO etat (id, libelle) VALUES
 ('RB', 'Remboursée'),
 ('CL', 'Saisie clôturée'),
 ('CR', 'Fiche créée, saisie en cours'),
+('MP', 'Mise en payement'),
 ('VA', 'Validée et mise en paiement');
 
 -- Récupération des utilisateurs
