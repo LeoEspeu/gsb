@@ -1,21 +1,34 @@
 <form action="index.php?uc=suivreFrais&action=confirmerFrais" method="post">
     Choix du visiteur: 
-    <select class="form-control" name="listVisiteur" id="listNom"  required="">
-        <option selected value> <?php $nomprenomselect ?> </option>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span> Choix du visiteur</span>
+        <select class="form-control" name="listVisiteur" id="listNom"  required="" aria-describedby="basic-addon1"> 
 
-        <?php
-        foreach ($lesVisiteurs as $unVisiteur) {
-            $nom = htmlspecialchars($unVisiteur['nom']);
-            $prenom = $unVisiteur['prenom'];
-            $concatiser = $nom . ' ' . $prenom;
-            ?>           
-            <option value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
+
 
             <?php
-        }
-        ?>
+            foreach ($lesVisiteurs as $unVisiteur) {
 
-    </select>
+                $nom = htmlspecialchars($unVisiteur['nom']);
+                $prenom = $unVisiteur['prenom'];
+                $concatiser = $nom . ' ' . $prenom;
+                if ($concatiser == $nomprenomselect) {
+                    ?>           
+
+                    <option selected="" value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
+
+                    <?php
+                } else {
+                    ?>           
+                    <option value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
+
+                    <?php
+                }
+            }
+            ?>
+
+        </select> 
+    </div>
     <br>
     <input id="but" type="submit" value="Valider" class="btn btn-success"/>
     <!-- Button trigger modal -->
