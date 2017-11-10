@@ -49,12 +49,12 @@ if (isset($_POST["$j"])) {
         echo '<br>';
 
 
-        
+
 
 
         $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
         $requetePrepare = $pdoSansParam->prepare(
-        'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
         set  lignefraishorsforfait.libelle = :lib
         WHERE :id = lignefraishorsforfait.idvisiteur
         AND lignefraishorsforfait.mois = :date
@@ -65,11 +65,6 @@ if (isset($_POST["$j"])) {
         $requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
         $requetePrepare->bindParam(':idFiche', $idFiche[$o], PDO::PARAM_STR);
         $requetePrepare->execute();
-        
-        
-        
-        
-
 
         $i++;
         $o++;
