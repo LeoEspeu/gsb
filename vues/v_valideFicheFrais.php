@@ -90,9 +90,9 @@ $nb = 0;
     <button id="reset" type="button" class="btn btn-danger">Réintinaliser</button>
 </form>
 
-<form class="form-inline" method="get" action="../gsb/controleurs/c_majFichefrais.php">
+<form class="form-inline" method="POST" action="../gsb/controleurs/c_majFichefrais.php">
     <table class="table table-bordered" style="text-align: center;">
-        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php echo $nom ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php echo $prenom ?> " disabled/></caption>
+        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php if (isset($prenomselect)) { echo $nomselect; } ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php if (isset($prenomselect)) { echo $prenomselect;} ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php if (isset($moisSelect)) { echo $moisSelect;} ?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php if (isset($uneId)) { echo $uneId;} ?>' class='form-control' name='leID' > </caption>
 
 
         <tr>

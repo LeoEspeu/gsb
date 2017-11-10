@@ -10,28 +10,20 @@
 
 class MajLigneDeFrais {
 
-    private $nom = '';
-    private $prenom = '';
+    private $id = '';
     private $dateSelect = '';
     private $montant = '';
     private $dateDuFrais = '';
     private $etatDeLaFiche = '';
+    private $idFicheFrais = '';
 
-    function __construct($nom, $prenom, $dateSelect, $montant, $dateDuFrais, $etatDeLaFiche) {
-        $this->nom = $nom;
-        $this->prenom = $prenom;
+    function __construct($id, $dateSelect, $montant, $dateDuFrais, $etatDeLaFiche, $idFicheFrais) {
+        $this->id = $id;
         $this->dateSelect = $dateSelect;
         $this->montant = $montant;
         $this->dateDuFrais = $dateDuFrais;
         $this->etatDeLaFiche = $etatDeLaFiche;
-    }
-
-    function getNom() {
-        return $this->nom;
-    }
-
-    function getPrenom() {
-        return $this->prenom;
+        $this->idFicheFrais = $idFicheFrais;
     }
 
     function getDateSelect() {
@@ -50,14 +42,6 @@ class MajLigneDeFrais {
         return $this->etatDeLaFiche;
     }
 
-    function setNom($nom) {
-        $this->nom = $nom;
-    }
-
-    function setPrenom($prenom) {
-        $this->prenom = $prenom;
-    }
-
     function setDateSelect($dateSelect) {
         $this->dateSelect = $dateSelect;
     }
@@ -73,5 +57,7 @@ class MajLigneDeFrais {
     function setEtatDeLaFiche($etatDeLaFiche) {
         $this->etatDeLaFiche = $etatDeLaFiche;
     }
+
+   
 
 }

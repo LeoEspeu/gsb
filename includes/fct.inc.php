@@ -303,7 +303,7 @@ function getLesVisiteursAvecFicheDeFrais() {
 function getFicheDeFraisEnFonctionDuMois($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
-    $req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant
+    $req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant,lignefraishorsforfait.id
     FROM `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
     WHERE '$id' = lignefraishorsforfait.idvisiteur
     AND lignefraishorsforfait.mois = '$mois';";
