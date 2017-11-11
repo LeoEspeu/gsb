@@ -67,10 +67,15 @@
                     foreach ($idDuVisiteur as $uneId) {
                         $uneId = $idDuVisiteur['id'];
                     }
-                    $lesFichesFull = getFicheDeFraisValideEnFonctionDuMois($uneId, $moisBDD);
+                    $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
+                    $fichesValide = estFicheValide($uneId, $moisBDD);
+                    $monIdetatFiche='';
+                    foreach ($fichesValide as $value) {
+                        $monIdetatFiche =$value['idetat'];
+                    }
                     echo '<br><br>';
                     $nbJustifi = getNbJustificatif($uneId, $moisBDD);
-                    $elem = getElementForfaitValide($uneId, $moisBDD);
+                    $elem = getElementForfait($uneId, $moisBDD);
                     ?>
                     <li class="list-group-item">
                         <?php
@@ -104,7 +109,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <?php
-                                        if ($elem == NULL) {
+                                        if ($elem == NULL || $monIdetatFiche!='VA') {
                                             echo '<br><h3>Aucun frais validé pour ce mois ci</3><br>';
                                         } else {
 
@@ -118,25 +123,27 @@
                                                 echo '<br><h4>', $libelem, ' : ', $rez, '</h4><br>';
                                             }
                                         }
-                                        if ($lesFichesFull == NULL) {
-                                            echo '<b><h3>Aucun élément Hors Forfait pour ce mois ci</h3></b><br>';
-                                        } else {
-                                            echo '<br><h3>Liste des frais hors-Forfait:</h3><br>';
-                                            ?>
-                                            <table class="table table-bordered" style="text-align: center;">
-                                                <tr>
+                                        if ($elem != NULL && $monIdetatFiche=='VA') {
+                                            if ($lesFichesFull != NULL) {
+                                                echo '<br><h3>Liste des frais hors-Forfait:</h3><br>';
+                                                ?>
+                                                <table class="table table-bordered" style="text-align: center;">
+                                                    <tr>
 
-                                                    <th>Montant : </th>
-                                                    <th>Date du frais :  </th>
-                                                    <th>Etat de la fiche: </th>
+                                                        <th>Montant : </th>
+                                                        <th>Date du frais :  </th>
+                                                        <th>Etat de la fiche: </th>
 
-                                                </tr>
-                                                <?php
-                                                foreach ($lesFichesFull as $fiche) {
-                                                    $montant = $fiche['montant'];
-                                                    $datemodif = $fiche['date'];
-                                                    $libelleLigne = $fiche['libelle'];
-                                                    echo '<tr><th>', $montant, '</th><th>', $datemodif, '</th><th>', $libelleLigne, '</th></tr>';
+                                                    </tr>
+                                                    <?php
+                                                    foreach ($lesFichesFull as $fiche) {
+                                                        $montant = $fiche['montant'];
+                                                        $datemodif = $fiche['date'];
+                                                        $libelleLigne = $fiche['libelle'];
+                                                        echo '<tr><th>', $montant, '</th><th>', $datemodif, '</th><th>', $libelleLigne, '</th></tr>';
+                                                    }
+                                                } else {
+                                                    echo '<br><h3>Aucun frais hors-forfait pour ce mois ci</3><br>';
                                                 }
                                             }
                                             ?>
@@ -144,10 +151,8 @@
                                         <?php
                                         $nbJustifi = getNbJustificatif($uneId, $moisBDD);
                                         $nbJ = $nbJustifi[0]['nbjustificatifs'];
-                                        if ($nbJ != NULL) {
+                                        if ($elem != NULL && $monIdetatFiche=='VA') {
                                             echo '<br> <button class="btn btn-primary" type="button">Justificatif(s) <span class="badge">', $nbJ, '</span></button> ';
-                                        } else {
-                                            echo '<b><h3>Aucun justificatif pour ce mois ci</h3></b><br> ';
                                         }
                                         ?>
                                     </div>

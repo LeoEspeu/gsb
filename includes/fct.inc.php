@@ -313,25 +313,6 @@ function getFicheDeFraisEnFonctionDuMois($id, $mois) {
     return $lesFichesFull;
 }
 
-/**
- * Fonction qui les fiches de frais d'un visiteur en fonction du mois
- * @param PDO $pdo instance de la classe PDO utilisée pour se connecter
- *
- * @return Array de visiteurs
- */
-function getFicheDeFraisValideEnFonctionDuMois($id, $mois) {
-    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-    $pdoSansParam->query('SET CHARACTER SET utf8');
-    $req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant
-    FROM `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais,etat
-    WHERE '$id' = lignefraishorsforfait.idvisiteur
-    AND lignefraishorsforfait.mois = '$mois' AND etat.id = 'VA';";
-    $res = $pdoSansParam->query($req);
-
-    $lesFichesFull = $res->fetchAll();
-    return $lesFichesFull;
-}
-
 function getNbJustificatif($id, $mois) {
 
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
@@ -378,23 +359,11 @@ function getElementForfait($id, $mois) {
     }
 }
 
-function getElementForfaitValide($id,$mois){
+function estFicheValide($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
-    $req = "Select distinct idfraisforfait,fraisforfait.libelle,montant,visiteur.id,lignefraisforfait.quantite,etat.id
-    From lignefraisforfait
-    INNER JOIN fraisforfait
-    ON lignefraisforfait.idfraisforfait=fraisforfait.id
-    INNER JOIN fichefrais
-    ON fichefrais.idvisiteur=lignefraisforfait.idvisiteur
-    INNER JOIN visiteur
-    ON visiteur.id=fichefrais.idvisiteur
-    INNER JOIN etat
-    ON fichefrais.idetat=etat.id
-    WHERE etat.id = 'VA' and visiteur.id='$id'
-    AND lignefraisforfait.mois='$mois';";
+    $req = "select * from fichefrais where idvisiteur = '$id' and mois='$mois';";
     $res = $pdoSansParam->query($req);
-    $tripleInnerJoin = $res->fetchAll();
-    return $tripleInnerJoin ;
-    
+    $lesFichesValides = $res->fetchAll();
+    return $lesFichesValides;
 }
