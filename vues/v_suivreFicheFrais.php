@@ -4,13 +4,11 @@
         <select class="form-control" name="listVisiteur" id="listNom"  required="" aria-describedby="basic-addon1"> 
             <?php
             foreach ($lesVisiteurs as $unVisiteur) {
-
                 $nom = htmlspecialchars($unVisiteur['nom']);
                 $prenom = $unVisiteur['prenom'];
                 $concatiser = $nom . ' ' . $prenom;
                 if ($concatiser == $nomprenomselect) {
                     ?>           
-
                     <option selected="" value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
 
                     <?php
@@ -22,7 +20,6 @@
                 }
             }
             ?>
-
         </select> 
     </div>
     <br>
@@ -30,9 +27,8 @@
     <!-- Button trigger modal -->
     <?php
     $compteur = 0;
-
     if (isset($_POST['listVisiteur'])) {
-        if (isset($_POST['cocher'])) {
+        if (isset($_POST['cocher']) || isset($_POST['payer'])) {
             $concatiser = $_SESSION['cocher'];
         } else {
             $concatiser = $_POST['listVisiteur'];
@@ -58,8 +54,6 @@
                     $nomprenomselect = $concatiser;
                     $moisSelect = $numAnnee . '/' . $numMois;
                     $moisBDD = preg_replace('#/#', '', $moisSelect);
-
-
                     list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
 
                     $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
@@ -69,9 +63,9 @@
                     }
                     $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
                     $fichesValide = estFicheValide($uneId, $moisBDD);
-                    $monIdetatFiche='';
+                    $monIdetatFiche = '';
                     foreach ($fichesValide as $value) {
-                        $monIdetatFiche =$value['idetat'];
+                        $monIdetatFiche = $value['idetat'];
                     }
                     echo '<br><br>';
                     $nbJustifi = getNbJustificatif($uneId, $moisBDD);
@@ -80,21 +74,32 @@
                     <li class="list-group-item">
                         <?php
                         if (isset($_POST['cocher'])) {
-                            ?>
+                            if ($monIdetatFiche == 'VA') {
+                                ?>
 
-                            <input type="checkbox" value="" checked>
-                            <?php
+                                <input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" checked>
+                                <?php
+                            } else {
+                                ?>
+                                <input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled>     
+                                <?php
+                            }
                         } else {
-                            ?>
-                            <input type="checkbox" value="">
-                            <?php
+                            if ($monIdetatFiche == 'VA') {
+                                ?>
+                                <input type="checkbox" name="case<?php echo $compteur ?>" value="<?php echo $moisBDD ?>">
+                                <?php
+                            } else {
+                                ?>
+                                <input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled>  
+                                <?php
+                            }
                         }
                         echo 'Fiche de frais du ', $numMois . '/' . $numAnnee;
                         ?>
                         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal<?php echo $compteur; ?>">
                             Voir détails
                         </button>
-
                         <!-- Modal -->
                         <div class="modal fade bs-example-modal-lg" id="myModal<?php echo $compteur; ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                             <div class="modal-dialog modal-lg" role="document">
@@ -109,11 +114,9 @@
                                     </div>
                                     <div class="modal-body">
                                         <?php
-                                        if ($elem == NULL || $monIdetatFiche!='VA') {
+                                        if ($elem == NULL || $monIdetatFiche != 'VA') {
                                             echo '<br><h3>Aucun frais validé pour ce mois ci</3><br>';
                                         } else {
-
-
                                             foreach ($elem as $elements) {
 
                                                 $quanti = $elements['quantite'];
@@ -123,7 +126,7 @@
                                                 echo '<br><h4>', $libelem, ' : ', $rez, '</h4><br>';
                                             }
                                         }
-                                        if ($elem != NULL && $monIdetatFiche=='VA') {
+                                        if ($elem != NULL && $monIdetatFiche == 'VA') {
                                             if ($lesFichesFull != NULL) {
                                                 echo '<br><h3>Liste des frais hors-Forfait:</h3><br>';
                                                 ?>
@@ -151,31 +154,34 @@
                                         <?php
                                         $nbJustifi = getNbJustificatif($uneId, $moisBDD);
                                         $nbJ = $nbJustifi[0]['nbjustificatifs'];
-                                        if ($elem != NULL && $monIdetatFiche=='VA') {
+                                        if ($elem != NULL && $monIdetatFiche == 'VA') {
                                             echo '<br> <button class="btn btn-primary" type="button">Justificatif(s) <span class="badge">', $nbJ, '</span></button> ';
                                         }
                                         ?>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Dévalider</button>
+                                        <?php
+                                        if ($elem != NULL && $monIdetatFiche == 'VA') {
+                                            ?>
+                                            <button type="button" class="btn btn-primary">Dévalider</button>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                         <?php
                         $compteur += 1;
                     }
                     ?>
-
                 </li>
             </ul>
         </div>
         <p>
             <button id="créer" type="submit" class="btn btn-success " name="cocher">Tout sélectionner</button>
-            <button id="créer" type="submit" class="btn btn-danger " name="submit">Mettre en payement</button>
+            <button id="créer" type="submit" class="btn btn-danger " name="payer">Mettre en payement</button>
         </p>
         <?php
     }

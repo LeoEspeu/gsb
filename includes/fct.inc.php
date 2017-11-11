@@ -359,6 +359,12 @@ function getElementForfait($id, $mois) {
     }
 }
 
+/**
+ * Retourne une fiche de frais en fonction du mois et du visiteur pour savoir si elle est valide ou non
+ * @param type $id
+ * @param type $mois
+ * @return type
+ */
 function estFicheValide($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -366,4 +372,30 @@ function estFicheValide($id, $mois) {
     $res = $pdoSansParam->query($req);
     $lesFichesValides = $res->fetchAll();
     return $lesFichesValides;
+}
+
+/**
+ * Fonction permettant de mettre un frais en remboursement en fonction du vsiteur et du mois
+ * @param type $id
+ * @param type $mois
+ */
+function fairePayement($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='MP' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
+}
+
+/**
+ * Fonction permettant de mettre un frais en remboursement en fonction du vsiteur et du mois
+ * @param type $id
+ * @param type $mois
+ */
+function faireremboursement($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='RB' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
 }
