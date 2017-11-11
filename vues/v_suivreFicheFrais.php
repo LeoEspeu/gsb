@@ -2,9 +2,6 @@
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span> Choix du visiteur</span>
         <select class="form-control" name="listVisiteur" id="listNom"  required="" aria-describedby="basic-addon1"> 
-
-
-
             <?php
             foreach ($lesVisiteurs as $unVisiteur) {
 
@@ -35,7 +32,12 @@
     $compteur = 0;
 
     if (isset($_POST['listVisiteur'])) {
-        $concatiser = $_POST['listVisiteur'];
+        if (isset($_POST['cocher'])) {
+            $concatiser = $_SESSION['cocher'];
+        } else {
+            $concatiser = $_POST['listVisiteur'];
+            $_SESSION['cocher'] = $concatiser;
+        }
         echo '<br>Visiteur selectionné : <b>' . $concatiser . '</b>';
         ?>
         <div class="panel panel-default">
@@ -70,17 +72,16 @@
                     $nbJustifi = getNbJustificatif($uneId, $moisBDD);
                     $elem = getElementForfaitValide($uneId, $moisBDD);
                     ?>
-                <li class="list-group-item">
-                <?php
+                    <li class="list-group-item">
+                        <?php
+                        if (isset($_POST['cocher'])) {
+                            ?>
 
-                    if (isset($_POST['cocher'])) {
-                        ?>
-                        
-                    <input type="checkbox" value="" checked>
+                            <input type="checkbox" value="" checked>
                             <?php
                         } else {
                             ?>
-                    <input type="checkbox" value="">
+                            <input type="checkbox" value="">
                             <?php
                         }
                         echo 'Fiche de frais du ', $numMois . '/' . $numAnnee;
@@ -97,7 +98,7 @@
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         <h4 class="modal-title" id="myModalLabel">
                                             <?php
-                                            echo 'Fiche de frais de ', $concatiser, ' du ', $numMois . '/' . $numAnnee ;
+                                            echo 'Fiche de frais de ', $concatiser, ' du ', $numMois . '/' . $numAnnee;
                                             ?>
                                         </h4>
                                     </div>
