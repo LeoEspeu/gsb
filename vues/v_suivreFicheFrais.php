@@ -28,7 +28,7 @@
     <?php
     $compteur = 0;
     if (isset($_POST['listVisiteur'])) {
-        if (isset($_POST['cocher']) || isset($_POST['payer'])) {
+        if (isset($_POST['cocher']) || isset($_POST['payer']) || isset($_POST[$btndeval])) {
             $concatiser = $_SESSION['cocher'];
         } else {
             $concatiser = $_POST['listVisiteur'];
@@ -164,7 +164,7 @@
                                         <?php
                                         if ($elem != NULL && $monIdetatFiche == 'VA') {
                                             ?>
-                                            <button type="button" class="btn btn-primary">Dévalider</button>
+                                        <button type="submit" class="btn btn-primary" name="deval<?php echo $compteur ?>" value="<?php echo $moisBDD; ?>">Dévalider</button>
                                             <?php
                                         }
                                         ?>
