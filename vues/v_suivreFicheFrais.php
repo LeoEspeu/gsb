@@ -24,7 +24,6 @@
     </div>
     <br>
     <input id="but" type="submit" value="Valider" class="btn btn-success"/>
-    <!-- Button trigger modal -->
     <?php
     $compteur = 0;
     if (isset($_POST['listVisiteur'])) {
@@ -34,151 +33,129 @@
             $concatiser = $_POST['listVisiteur'];
             $_SESSION['cocher'] = $concatiser;
         }
-        echo '<br>Visiteur selectionné : <b>' . $concatiser . '</b>';
+        echo '<p>Visiteur selectionné : <b>' . $concatiser . '</b></p><br>';
         ?>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="text-center">Fiches de frais à mettre en payement</h3>
-            </div>
-            <div class="panel-body">
-                <h3>La sélection d'une fiche de frais aura pour conséquence de la mettre en payement aprés validation ,puis plus tard ,le visiteur sera remboursé</h3>
-            </div>
-            <ul class="list-group">
-                <?php
-                foreach ($lesMois as $unMois) {
-                    $mois = $unMois['mois'];
-                    $unMoisVar = "$mois";
+    
+        <table class="table table-bordered table-responsive" style="text-align: center;">
+            <caption style="border-radius:4px; background-color:#f2993a; color:white; text-align: center">Descriptif des Fiches de frais à mettre en payement </caption>
+            <thead>
+                <th>#</th> 
+                <th><span class='glyphicon glyphicon-list-alt'></span> Date</th>
+                <th><span>€</span> Montant Total frais: </th>
+                <th><span>€</span> Montant total frais Hors-Forfait  </th>
+                <th><span class='glyphicon glyphicon-book'></span> Nombre de justificatifs </th>
+                <th><span class='glyphicon glyphicon-ok'></span> Option de devalidation </th>
 
-                    $numAnnee = substr($unMoisVar, 0, -2);
-                    $numMois = substr($unMoisVar, -2);
-                    $nomprenomselect = $concatiser;
-                    $moisSelect = $numAnnee . '/' . $numMois;
-                    $moisBDD = preg_replace('#/#', '', $moisSelect);
-                    list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
+        </thead>
 
-                    $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
+            <?php
+            foreach ($lesMois as $unMois) {
+                $mois = $unMois['mois'];
+                $unMoisVar = "$mois";
 
-                    foreach ($idDuVisiteur as $uneId) {
-                        $uneId = $idDuVisiteur['id'];
-                    }
-                    $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
-                    $fichesValide = estFicheValide($uneId, $moisBDD);
-                    $monIdetatFiche = '';
-                    foreach ($fichesValide as $value) {
-                        $monIdetatFiche = $value['idetat'];
-                    }
-                    echo '<br><br>';
-                    $nbJustifi = getNbJustificatif($uneId, $moisBDD);
-                    $elem = getElementForfait($uneId, $moisBDD);
-                    ?>
-                    <li class="list-group-item">
-                        <?php
-                        if (isset($_POST['cocher'])) {
-                            if ($monIdetatFiche == 'VA') {
-                                ?>
+                $numAnnee = substr($unMoisVar, 0, -2);
+                $numMois = substr($unMoisVar, -2);
+                $nomprenomselect = $concatiser;
+                $moisSelect = $numAnnee . '/' . $numMois;
+                $moisBDD = preg_replace('#/#', '', $moisSelect);
+                list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
 
-                                <input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" checked>
-                                <?php
-                            } else {
-                                ?>
-                                <input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled>     
-                                <?php
-                            }
+                $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
+
+                foreach ($idDuVisiteur as $uneId) {
+                    $uneId = $idDuVisiteur['id'];
+                }
+                $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
+                $fichesValide = estFicheValide($uneId, $moisBDD);
+                $monIdetatFiche = '';
+                foreach ($fichesValide as $value) {
+                    $monIdetatFiche = $value['idetat'];
+                }
+                
+                $nbJustifi = getNbJustificatif($uneId, $moisBDD);
+                $elem = getElementForfait($uneId, $moisBDD);
+                ?>
+                <tr>
+                    <?php
+                    if (isset($_POST['cocher'])) {
+                        if ($monIdetatFiche == 'VA') {
+                            ?>
+
+                            <th><input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" checked></th>
+                            <?php
                         } else {
-                            if ($monIdetatFiche == 'VA') {
-                                ?>
-                                <input type="checkbox" name="case<?php echo $compteur ?>" value="<?php echo $moisBDD ?>">
-                                <?php
-                            } else {
-                                ?>
-                                <input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled>  
-                                <?php
-                            }
+                            ?>
+                            <th><input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled></th>     
+                            <?php
                         }
-                        echo 'Fiche de frais du ', $numMois . '/' . $numAnnee;
-                        ?>
-                        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#myModal<?php echo $compteur; ?>">
-                            Voir détails
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade bs-example-modal-lg" id="myModal<?php echo $compteur; ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">
-                                            <?php
-                                            echo 'Fiche de frais de ', $concatiser, ' du ', $numMois . '/' . $numAnnee;
-                                            ?>
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <?php
-                                        if ($elem == NULL || $monIdetatFiche != 'VA') {
-                                            echo '<br><h3>Aucun frais validé pour ce mois ci</3><br>';
-                                        } else {
-                                            foreach ($elem as $elements) {
+                    } else {
+                        if ($monIdetatFiche == 'VA') {
+                            ?>
+                            <th><input type="checkbox" name="case<?php echo $compteur ?>" value="<?php echo $moisBDD ?>"></th>
+                            <?php
+                        } else {
+                            ?>
+                            <th><input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled> </th> 
+                            <?php
+                        }
+                    }
+                    echo '<th><h4> ', $numMois . '/' . $numAnnee . '</h4></th>';
+                    ?>      
+                    <?php
+                    if ($elem == NULL || $monIdetatFiche != 'VA') {
+                        ?><td colspan="5"><?php echo '<h4>Aucun frais validé pour ce mois ci</h4>';?></td><?php
+                    } else {
+                        $fraistotal = NULL;
+                        foreach ($elem as $elements) {
 
-                                                $quanti = $elements['quantite'];
-                                                $libelem = $elements['libelle'];
-                                                $montelem = $elements['montant'];
-                                                $rez = $quanti * $montelem;
-                                                echo '<br><h4>', $libelem, ' : ', $rez, '</h4><br>';
-                                            }
-                                        }
-                                        if ($elem != NULL && $monIdetatFiche == 'VA') {
-                                            if ($lesFichesFull != NULL) {
-                                                echo '<br><h3>Liste des frais hors-Forfait:</h3><br>';
-                                                ?>
-                                                <table class="table table-bordered" style="text-align: center;">
-                                                    <tr>
+                            $quanti = $elements['quantite'];
+                            $libelem = $elements['libelle'];
+                            $montelem = $elements['montant'];
+                            $rez = $quanti * $montelem;
+                            $fraistotal += $rez;
+                        }
+                        echo '<th><h4> ' . $fraistotal . '</h4></th>';
+                    }
+                    if ($elem != NULL && $monIdetatFiche == 'VA') {
+                        if ($lesFichesFull != NULL) {
 
-                                                        <th>Montant : </th>
-                                                        <th>Date du frais :  </th>
-                                                        <th>Etat de la fiche: </th>
 
-                                                    </tr>
-                                                    <?php
-                                                    foreach ($lesFichesFull as $fiche) {
-                                                        $montant = $fiche['montant'];
-                                                        $datemodif = $fiche['date'];
-                                                        $libelleLigne = $fiche['libelle'];
-                                                        echo '<tr><th>', $montant, '</th><th>', $datemodif, '</th><th>', $libelleLigne, '</th></tr>';
-                                                    }
-                                                } else {
-                                                    echo '<br><h3>Aucun frais hors-forfait pour ce mois ci</3><br>';
-                                                }
-                                            }
-                                            ?>
-                                        </table>
-                                        <?php
-                                        $nbJustifi = getNbJustificatif($uneId, $moisBDD);
-                                        $nbJ = $nbJustifi[0]['nbjustificatifs'];
-                                        if ($elem != NULL && $monIdetatFiche == 'VA') {
-                                            echo '<br> <button class="btn btn-primary" type="button">Justificatif(s) <span class="badge">', $nbJ, '</span></button> ';
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <?php
-                                        if ($elem != NULL && $monIdetatFiche == 'VA') {
-                                            ?>
-                                        <button type="submit" class="btn btn-primary" name="deval<?php echo $compteur ?>" value="<?php echo $moisBDD; ?>">Dévalider</button>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                        $compteur += 1;
+                            $horsfraistotal = NULL;
+                            foreach ($lesFichesFull as $fiche) {
+                                $montant = $fiche['montant'];
+                                $horsfraistotal += $montant;
+                            }
+                            echo '<th><h4>' . $horsfraistotal . '</h4></th>';
+                        } else {
+                            echo '<th><h4>Aucun frais hors-forfait pour ce mois ci</h4></th>';
+                        }
                     }
                     ?>
-                </li>
-            </ul>
-        </div>
+
+                    <?php
+                    $nbJustifi = getNbJustificatif($uneId, $moisBDD);
+                    $nbJ = $nbJustifi[0]['nbjustificatifs'];
+                    if ($elem != NULL && $monIdetatFiche == 'VA') {
+                        echo '<th> <h4>', $nbJ, '</h4></th> ';
+                    }
+                    ?>
+
+
+                    <?php
+                    if ($elem != NULL && $monIdetatFiche == 'VA') {
+                        ?>
+                        <th>
+                            <button type="submit" class="btn btn-danger" name="deval<?php echo $compteur ?>" value="<?php echo $moisBDD; ?>">Dévalider</button></th>
+                        <?php
+                    }
+                    ?>
+
+                    <?php
+                    $compteur += 1;
+                }
+                ?>
+            </tr>
+        </table>
         <p>
             <button id="créer" type="submit" class="btn btn-success " name="cocher">Tout sélectionner</button>
             <button id="créer" type="submit" class="btn btn-danger " name="payer">Mettre en payement</button>
@@ -187,8 +164,3 @@
     }
     ?>
 </form>
-
-<!--Bootstrap core JavaScript ============================================ -->
-<!--Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="styles\bootstrap\bootstrap.min.js"></script>
