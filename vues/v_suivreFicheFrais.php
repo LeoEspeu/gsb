@@ -91,15 +91,15 @@
                     } else {
                         if ($monIdetatFiche == 'VA') {
                             ?>
-                            <th><input type="checkbox" name="case<?php echo $compteur ?>" value="<?php echo $moisBDD ?>"></th>
+                            <th style="text-align: center"><input type="checkbox" name="case<?php echo $compteur ?>" value="<?php echo $moisBDD ?>"></th>
                             <?php
                         } else {
                             ?>
-                            <th><input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled> </th> 
+                            <th style="text-align: center"><input type="checkbox" name="case<?php echo $compteur; ?>" value="<?php echo $moisBDD; ?>" disabled> </th> 
                             <?php
                         }
                     }
-                    echo '<th><h4> ', $numMois . '/' . $numAnnee . '</h4></th>';
+                    echo '<th style="text-align: center"><h4> ', $numMois . '/' . $numAnnee . '</h4></th>';
                     ?>      
                     <?php
                     if ($elem == NULL || $monIdetatFiche != 'VA') {
@@ -114,7 +114,7 @@
                             $rez = $quanti * $montelem;
                             $fraistotal += $rez;
                         }
-                        echo '<th><h4> ' . $fraistotal . '</h4></th>';
+                        echo '<th style="text-align: center"><h4> ' . $fraistotal . '</h4></th>';
                     }
                     if ($elem != NULL && $monIdetatFiche == 'VA') {
                         if ($lesFichesFull != NULL) {
@@ -125,7 +125,7 @@
                                 $montant = $fiche['montant'];
                                 $horsfraistotal += $montant;
                             }
-                            echo '<th><h4>' . $horsfraistotal . '</h4></th>';
+                            echo '<th style="text-align: center"><h4>' . $horsfraistotal . '</h4></th>';
                         } else {
                             echo '<th><h4>Aucun frais hors-forfait pour ce mois ci</h4></th>';
                         }
@@ -136,7 +136,7 @@
                     $nbJustifi = getNbJustificatif($uneId, $moisBDD);
                     $nbJ = $nbJustifi[0]['nbjustificatifs'];
                     if ($elem != NULL && $monIdetatFiche == 'VA') {
-                        echo '<th> <h4>', $nbJ, '</h4></th> ';
+                        echo '<th style="text-align: center"> <h4>', $nbJ, '</h4></th> ';
                     }
                     ?>
 
@@ -145,7 +145,7 @@
                     if ($elem != NULL && $monIdetatFiche == 'VA') {
                         ?>
                         <th>
-                            <button type="submit" class="btn btn-danger" name="deval<?php echo $compteur ?>" value="<?php echo $moisBDD; ?>">Dévalider</button></th>
+                            <button  type="submit" class="btn btn-danger" name="deval<?php echo $compteur ?>" value="<?php echo $moisBDD; ?>">Dévalider</button></th>
                         <?php
                     }
                     ?>
