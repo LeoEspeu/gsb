@@ -35,18 +35,18 @@
         }
         echo '<p>Visiteur selectionné : <b>' . $concatiser . '</b></p><br>';
         ?>
-    
+
         <table class="table table-bordered table-responsive" style="text-align: center;">
             <caption style="border-radius:4px; background-color:#f2993a; color:white; text-align: center">Descriptif des Fiches de frais à mettre en payement </caption>
             <thead>
-                <th>#</th> 
-                <th><span class='glyphicon glyphicon-list-alt'></span> Date</th>
-                <th><span>€</span> Montant Total frais: </th>
-                <th><span>€</span> Montant total frais Hors-Forfait  </th>
-                <th><span class='glyphicon glyphicon-book'></span> Nombre de justificatifs </th>
-                <th><span class='glyphicon glyphicon-ok'></span> Option de devalidation </th>
+            <th>#</th> 
+            <th><span class='glyphicon glyphicon-list-alt'></span> Date</th>
+            <th><span>€</span> Montant Total frais: </th>
+            <th><span>€</span> Montant total frais Hors-Forfait  </th>
+            <th><span class='glyphicon glyphicon-book'></span> Nombre de justificatifs </th>
+            <th><span class='glyphicon glyphicon-ok'></span> Option de devalidation </th>
 
-        </thead>
+            </thead>
 
             <?php
             foreach ($lesMois as $unMois) {
@@ -71,7 +71,7 @@
                 foreach ($fichesValide as $value) {
                     $monIdetatFiche = $value['idetat'];
                 }
-                
+
                 $nbJustifi = getNbJustificatif($uneId, $moisBDD);
                 $elem = getElementForfait($uneId, $moisBDD);
                 ?>
@@ -103,7 +103,11 @@
                     ?>      
                     <?php
                     if ($elem == NULL || $monIdetatFiche != 'VA') {
-                        ?><td colspan="5"><?php echo '<h4>Aucun frais validé pour ce mois ci</h4>';?></td><?php
+                        if ($monIdetatFiche == 'RB') {
+                            ?><td colspan="5"><?php echo '<h4>Frais du mois remboursé</h4>'; ?></td><?php
+                            } else {
+                                ?><td colspan="5"><?php echo '<h4>Aucun frais validé pour ce mois ci</h4>'; ?></td><?php
+                        }
                     } else {
                         $fraistotal = NULL;
                         foreach ($elem as $elements) {
