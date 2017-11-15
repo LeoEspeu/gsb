@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include '../includes/classMajLigneDeFrais.php';
 include '../includes/fct.inc.php';
 /*
@@ -9,7 +9,9 @@ include '../includes/fct.inc.php';
  */
 
 function majlibelle ($arrlib,$id,$lemois,$idFiche) {
+    
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
         $requetePrepare = $pdoSansParam->prepare(
                 'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
         set  lignefraishorsforfait.libelle = :lib
@@ -56,9 +58,9 @@ if (isset($_POST["$j"])) {
         $j++;
     }
     while ($i < $max) {
-        $arrmont[$i] = $montant = $_POST["mont$i"];
-        $arrdate[$i] = $date = $_POST["date$i"];
-        $arrlib[$i] = $libdate = $_POST["lib$i"];
+        $arrmont[$i] = $montant = filter_input(INPUT_POST,"mont$i",FILTER_SANITIZE_SPECIAL_CHARS);
+        $arrdate[$i] = $date = filter_input(INPUT_POST,"date$i",FILTER_SANITIZE_SPECIAL_CHARS);
+        $arrlib[$i] = $libdate = filter_input(INPUT_POST,"lib$i",FILTER_SANITIZE_SPECIAL_CHARS);
 
         $objet = new MajLigneDeFrais($id, $lemois, $arrmont[$i], $arrdate[$i], $arrlib[$i], $idFiche[$o]);
         echo '<br>';
@@ -73,12 +75,14 @@ if (isset($_POST["$j"])) {
         $o++;
     }
 } else {
-
+    $_SESSION['ok']=-1;
     header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
     exit();
+    
 }
 
+$_SESSION['ok']=0;
+header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+    exit();
 
 
-
-echo '<br>';

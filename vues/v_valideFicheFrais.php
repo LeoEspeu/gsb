@@ -10,7 +10,22 @@
 <?php
 $nb = 0;
 
-
+if ($_SESSION['ok'] === 0) {
+    ?>
+    <div class="alert alert-success" role="alert">
+        Les données ont bien été envoyées dans la base de données.
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+if ($_SESSION['ok'] === -1) {
+    ?>
+    <div class="alert alert-danger" role="alert">
+        Veuillez choisir un utilisateur.
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
 
 
 
@@ -92,7 +107,23 @@ $nb = 0;
 
 <form class="form-inline" method="POST" action="../gsb/controleurs/c_majFichefrais.php">
     <table class="table table-bordered" style="text-align: center;">
-        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php if (isset($prenomselect)) { echo $nomselect; } ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php if (isset($prenomselect)) { echo $prenomselect;} ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php if (isset($moisSelect)) { echo $moisSelect;} ?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php if (isset($uneId)) { echo $uneId;} ?>' class='form-control' name='leID' > </caption>
+        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
+            if (isset($prenomselect)) {
+                echo $nomselect;
+            }
+            ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
+                                                                                                                                 if (isset($prenomselect)) {
+                                                                                                                                     echo $prenomselect;
+                                                                                                                                 }
+                                                                                                                                 ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
+                                                                                                                                 if (isset($moisSelect)) {
+                                                                                                                                     echo $moisSelect;
+                                                                                                                                 }
+                                                                                                                                 ?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php
+                                                                                                                                 if (isset($uneId)) {
+                                                                                                                                     echo $uneId;
+                                                                                                                                 }
+                                                                                                                                 ?>' class='form-control' name='leID' > </caption>
 
 
         <tr>
@@ -113,7 +144,7 @@ $nb = 0;
                 $libelleLigne = $fiche['libelle'];
                 ?>
                 <tr> <?php echo '<td name="tnb"> <input id="tdrest', $nb, '" type="number" class="form-control" min="', $nb, '" max="', $nb, '" name="', $nb, '" value="', $nb, '" title="', $restor = "$montant.*.$datemodif.*.$libelleLigne", '"/></td><td> ', "<div class='input-group'><span class='input-group-addon id='group'>€</span><input type='text' id='mont$nb' value='$montant' class='form-control' name='mont$nb' aria-describedby='group'></div>", '</td><td>', "<div class='input-group'><span class='input-group-addon id='group'><span class='glyphicon glyphicon-list-alt'></span></span><input type='text' id='date$nb' value='$datemodif' class='form-control' name='date$nb' aria-describedby='group'></div>", '</td><td> ', "<input type='text' id='lib$nb' value='$libelleLigne' class='form-control' name='lib$nb'>", '</td> ' ?>
-                    
+
                     <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger">Réintialiser</button></td>
                 </tr>
 
@@ -139,11 +170,10 @@ $nb = 0;
         }
         echo '<br><br>';
         $nblignemax = $nb;
-        
         ?>    
     </table>
-    
-    <div id="gensub"><input type="submit" class="btn btn-warning" value="Valider tout et enregistrer dans la base de donnée"/></div>
+
+    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée"/></div>
     <br>
     <br>
 </form>
@@ -160,25 +190,25 @@ $nb = 0;
         articles[i].addEventListener('click', redirect);
     }
     function redirect(ev) {
-        idselected=ev.target.title;
-   
-        donne=document.getElementById('tdrest'+idselected).title;
-    
+        idselected = ev.target.title;
+
+        donne = document.getElementById('tdrest' + idselected).title;
+
         var str = donne;
         var rez = str.split(".*.");
-    
-        var ancmont=rez[0];
-        var ancdate=rez[1];
-        var ancdes=rez[2];
-        
-        var montant="mont"+idselected;
-        var datesel="date"+idselected;
-        var libsel="lib"+idselected;
-        
-        document.getElementById(montant).value=ancmont;
-        document.getElementById(datesel).value=ancdate;
-        document.getElementById(libsel).value=ancdes;
-        
+
+        var ancmont = rez[0];
+        var ancdate = rez[1];
+        var ancdes = rez[2];
+
+        var montant = "mont" + idselected;
+        var datesel = "date" + idselected;
+        var libsel = "lib" + idselected;
+
+        document.getElementById(montant).value = ancmont;
+        document.getElementById(datesel).value = ancdate;
+        document.getElementById(libsel).value = ancdes;
+
     }
 
 </script>
