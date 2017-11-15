@@ -58,6 +58,7 @@ if (isset($_POST["$j"])) {
         $j++;
     }
     while ($i < $max) {
+        //filter
         $arrmont[$i] = $montant = filter_input(INPUT_POST,"mont$i",FILTER_SANITIZE_SPECIAL_CHARS);
         $arrdate[$i] = $date = filter_input(INPUT_POST,"date$i",FILTER_SANITIZE_SPECIAL_CHARS);
         $arrlib[$i] = $libdate = filter_input(INPUT_POST,"lib$i",FILTER_SANITIZE_SPECIAL_CHARS);
