@@ -8,23 +8,6 @@ include '../includes/fct.inc.php';
  * and open the template in the editor.
  */
 
-function majlibelle ($arrlib,$id,$lemois,$idFiche) {
-    
-    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-    $pdoSansParam->query('SET CHARACTER SET utf8');
-        $requetePrepare = $pdoSansParam->prepare(
-                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
-        set  lignefraishorsforfait.libelle = :lib
-        WHERE :id = lignefraishorsforfait.idvisiteur
-        AND lignefraishorsforfait.mois = :date
-        AND lignefraishorsforfait.id=:idFiche;'
-        );
-        $requetePrepare->bindParam(':lib', $arrlib, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
-        $requetePrepare->execute();
-}
 
 /*
  * Recupération de l'identifiant de chaque LigneFraisHorsForfait
@@ -64,13 +47,15 @@ if (isset($_POST["$j"])) {
         $arrlib[$i] = $libdate = filter_input(INPUT_POST,"lib$i",FILTER_SANITIZE_SPECIAL_CHARS);
 
         $objet = new MajLigneDeFrais($id, $lemois, $arrmont[$i], $arrdate[$i], $arrlib[$i], $idFiche[$o]);
-        echo '<br>';
+        
 
         majlibelle($arrlib[$i],$id,$lemois,$idFiche[$o]);
+        
+        majdate($arrdate[$i],$id,$lemois,$idFiche[$o]);
+        
+        majmont($arrmont[$i],$id,$lemois,$idFiche[$o]);
 
-
-
-
+        validerUneFicheDeFais($id, $lemois);
 
         $i++;
         $o++;
@@ -83,7 +68,7 @@ if (isset($_POST["$j"])) {
 }
 
 $_SESSION['ok']=0;
+
+
 header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
     exit();
-
-

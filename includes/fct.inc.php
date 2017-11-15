@@ -407,3 +407,65 @@ function fairedevalider($id, $mois) {
     $res = $pdoSansParam->query($req);
     $res->execute();
 }
+
+function majlibelle ($arrlib,$id,$lemois,$idFiche) {
+    
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+        $requetePrepare = $pdoSansParam->prepare(
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+        set  lignefraishorsforfait.libelle = :lib
+        WHERE :id = lignefraishorsforfait.idvisiteur
+        AND lignefraishorsforfait.mois = :date
+        AND lignefraishorsforfait.id=:idFiche;'
+        );
+        $requetePrepare->bindParam(':lib', $arrlib, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+        $requetePrepare->execute();
+}
+
+function majdate ($arrdate,$id,$lemois,$idFiche) {
+    
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+        $requetePrepare = $pdoSansParam->prepare(
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+        set  lignefraishorsforfait.date = :date
+        WHERE :id = lignefraishorsforfait.idvisiteur
+        AND lignefraishorsforfait.mois = :mois
+        AND lignefraishorsforfait.id=:idFiche;'
+        );
+        $requetePrepare->bindParam(':date', $arrdate, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $lemois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+        $requetePrepare->execute();
+}
+
+function majmont ($arrmont,$id,$lemois,$idFiche) {
+    
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+        $requetePrepare = $pdoSansParam->prepare(
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+        set  lignefraishorsforfait.montant = :date
+        WHERE :id = lignefraishorsforfait.idvisiteur
+        AND lignefraishorsforfait.mois = :mois
+        AND lignefraishorsforfait.id=:idFiche;'
+        );
+        $requetePrepare->bindParam(':date', $arrmont, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $lemois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+        $requetePrepare->execute();
+}
+
+function validerUneFicheDeFais($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='VA' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
+}
