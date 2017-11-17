@@ -469,3 +469,5 @@ function validerUneFicheDeFais($id, $mois) {
     $res = $pdoSansParam->query($req);
     $res->execute();
 }
+
+
