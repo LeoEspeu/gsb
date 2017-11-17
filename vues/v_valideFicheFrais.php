@@ -10,23 +10,74 @@
 <?php
 $nb = 0;
 $n=1;
-if(isset($_SESSION['result'])){
-if ($_SESSION['result'] === 0) {
+
+
+if(isset($_SESSION['ok'])){
+if ($_SESSION['ok'] === 0) {
     ?>
     <div class="alert alert-success alert-dismissable">
         Les données on été transférées avec succès à la base de donnée. 
     </div>
     <?php
-    $_SESSION['result'] = 1;
+    $_SESSION['ok'] = 1;
 }
-if ($_SESSION['result'] === -1) {
+if ($_SESSION['ok'] === -1) {
     ?>
     <div class = "alert alert-warning fade in " role = "alert">
         <p>Merci de bien vouloir selectionner un utilisateur et un mois pour celui-ci</p>
     </div>
     <?php
-    $_SESSION['result'] = 1;
+    $_SESSION['ok'] = 1;
 }
+if ($_SESSION['ok'] === 6) {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        La date saisi est invalide ! 
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+if ($_SESSION['ok'] === 7) {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        date d'enregistrement du frais dépassé, plus de 1 an 
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+if ($_SESSION['ok'] === 8) {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        Le champ description ne peut pas être vide 
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+if ($_SESSION['ok'] === 9) {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        Le champ montant ne peut pas être vide 
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+if ($_SESSION['ok'] === 10) {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        Le champ montant doit être numérique
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+if ($_SESSION['ok'] === 11) {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        Le champ montant doit être superieur à zéro 
+    </div>
+    <?php
+    $_SESSION['ok'] = 1;
+}
+
 }
 
 
