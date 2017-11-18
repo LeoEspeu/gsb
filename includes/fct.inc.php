@@ -254,7 +254,7 @@ function nbErreurs() {
 function getMoisVisiteur() {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
-    $req = "SELECT distinct mois FROM fichefrais,visiteur WHERE idetat <> 'VA';";
+    $req = "SELECT distinct mois FROM fichefrais,visiteur order by mois;";
     $res = $pdoSansParam->query($req);
 
     $lesMois = $res->fetchAll();
