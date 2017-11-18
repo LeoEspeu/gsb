@@ -6,7 +6,7 @@ GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais ;
 
-DROP TABLE IF EXISTS lignefraishorsforfait,lignefraisforfait,fichefrais,visiteur,etat,fraisforfait,comptable;
+DROP TABLE IF EXISTS lignefraishorsforfait,lignefraisforfait,fichefrais,visiteur,etat,fraisforfait,comptable,voiture;
 
 -- Création de la structure de la base de données
 CREATE TABLE IF NOT EXISTS fraisforfait (
@@ -91,10 +91,10 @@ CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
 
 -- Alimentation de la table voiture
 INSERT INTO voiture(id,libelle,coefficient) VALUES
-('1' , 'Véhicule  4CV Diesel',0.52),
-('2' , 'Véhicule 5/6CV Diesel',0.58),
-('3' , 'Véhicule  4CV Essence',0.62),
-('4' , 'Véhicule 5/6CV Essence',0.67);
+('1' , 'Véhicule  4CV Diesel',-10),
+('2' , 'Véhicule 5/6CV Diesel',-4),
+('3' , 'Véhicule  4CV Essence',0),
+('4' , 'Véhicule 5/6CV Essence',5);
 -- Alimentation des données paramètres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),
