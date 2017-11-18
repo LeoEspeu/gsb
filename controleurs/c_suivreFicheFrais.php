@@ -20,6 +20,7 @@ if (isset($_POST['payer'])) {
         if (isset($_POST['case' . $index])) {
             fairePayement($monId, $_POST['case' . $index]);
             faireremboursement($monId, $_POST['case' . $index]);
+            majdatedemodification($monId, $_POST['case' . $index]);
         }
     }
 }
@@ -34,6 +35,7 @@ for ($index1 = 0; $index1 < count($lesMois); $index1++) {
             $monId = $idDuVisiteur['id'];
         }
         fairedevalider($monId, $_POST[$btndeval]);
+        majdatedemodification($monId, $_POST[$btndeval]);
     }
 }
 $lesVisiteurs = getLesVisiteursAvecFicheDeFrais();

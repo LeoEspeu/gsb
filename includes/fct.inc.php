@@ -408,6 +408,14 @@ function fairedevalider($id, $mois) {
     $res->execute();
 }
 
+function majdatedemodification($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set datemodif=now() where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
+}
+
 function majlibelle ($arrlib,$id,$lemois,$idFiche) {
     
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
