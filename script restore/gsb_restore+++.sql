@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS visiteur (
 
 CREATE TABLE IF NOT EXISTS voiture(
 id char(4) not null,
-libelle char(50) not null,
-coefficient int(11) not null,
+libellevoiture char(50) not null,
+coefficient decimal(5,2) not null,
 PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
@@ -90,11 +90,11 @@ CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
 ) ENGINE=InnoDB;
 
 -- Alimentation de la table voiture
-INSERT INTO voiture(id,libelle,coefficient) VALUES
-('1' , 'Véhicule  4CV Diesel',-10),
-('2' , 'Véhicule 5/6CV Diesel',-4),
+INSERT INTO voiture(id,libellevoiture,coefficient) VALUES
+('1' , 'Véhicule  4CV Diesel',-0.10),
+('2' , 'Véhicule 5/6CV Diesel',-0.04),
 ('3' , 'Véhicule  4CV Essence',0),
-('4' , 'Véhicule 5/6CV Essence',5);
+('4' , 'Véhicule 5/6CV Essence',0.05);
 -- Alimentation des données paramètres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),

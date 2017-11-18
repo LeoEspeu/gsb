@@ -281,6 +281,7 @@ class PdoGsb
     public function ObtenirVoiture($idVisiteur, $mois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
                 'select * from fichefrais '
+                . 'inner join voiture on fichefrais.idvoiture=voiture.id '
                 . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
                 . 'AND fichefrais.mois = :unMois '
             );
