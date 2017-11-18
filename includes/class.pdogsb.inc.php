@@ -248,6 +248,47 @@ class PdoGsb
             $requetePrepare->execute();
         }
     }
+    
+    /**
+     * Met à jour la voiture de la table ficheFrais
+     * pour le mois et le visiteur concerné
+     * 
+     * @param type $idVoiture
+     * @param type $idVisiteur
+     * @param type $mois
+     */
+    public function majVoitureForfait($idVoiture,$idVisiteur, $mois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'UPDATE fichefrais '
+                . 'SET fichefrais.idvoiture = :uneVoiture '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois '
+            );
+            $requetePrepare->bindParam(':uneVoiture', $idVoiture, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->execute();
+    }
+    
+    /**
+     * Returne la fiche de frais du visiteur pour obtenir l'id de 
+     * sa voiture pour le mois et le visiteur concerné
+     * 
+     * @param type $idVisiteur
+     * @param type $mois
+     * @return type
+     */
+    public function ObtenirVoiture($idVisiteur, $mois) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                'select * from fichefrais '
+                . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                . 'AND fichefrais.mois = :unMois '
+            );
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            return $requetePrepare->fetchall();
+    }
 
     /**
      * Met à jour le nombre de justificatifs de la table ficheFrais

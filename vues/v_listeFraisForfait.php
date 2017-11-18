@@ -28,7 +28,8 @@
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
-                    $quantite = $unFrais['quantite']; ?>
+                    $quantite = $unFrais['quantite'];
+                    ?>
                     <div class="form-group">
                         <label for="idFrais"><?php echo $libelle ?></label>
                         <input type="text" id="idFrais" 
@@ -40,6 +41,33 @@
                     <?php
                 }
                 ?>
+                <label for="idFrais">Puissance de la voiture</label>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="voiture" id="optionsRadios1" value="1" <?php if($maVoiture==1){echo 'checked';} ?>>                            
+                            (Véhicule  4CV Diesel) 0.52 € / Km
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="voiture" id="optionsRadios1" value="2" <?php if($maVoiture==2){echo 'checked';} ?>>
+                            (Véhicule 5/6CV Diesel) 0.58 € / Km
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="voiture" id="optionsRadios1" value="3" <?php if($maVoiture==3){echo 'checked';}?>>
+                            (Véhicule  4CV Essence) 0.62 € / Km
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="voiture" id="optionsRadios1" value="4" <?php if($maVoiture==4){echo 'checked';} ?>>
+                            (Véhicule 5/6CV Essence) 0.67 € / Km
+                        </label>
+                    </div>
+                </div>
                 <button class="btn btn-success" type="submit">Ajouter</button>
                 <button class="btn btn-danger" type="reset">Effacer</button>
             </fieldset>
