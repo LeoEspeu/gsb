@@ -91,10 +91,10 @@ CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
 
 -- Alimentation de la table voiture
 INSERT INTO voiture(id,libelle,coefficient) VALUES
-('1' , 'Véhicule  4CV Diesel',0.52/0.62),
-('2' , 'Véhicule 5/6CV Diesel',0.58/0.62),
-('3' , 'Véhicule  4CV Essence',1),
-('4' , 'Véhicule 5/6CV Essence',0.67/0.62);
+('1' , 'Véhicule  4CV Diesel',0.52),
+('2' , 'Véhicule 5/6CV Diesel',0.58),
+('3' , 'Véhicule  4CV Essence',0.62),
+('4' , 'Véhicule 5/6CV Essence',0.67);
 -- Alimentation des données paramètres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),
