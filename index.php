@@ -56,6 +56,5 @@ case 'suivreFrais':
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
     break;
-
 }
 require 'vues/v_pied.php';

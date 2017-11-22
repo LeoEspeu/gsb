@@ -8,25 +8,68 @@
 
 
 <?php
+
 $nb = 0;
-$n=1;
-if(isset($_SESSION['result'])){
-if ($_SESSION['result'] === 0) {
-    ?>
-    <div class="alert alert-success alert-dismissable">
-        Les données on été transférées avec succès à la base de donnée. 
-    </div>
-    <?php
-    $_SESSION['result'] = 1;
-}
-if ($_SESSION['result'] === -1) {
-    ?>
-    <div class = "alert alert-warning fade in " role = "alert">
-        <p>Merci de bien vouloir selectionner un utilisateur et un mois pour celui-ci</p>
-    </div>
-    <?php
-    $_SESSION['result'] = 1;
-}
+$n = 1;
+
+
+if (isset($_SESSION['ok'])) {
+    if ($_SESSION['ok'] === 0) {
+        ?>
+        <div class="alert alert-success alert-dismissable">
+            Les données on été transférées avec succès à la base de donnée. 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === -1) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Merci de bien vouloir selectionner un utilisateur et un mois pour celui-ci</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 6) {
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+            La date saisi est invalide ! 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 7) {
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+            date d'enregistrement du frais dépassé, plus de 1 an 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 8) {
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+            Le champ description ne peut pas être vide 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 9) {
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+            Le champ montant ne peut pas être vide 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 9) {
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+            Le champ montant doit être numérique
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
 }
 
 
@@ -109,24 +152,30 @@ if ($_SESSION['result'] === -1) {
 </form>
 
 <form class="form-inline" method="POST" action="../gsb/controleurs/c_majFichefrais.php">
-    <table class="table table-bordered" style="text-align: center;">
+    <table class="table table-bordered" <?php
+    if (isset($_POST['lstMois'])) {
+            'style="text-align: center;"';
+    } else {
+        echo 'style="text-align: center; visibility:hidden" ';
+    }
+    ?> >
         <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
             if (isset($prenomselect)) {
                 echo $nomselect;
             }
             ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
-   if (isset($prenomselect)) {
- echo $prenomselect;
-}
-?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
-if (isset($moisSelect)) {
-echo $moisSelect;
-}
-?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php
-if (isset($uneId)) {
-echo $uneId;
-}
-?>' class='form-control' name='leID' > </caption>                                                                                                                              
+                                                                                                                                 if (isset($prenomselect)) {
+                                                                                                                                     echo $prenomselect;
+                                                                                                                                 }
+                                                                                                                                 ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
+                                                                                                                                 if (isset($moisSelect)) {
+                                                                                                                                     echo $moisSelect;
+                                                                                                                                 }
+                                                                                                                                 ?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php
+                                                                                                                                 if (isset($uneId)) {
+                                                                                                                                     echo $uneId;
+                                                                                                                                 }
+                                                                                                                                 ?>' class='form-control' name='leID' > </caption>                                                                                                                              
 
 
         <tr>
@@ -163,7 +212,7 @@ echo $uneId;
             echo ' Nombre de Justification : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
 
             foreach ($elem as $elements) {
-                
+
                 $quanti = $elements['quantite'];
                 $libelem = $elements['libelle'];
                 $montelem = $elements['montant'];
@@ -177,7 +226,13 @@ echo $uneId;
         ?>    
     </table>
 
-    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée"/></div>
+    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée" <?php
+                            if (isset($_POST['lstMois'])) {
+                                
+                            } else {
+                                echo 'style="visibility:hidden" ';
+                            }
+                            ?>/></div>
     <br>
     <br>
 </form>

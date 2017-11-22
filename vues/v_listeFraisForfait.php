@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Vue Liste des frais au forfait

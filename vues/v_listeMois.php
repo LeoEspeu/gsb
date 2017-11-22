@@ -28,6 +28,7 @@
                     <?php
                     foreach ($lesMois as $unMois) {
                         $mois = $unMois['mois'];
+
                         $numAnnee = $unMois['numAnnee'];
                         $numMois = $unMois['numMois'];
                         if ($mois == $moisASelectionner) {
@@ -46,10 +47,46 @@
 
                 </select>
             </div>
-            <input id="ok" type="submit" value="Valider" class="btn btn-success" 
+            <input id="ok" type="submit" value="Valider" name="sub" class="btn btn-success" 
                    role="button">
             <input id="annuler" type="reset" value="Effacer" class="btn btn-danger" 
                    role="button">
+
+        </form>
+        <?php
+        if (isset($_POST['lstMois'])) {
+            $_SESSION['moissle'] = $_POST['lstMois'];
+            $numAnnee = substr($leMois, 0, 4);
+            $numMois = substr($leMois, 4, 2);
+        }
+        ?>
+        <form method="post" action="controleurs/c_genpdf.php" target="_blank">
+            <br>
+            <input id="ok" type="submit" value="<?php
+            if (isset($_POST['lstMois'])) {
+                echo 'Télécharger le PDF de la fiche du ' . $numMois . '/' . $numAnnee;
+            } else {
+                echo 'Veuillez choisir une fiche';
+            }
+            ?>" name="sub" class="btn btn-info" role="button"
+                   <?php
+                   if (isset($_POST['lstMois'])) {
+                       
+                   } else {
+                       echo 'style="visibility:hidden" ';
+                   }
+                   ?>
+
+
+
+                   <?php
+                   if (isset($_POST['lstMois'])) {
+                       
+                   } else {
+                       echo 'disabled';
+                   }
+                   ?>>
+
         </form>
     </div>
 </div>
