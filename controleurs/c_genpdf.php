@@ -59,10 +59,10 @@ class PDF extends FPDF {
     function Tableau($libelem, $nuiteQ, $nuit) {
         $this->SetFont('Times', '', 11);
         $this->SetDrawColor(122, 147, 178);
-        $this->Cell(40, 10, utf8_decode($libelem), 1, 0, 'L');
-        $this->Cell(50, 10, $nuiteQ, 1, 0, 'R');
-        $this->Cell(50, 10, $nuit, 1, 0, 'R');
-        $this->Cell(40, 10, $nuit * $nuiteQ, 1, 1, 'R');
+        $this->Cell(40, 07, utf8_decode($libelem), 1, 0, 'L');
+        $this->Cell(50, 07, $nuiteQ, 1, 0, 'R');
+        $this->Cell(50, 07, $nuit, 1, 0, 'R');
+        $this->Cell(40, 07, $nuit * $nuiteQ, 1, 1, 'R');
     }
 
     function FraisHF() {
@@ -76,15 +76,15 @@ class PDF extends FPDF {
 
     function LigneFraisHF($date, $libelle, $montant) {
         $this->SetFont('Times', '', 11);
-        $this->Cell(60, 10, $date, 1, 0, 'L');
-        $this->Cell(80, 10, $libelle, 1, 0, 'L');
-        $this->Cell(40, 10, $montant, 1, 1, 'R');
+        $this->Cell(60, 07, $date, 1, 0, 'L');
+        $this->Cell(80, 07, $libelle, 1, 0, 'L');
+        $this->Cell(40, 07, $montant, 1, 1, 'R');
     }
 
     function Total($date, $total) {
         $this->setX(110);
-        $this->Cell(40, 10, 'Total : ' . $date, 1, 0, 'L');
-        $this->Cell(40, 10, $total, 1, 1, 'R');
+        $this->Cell(40, 07, 'Total : ' . $date, 1, 0, 'L');
+        $this->Cell(40, 07, $total, 1, 1, 'R');
     }
 
     function Signature() {
@@ -104,7 +104,7 @@ class PDF extends FPDF {
         // Police Arial italique 8
         $this->SetFont('Times', 'I', 8);
         // Numéro de page
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        
     }
 
 }
