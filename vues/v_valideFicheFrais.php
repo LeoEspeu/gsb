@@ -79,7 +79,17 @@ if ($_SESSION['ok'] === 11) {
 }
 
 }
-
+if($idetat!='CL' && $idetat!=''){
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        La fiche de frais de ce visiteur ce mois ci ne 
+        peut être modifiée ,toutes les options sont bloquées ,les raisons possibles:  <br>
+        -La fiche de frais est en cours de saisie<br>
+        -La fiche de frais est déja remboursée<br>
+        -La fiche de frais est déja validée (vous pouvez encore la renvoyée dans ce cas la ,dans la page de suivi des frais)
+    </div>
+    <?php
+}
 
 
 
@@ -199,7 +209,7 @@ echo $uneId;
                 ?>
                 <tr> <?php echo '<td name="tnb"> <input  id="tdrest', $nb, '" type="number" class="form-control" min="', $nb, '" max="', $nb, '" name="', $nb, '" value="', $nb, '" title="', $restor = "$montant.*.$datemodif.*.$libelleLigne", '"/></td><td> ', "<div class='input-group'><span class='input-group-addon id='group'>€</span><input type='number' id='mont$nb' value='$montant' class='form-control' name='mont$nb' aria-describedby='group'></div>", '</td><td>', "<div class='input-group'><span class='input-group-addon id='group'><span class='glyphicon glyphicon-list-alt'></span></span><input type='text' id='date$nb' value='$datemodif' class='form-control' name='date$nb' aria-describedby='group'></div>", '</td><td> ', "<input type='text' id='lib$nb' value='$libelleLigne' class='form-control' name='lib$nb'>", '</td> ' ?>
 
-                    <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger">Réintialiser</button></td>
+                    <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger" <?php if($idetat!='CL'){echo 'disabled';}?>>Réintialiser</button></td>
                 </tr>
 
                 <?php
@@ -227,8 +237,8 @@ echo $uneId;
         $nblignemax = $nb;
         ?>    
     </table>
-
-    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée"/></div>
+    
+    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée" <?php if($idetat!='CL'){echo 'disabled';}?>></div>
     <br>
     <br>
 </form>

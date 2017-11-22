@@ -313,6 +313,26 @@ function getFicheDeFraisEnFonctionDuMois($id, $mois) {
     return $lesFichesFull;
 }
 
+/**
+ * Fonction qui les fiches de frais non refusé d'un visiteur en fonction du mois
+ * 
+ * @param type $id
+ * @param type $mois
+ * @return type
+ */
+function getFicheDeFraisNonRefuséEnFonctionDuMois($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant,lignefraishorsforfait.id
+    FROM `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+    WHERE '$id' = lignefraishorsforfait.idvisiteur
+    AND lignefraishorsforfait.mois = '$mois' and libelle not like'%refusé';";
+    $res = $pdoSansParam->query($req);
+
+    $lesFichesFull = $res->fetchAll();
+    return $lesFichesFull;
+}
+
 function getNbJustificatif($id, $mois) {
 
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');

@@ -69,7 +69,7 @@
                 foreach ($monvisiteur as $value) {
                     $maVoiture = $value['coefficient'];
                 }
-                $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
+                $lesFichesFull = getFicheDeFraisNonRefuséEnFonctionDuMois($uneId, $moisBDD);
                 $fichesValide = estFicheValide($uneId, $moisBDD);
                 $monIdetatFiche = '';
                 foreach ($fichesValide as $value) {
