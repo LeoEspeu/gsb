@@ -251,10 +251,10 @@ return count($_REQUEST['erreurs']);
  * @return Array de visiteurs
  */
 function getMoisVisiteur() {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "SELECT distinct mois FROM fichefrais,visiteur order by mois;";
-$res = $pdoSansParam->query($req);
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "SELECT distinct mois FROM fichefrais,visiteur order by mois;";
+    $res = $pdoSansParam->query($req);
 
 $lesMois = $res->fetchAll();
 return $lesMois;
@@ -320,13 +320,13 @@ return $lesFichesFull;
  * @return type
  */
 function getFicheDeFraisNonRefuséEnFonctionDuMois($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant,lignefraishorsforfait.id
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant,lignefraishorsforfait.id
     FROM `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
     WHERE '$id' = lignefraishorsforfait.idvisiteur
     AND lignefraishorsforfait.mois = '$mois' and libelle not like'%refusé';";
-$res = $pdoSansParam->query($req);
+    $res = $pdoSansParam->query($req);
 
 $lesFichesFull = $res->fetchAll();
 return $lesFichesFull;
@@ -345,15 +345,15 @@ $req = "Select distinct nbjustificatifs,visiteur.id
     ON fichefrais.mois = lignefraisforfait.mois
     WHERE visiteur.id='$id'
     AND lignefraisforfait.mois='$mois';";
-$res = $pdoSansParam->query($req);
-$nbJuste = $res->fetchAll();
-if ($res->rowCount() > 0) {
-return $nbJuste;
-} else {
-ajouterErreur('Aucun justificatif pour cette utilisateur');
-
-}
-
+    $res = $pdoSansParam->query($req);
+    $nbJuste = $res->fetchAll();
+    if ($res->rowCount() > 0) {
+        return $nbJuste;
+    } else {
+        ajouterErreur('Aucun justificatif pour cette utilisateur');
+    
+    }
+    
 }
 
 function getElementForfait($id, $mois) {
@@ -386,12 +386,12 @@ return $tripleInnerJoin;
  * @return type
  */
 function estFicheValide($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "select * from fichefrais where idvisiteur = '$id' and mois='$mois';";
-$res = $pdoSansParam->query($req);
-$lesFichesValides = $res->fetchAll();
-return $lesFichesValides;
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "select * from fichefrais where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $lesFichesValides = $res->fetchAll();
+    return $lesFichesValides;
 }
 
 /**
@@ -400,11 +400,11 @@ return $lesFichesValides;
  * @param type $mois
  */
 function fairePayement($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "update fichefrais set idetat='MP' where idvisiteur = '$id' and mois='$mois';";
-$res = $pdoSansParam->query($req);
-$res->execute();
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='MP' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
 }
 
 /**
@@ -413,90 +413,89 @@ $res->execute();
  * @param type $mois
  */
 function faireremboursement($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "update fichefrais set idetat='RB' where idvisiteur = '$id' and mois='$mois';";
-$res = $pdoSansParam->query($req);
-$res->execute();
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='RB' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
 }
 
 function fairedevalider($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "update fichefrais set idetat='CL' where idvisiteur = '$id' and mois='$mois';";
-$res = $pdoSansParam->query($req);
-$res->execute();
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='CL' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
 }
 
 function majdatedemodification($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "update fichefrais set datemodif=now() where idvisiteur = '$id' and mois='$mois';";
-$res = $pdoSansParam->query($req);
-$res->execute();
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set datemodif=now() where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
 }
 
-
-function majlibelle ($arrlib, $id, $lemois, $idFiche) {
-
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$requetePrepare = $pdoSansParam->prepare(
-'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+function majlibelle ($arrlib,$id,$lemois,$idFiche) {
+    
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+        $requetePrepare = $pdoSansParam->prepare(
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
         set  lignefraishorsforfait.libelle = :lib
         WHERE :id = lignefraishorsforfait.idvisiteur
         AND lignefraishorsforfait.mois = :date
         AND lignefraishorsforfait.id=:idFiche;'
-);
-$requetePrepare->bindParam(':lib', $arrlib, PDO::PARAM_STR);
-$requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-$requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
-$requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
-$requetePrepare->execute();
+        );
+        $requetePrepare->bindParam(':lib', $arrlib, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+        $requetePrepare->execute();
 }
 
-function majdate ($arrdate, $id, $lemois, $idFiche) {
-
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$requetePrepare = $pdoSansParam->prepare(
-'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+function majdate ($arrdate,$id,$lemois,$idFiche) {
+    
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+        $requetePrepare = $pdoSansParam->prepare(
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
         set  lignefraishorsforfait.date = :date
         WHERE :id = lignefraishorsforfait.idvisiteur
         AND lignefraishorsforfait.mois = :mois
         AND lignefraishorsforfait.id=:idFiche;'
-);
-$requetePrepare->bindParam(':date', $arrdate, PDO::PARAM_STR);
-$requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-$requetePrepare->bindParam(':mois', $lemois, PDO::PARAM_STR);
-$requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
-$requetePrepare->execute();
+        );
+        $requetePrepare->bindParam(':date', $arrdate, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $lemois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+        $requetePrepare->execute();
 }
 
-function majmont ($arrmont, $id, $lemois, $idFiche) {
-
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$requetePrepare = $pdoSansParam->prepare(
-'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+function majmont ($arrmont,$id,$lemois,$idFiche) {
+    
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+        $requetePrepare = $pdoSansParam->prepare(
+                'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
         set  lignefraishorsforfait.montant = :date
         WHERE :id = lignefraishorsforfait.idvisiteur
         AND lignefraishorsforfait.mois = :mois
         AND lignefraishorsforfait.id=:idFiche;'
-);
-$requetePrepare->bindParam(':date', $arrmont, PDO::PARAM_STR);
-$requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-$requetePrepare->bindParam(':mois', $lemois, PDO::PARAM_STR);
-$requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
-$requetePrepare->execute();
+        );
+        $requetePrepare->bindParam(':date', $arrmont, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':mois', $lemois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+        $requetePrepare->execute();
 }
 
 function validerUneFicheDeFais($id, $mois) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "update fichefrais set idetat='VA' where idvisiteur = '$id' and mois='$mois';";
-$res = $pdoSansParam->query($req);
-$res->execute();
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "update fichefrais set idetat='VA' where idvisiteur = '$id' and mois='$mois';";
+    $res = $pdoSansParam->query($req);
+    $res->execute();
 }
 
 function majetp($quant, $id, $lemois) {
@@ -600,58 +599,52 @@ $requetePrepare = $pdoSansParam->prepare(
     set nbjustificatifs=:quan
     WHERE visiteur.id=:id
     AND lignefraisforfait.mois=:date;'
-);
-$requetePrepare->bindParam(':quan', $quant, PDO::PARAM_STR);
-$requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
-$requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
-$requetePrepare->execute();
+    );
+    $requetePrepare->bindParam(':quan', $quant, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
+    $requetePrepare->execute();
 }
 
 function valideInfosFraisRetour($dateFrais, $libelle, $montant) {
-if ($dateFrais == '') {
-//return 'Le champ date ne doit pas être vide';
-return 5;
-
-} else {
-if (!estDatevalide($dateFrais)) {
-//return 'Date invalide';
-return 6;
-} else {
-if (estDateDepassee($dateFrais)) {
-//return "date d'enregistrement du frais dépassé, plus de 1 an";
-return 7;
-
+    if ($dateFrais == '') {
+        //return 'Le champ date ne doit pas être vide';
+        return 5;
+        
+    } else {
+        if (!estDatevalide($dateFrais)) {
+            //return 'Date invalide';
+            return 6;
+        } else {
+            if (estDateDepassee($dateFrais)) {
+                //return "date d'enregistrement du frais dépassé, plus de 1 an";
+                return 7;
+                
+            }
+        }
+    }
+    if ($libelle == '') {
+        //return 'Le champ description ne peut pas être vide';
+        return 8;
+    }
+    if ($montant == '') {
+        //return 'Le champ montant ne peut pas être vide';
+        return 9;
+    } elseif (!is_numeric($montant)) {
+        //return 'Le champ montant doit être numérique';
+        return 10;
+    }
+    if ($montant < 0) {
+        //return 'Le champ montant ne peut pas être vide';
+        return 11;
+    }
+    return 0;
 }
-}
-}
-if ($libelle == '') {
-//return 'Le champ description ne peut pas être vide';
-return 8;
-}
-if ($montant == '') {
-//return 'Le champ montant ne peut pas être vide';
-return 9;
-} elseif (!is_numeric($montant)) {
-//return 'Le champ montant doit être numérique';
-return 10;
-}
-
-return 0;
-}
-
 function getnomprenomavecid($ide) {
-$pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
-$pdoSansParam->query('SET CHARACTER SET utf8');
-$req = "Select nom,prenom from visiteur where id='$ide' ";
-$res = $pdoSansParam->query($req);
-$lesLignes = $res->fetchAll();
-return $lesLignes;
-
-if ($montant < 0) {
-//return 'Le champ montant ne peut pas être vide';
-return 11;
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "Select nom,prenom from visiteur where id='$ide' ";
+    $res = $pdoSansParam->query($req);
+    $lesLignes = $res->fetchAll();
+    return $lesLignes;
 }
-return 0;
-}
-
-
