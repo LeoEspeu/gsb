@@ -8,7 +8,6 @@
 
 
 <?php
-
 $nb = 0;
 $n = 1;
 
@@ -62,7 +61,7 @@ if (isset($_SESSION['ok'])) {
         <?php
         $_SESSION['ok'] = 1;
     }
-    if ($_SESSION['ok'] === 9) {
+    if ($_SESSION['ok'] === 10) {
         ?>
         <div class="alert alert-danger alert-dismissable">
             Le champ montant doit être numérique
@@ -70,8 +69,26 @@ if (isset($_SESSION['ok'])) {
         <?php
         $_SESSION['ok'] = 1;
     }
+    if ($_SESSION['ok'] === 11) {
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+            Le champ montant doit être superieur à zéro 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
 }
-
+if ($idetat != 'CL' && $idetat != '') {
+    ?>
+    <div class="alert alert-danger alert-dismissable">
+        La fiche de frais de ce visiteur ce mois ci ne 
+        peut être modifiée ,toutes les options sont bloquées ,les raisons possibles:  <br>
+        -La fiche de frais est en cours de saisie<br>
+        -La fiche de frais est déja remboursée<br>
+        -La fiche de frais est déja validée (vous pouvez encore la renvoyée dans ce cas la ,dans la page de suivi des frais)
+    </div>
+    <?php
+}
 
 
 
@@ -92,26 +109,26 @@ if (isset($_SESSION['ok'])) {
 
 
 
-            <?php
-            foreach ($lesVisiteurs as $unVisiteur) {
+<?php
+foreach ($lesVisiteurs as $unVisiteur) {
 
-                $nom = htmlspecialchars($unVisiteur['nom']);
-                $prenom = $unVisiteur['prenom'];
-                $concatiser = $nom . ' ' . $prenom;
-                if ($concatiser == $nomprenomselect) {
-                    ?>           
+    $nom = htmlspecialchars($unVisiteur['nom']);
+    $prenom = $unVisiteur['prenom'];
+    $concatiser = $nom . ' ' . $prenom;
+    if ($concatiser == $nomprenomselect) {
+        ?>           
 
                     <option selected="" value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
 
-                    <?php
-                } else {
-                    ?>           
+        <?php
+    } else {
+        ?>           
                     <option value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
 
-                    <?php
-                }
-            }
-            ?>
+        <?php
+    }
+}
+?>
 
         </select> 
     </div>
@@ -121,27 +138,27 @@ if (isset($_SESSION['ok'])) {
         <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-list-alt"></span> Choix de la date (mm/aaaa)</span>
         <select id="lstMois" name="lstMois" class="form-control" aria-describedby="basic-addon1" required>
 
-            <?php
-            foreach ($lesMois as $unMois) {
-                $mois = $unMois['mois'];
-                $unMoisVar = "$mois";
+<?php
+foreach ($lesMois as $unMois) {
+    $mois = $unMois['mois'];
+    $unMoisVar = "$mois";
 
-                $numAnnee = substr($unMoisVar, 0, -2);
-                $numMois = substr($unMoisVar, -2);
+    $numAnnee = substr($unMoisVar, 0, -2);
+    $numMois = substr($unMoisVar, -2);
 
-                if ($unMois[0] == $moisSelect) {
-                    ?>
+    if ($unMois[0] == $moisSelect) {
+        ?>
                     <option selected value="<?php echo $mois ?>">
-                        <?php echo $numMois . '/' . $numAnnee ?> </option>
-                    <?php
-                } else {
-                    ?>
+                    <?php echo $numMois . '/' . $numAnnee ?> </option>
+                        <?php
+                    } else {
+                        ?>
                     <option value="<?php echo $mois ?>">
-                        <?php echo $numMois . '/' . $numAnnee ?> </option>
-                    <?php
+                    <?php echo $numMois . '/' . $numAnnee ?> </option>
+                        <?php
+                    }
                 }
-            }
-            ?>    
+                ?>    
 
         </select> 
     </div>
@@ -153,21 +170,21 @@ if (isset($_SESSION['ok'])) {
 
 <form class="form-inline" method="POST" action="../gsb/controleurs/c_majFichefrais.php">
     <table class="table table-bordered" <?php
-    if (isset($_POST['lstMois'])) {
-            'style="text-align: center;"';
-    } else {
-        echo 'style="text-align: center; visibility:hidden" ';
-    }
-    ?> >
-        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
-            if (isset($prenomselect)) {
-                echo $nomselect;
+            if (isset($_POST['lstMois'])) {
+                'style="text-align: center;"';
+            } else {
+                echo 'style="text-align: center; visibility:hidden" ';
             }
-            ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
-                                                                                                                                 if (isset($prenomselect)) {
-                                                                                                                                     echo $prenomselect;
-                                                                                                                                 }
-                                                                                                                                 ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
+                ?> >
+        <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
+           if (isset($prenomselect)) {
+               echo $nomselect;
+           }
+           ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
+            if (isset($prenomselect)) {
+                echo $prenomselect;
+            }
+            ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
                                                                                                                                  if (isset($moisSelect)) {
                                                                                                                                      echo $moisSelect;
                                                                                                                                  }
@@ -186,18 +203,20 @@ if (isset($_SESSION['ok'])) {
 
         </tr>
         <br>
-        <?php
-        if (isset($lesFichesFull)) {
-            foreach ($lesFichesFull as $fiche) {
+<?php
+if (isset($lesFichesFull)) {
+    foreach ($lesFichesFull as $fiche) {
 
-                $nb = $nb + 1;
-                $montant = $fiche['montant'];
-                $datemodif = $fiche['date'];
-                $libelleLigne = $fiche['libelle'];
-                ?>
+        $nb = $nb + 1;
+        $montant = $fiche['montant'];
+        $datemodif = $fiche['date'];
+        $libelleLigne = $fiche['libelle'];
+        ?>
                 <tr> <?php echo '<td name="tnb"> <input  id="tdrest', $nb, '" type="number" class="form-control" min="', $nb, '" max="', $nb, '" name="', $nb, '" value="', $nb, '" title="', $restor = "$montant.*.$datemodif.*.$libelleLigne", '"/></td><td> ', "<div class='input-group'><span class='input-group-addon id='group'>€</span><input type='number' id='mont$nb' value='$montant' class='form-control' name='mont$nb' aria-describedby='group'></div>", '</td><td>', "<div class='input-group'><span class='input-group-addon id='group'><span class='glyphicon glyphicon-list-alt'></span></span><input type='text' id='date$nb' value='$datemodif' class='form-control' name='date$nb' aria-describedby='group'></div>", '</td><td> ', "<input type='text' id='lib$nb' value='$libelleLigne' class='form-control' name='lib$nb'>", '</td> ' ?>
 
-                    <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger">Réintialiser</button></td>
+                    <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger" <?php if ($idetat != 'CL') {
+            echo 'disabled';
+        } ?>>Réintialiser</button></td>
                 </tr>
 
                 <?php
@@ -226,13 +245,18 @@ if (isset($_SESSION['ok'])) {
         ?>    
     </table>
 
-    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée" <?php
+
+
+    <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée"<?php
                             if (isset($_POST['lstMois'])) {
                                 
                             } else {
-                                echo 'style="visibility:hidden" ';
+                                echo 'style="visibility:hidden;" ';
                             }
-                            ?>/></div>
+                            ?> <?php if ($idetat != 'CL') {
+                                echo 'disabled';
+                            } ?>></div>
+
     <br>
     <br>
 </form>

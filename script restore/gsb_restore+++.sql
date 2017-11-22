@@ -6,7 +6,7 @@ GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais ;
 
-DROP TABLE IF EXISTS lignefraishorsforfait,lignefraisforfait,fichefrais,visiteur,etat,fraisforfait,comptable;
+DROP TABLE IF EXISTS lignefraishorsforfait,lignefraisforfait,fichefrais,visiteur,etat,fraisforfait,comptable,voiture;
 
 -- Création de la structure de la base de données
 CREATE TABLE IF NOT EXISTS fraisforfait (
@@ -47,6 +47,13 @@ CREATE TABLE IF NOT EXISTS visiteur (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS voiture(
+id char(4) not null,
+libellevoiture char(50) not null,
+coefficient decimal(5,2) not null,
+PRIMARY KEY (id)
+)ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS fichefrais (
   idvisiteur char(4) NOT NULL,
   mois char(6) NOT NULL,
@@ -54,8 +61,10 @@ CREATE TABLE IF NOT EXISTS fichefrais (
   montantvalide decimal(10,2) DEFAULT NULL,
   datemodif date DEFAULT NULL,
   idetat char(2) DEFAULT 'CR',
+  idvoiture char(4) default '3',
   PRIMARY KEY (idvisiteur,mois),
   FOREIGN KEY (idetat) REFERENCES etat(id),
+  FOREIGN KEY (idvoiture) REFERENCES voiture(id),
   FOREIGN KEY (idvisiteur) REFERENCES visiteur(id)
 ) ENGINE=InnoDB;
 
@@ -80,6 +89,12 @@ CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
   FOREIGN KEY (idvisiteur, mois) REFERENCES fichefrais(idvisiteur, mois)
 ) ENGINE=InnoDB;
 
+-- Alimentation de la table voiture
+INSERT INTO voiture(id,libellevoiture,coefficient) VALUES
+('1' , 'Véhicule  4CV Diesel',-0.10),
+('2' , 'Véhicule 5/6CV Diesel',-0.04),
+('3' , 'Véhicule  4CV Essence',0),
+('4' , 'Véhicule 5/6CV Essence',0.05);
 -- Alimentation des données paramètres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),

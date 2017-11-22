@@ -41,8 +41,8 @@
             <thead>
             <th>#</th> 
             <th><span class='glyphicon glyphicon-list-alt'></span> Date</th>
-            <th><span>€</span> Montant Total frais: </th>
-            <th><span>€</span> Montant total frais Hors-Forfait  </th>
+            <th><span>€</span> Montant Total frais </th>
+            <th><span>€</span> Montant total frais Hors-Forfait </th>
             <th><span class='glyphicon glyphicon-book'></span> Nombre de justificatifs </th>
             <th><span class='glyphicon glyphicon-ok'></span> Option de devalidation </th>
 
@@ -50,9 +50,9 @@
 
             <?php
             foreach ($lesMois as $unMois) {
+                $maVoiture = '';
                 $mois = $unMois['mois'];
                 $unMoisVar = "$mois";
-
                 $numAnnee = substr($unMoisVar, 0, -2);
                 $numMois = substr($unMoisVar, -2);
                 $nomprenomselect = $concatiser;
@@ -65,7 +65,11 @@
                 foreach ($idDuVisiteur as $uneId) {
                     $uneId = $idDuVisiteur['id'];
                 }
-                $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
+                $monvisiteur = $pdo->ObtenirVoiture($uneId, $moisBDD);
+                foreach ($monvisiteur as $value) {
+                    $maVoiture = $value['coefficient'];
+                }
+                $lesFichesFull = getFicheDeFraisNonRefuséEnFonctionDuMois($uneId, $moisBDD);
                 $fichesValide = estFicheValide($uneId, $moisBDD);
                 $monIdetatFiche = '';
                 foreach ($fichesValide as $value) {
@@ -106,7 +110,7 @@
                         if ($monIdetatFiche == 'RB') {
                             ?><td colspan="5"><?php echo '<h4>Frais du mois remboursé</h4>'; ?></td><?php
                             } else {
-                                ?><td colspan="5"><?php echo '<h4>Aucun frais validé pour ce mois ci</h4>'; ?></td><?php
+                                ?><td colspan="6"><?php echo '<h4>Aucun frais validé pour ce mois ci</h4>'; ?></td><?php
                         }
                     } else {
                         $fraistotal = NULL;
@@ -115,6 +119,9 @@
                             $quanti = $elements['quantite'];
                             $libelem = $elements['libelle'];
                             $montelem = $elements['montant'];
+                            if($libelem=='Frais Kilométrique'){
+                                $montelem+=$maVoiture;
+                            }
                             $rez = $quanti * $montelem;
                             $fraistotal += $rez;
                         }

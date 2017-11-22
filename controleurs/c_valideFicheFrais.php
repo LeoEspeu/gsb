@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+$idetat='';
 $nomselect = '';
 $nomprenomselect = '';
 $numAnnee=Null;
@@ -43,7 +43,11 @@ if (isset($_POST['listVisiteur'])) {
     echo '<br><br>';
     $nbJustifi= getNbJustificatif($uneId, $moisBDD);
     $elem= getElementForfait($uneId, $moisBDD);
-    
+    $idetatVisiteur= estFicheValide($uneId, $moisBDD);
+    $idetat='';
+    foreach ($idetatVisiteur as $value) {
+        $idetat=$value['idetat'];
+    }
 }
 
 $lesMois = getMoisVisiteur();
