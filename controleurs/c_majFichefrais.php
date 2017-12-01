@@ -41,6 +41,7 @@ if (isset($_POST["$j"])) {
     $nui = $_POST['n3'];
     $rep = $_POST['n4'];
     $nbjour = $_POST['nbJ'];
+    $voiture = $_POST['voiture'];
     while (isset($_POST["$j"])) {
         $max++;
         $j++;
@@ -77,11 +78,13 @@ if (isset($_POST["$j"])) {
         majnuit($nui, $id, $lemois);
         majrep($rep, $id, $lemois);
         majnj($nbjour, $id, $lemois);
+        majvoiture($id, $lemois, $voiture);
 
         $i++;
         $o++;
     }
-} else {
+} 
+else {
     $_SESSION['ok'] = -1;
     header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
     exit();
