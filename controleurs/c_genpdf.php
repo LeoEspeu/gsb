@@ -3,6 +3,7 @@
 session_start();
 require('../includes/fpdf181/fpdf.php');
 include '../includes/fct.inc.php';
+
 $cumul = 0;
 $cumulFF = 0;
 $idVisiteur = $_SESSION['idVisiteur'];
@@ -106,6 +107,9 @@ class PDF extends FPDF {
         // Numéro de page
         
     }
+    function Dupli(){
+         $this->Cell(40, 07, utf8_decode('DUPLICATA'), 1, 0, 'L');
+    }
 
 }
 
@@ -113,7 +117,7 @@ class PDF extends FPDF {
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
-
+$pdf->Dupli();
 
 foreach ($nomprenom as $np) {
     $nom = $np['nom'];
