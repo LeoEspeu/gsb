@@ -5,6 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$coefVoiture=null;
 $idetat='';
 $nomselect = '';
 $nomprenomselect = '';
@@ -44,9 +45,13 @@ if (isset($_POST['listVisiteur'])) {
     $nbJustifi= getNbJustificatif($uneId, $moisBDD);
     $elem= getElementForfait($uneId, $moisBDD);
     $idetatVisiteur= estFicheValide($uneId, $moisBDD);
+    $voitureVisiteur = $pdo->ObtenirVoiture($uneId, $moisBDD);
     $idetat='';
     foreach ($idetatVisiteur as $value) {
         $idetat=$value['idetat'];
+    }
+    foreach ($voitureVisiteur as $value) {
+        $coefVoiture= $value['idvoiture'];
     }
 }
 

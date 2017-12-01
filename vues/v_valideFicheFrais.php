@@ -10,8 +10,6 @@
 <?php
 $nb = 0;
 $n = 1;
-
-
 if (isset($_SESSION['ok'])) {
     if ($_SESSION['ok'] === 0) {
         ?>
@@ -89,10 +87,6 @@ if ($idetat != 'CL' && $idetat != '') {
     </div>
     <?php
 }
-
-
-
-
 /* Dev: Mehdi benbahri
  * Dev2: Léo Espeu
  * HTML/CSS
@@ -215,7 +209,7 @@ if ($idetat != 'CL' && $idetat != '') {
                 ?>
                 <tr> <?php echo '<td name="tnb"> <input  id="tdrest', $nb, '" type="number" class="form-control" min="', $nb, '" max="', $nb, '" name="', $nb, '" value="', $nb, '" title="', $restor = "$montant.*.$datemodif.*.$libelleLigne", '"/></td><td> ', "<div class='input-group'><span class='input-group-addon id='group'>€</span><input type='number' id='mont$nb' value='$montant' class='form-control' name='mont$nb' aria-describedby='group'></div>", '</td><td>', "<div class='input-group'><span class='input-group-addon id='group'><span class='glyphicon glyphicon-list-alt'></span></span><input type='text' id='date$nb' value='$datemodif' class='form-control' name='date$nb' aria-describedby='group'></div>", '</td><td> ', "<input type='text' id='lib$nb' value='$libelleLigne' class='form-control' name='lib$nb'>", '</td> ' ?>
 
-                    <td> <button id="<?php echo $nb ?>" type="button" title="refuser" onclick="recalculate(this.id)" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button> <b style="color:#adadad">|</b> <button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-warning" ><span class="glyphicon glyphicon-refresh"></span></button> <b style="color:#adadad">|</b> <button id="<?php echo $nb ?>" type="button" title="refuser" onclick="calculate(this.id)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
+                    <td> <button id="<?php echo $nb ?>" type="button" title="accepter" onclick="recalculate(this.id)" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button> <b style="color:#adadad">|</b> <button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-warning" ><span class="glyphicon glyphicon-refresh"></span></button> <b style="color:#adadad">|</b> <button id="<?php echo $nb ?>" type="button" title="refuser" onclick="calculate(this.id)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
                     <td id="tr<?php echo $nb ?>"></td>
                 </tr>
 
@@ -229,9 +223,7 @@ if ($idetat != 'CL' && $idetat != '') {
         if (isset($_POST['lstMois'])) {
             $nbJ = $nbJustifi[0]['nbjustificatifs'];
             echo ' Nombre de Justification : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
-
             foreach ($elem as $elements) {
-
                 $quanti = $elements['quantite'];
                 $libelem = $elements['libelle'];
                 $montelem = $elements['montant'];
@@ -239,6 +231,31 @@ if ($idetat != 'CL' && $idetat != '') {
                 echo ' ', $libelem, ' : ', "<input name='n$n' style='width: 6%' type='number' value='$rez' class='form-control'>";
                 $n++;
             }
+            echo ' Coef. :';
+            ?>
+            <select name="voiture" class="form-control">
+                <option <?php
+                if ($coefVoiture == '1') {
+                    echo 'selected';
+                }
+                ?>>0.52 €/Km</option>
+                <option <?php
+                if ($coefVoiture == '2') {
+                    echo 'selected';
+                }
+                ?>>0.58 €/Km</option>
+                <option <?php
+                if ($coefVoiture == '3') {
+                    echo 'selected';
+                }
+                ?>>0.62 €/Km</option>
+                <option <?php
+                if ($coefVoiture == '4') {
+                    echo 'selected';
+                }
+                ?>>0.68 €/Km</option>
+            </select>
+            <?php
         }
         echo '<br><br> ';
         $nblignemax = $nb;
@@ -270,47 +287,40 @@ if ($idetat != 'CL' && $idetat != '') {
         location.reload(false);
         console.log("Rechargement en cour...")
     });
-
     articles = document.getElementsByTagName('button');
     for (var i = 0; i < articles.length; i++) {
         articles[i].addEventListener('click', redirect);
     }
     function redirect(ev) {
         idselected = ev.target.title;
-
         donne = document.getElementById('tdrest' + idselected).title;
-
         var str = donne;
         var rez = str.split(".*.");
-
         var ancmont = rez[0];
         var ancdate = rez[1];
         var ancdes = rez[2];
-
         var montant = "mont" + idselected;
         var datesel = "date" + idselected;
         var libsel = "lib" + idselected;
-
         document.getElementById(montant).value = ancmont;
         document.getElementById(datesel).value = ancdate;
         document.getElementById(libsel).value = ancdes;
-
     }
-
     function calculate(idligne) {
         var retient;
-        
+
         console.log(idligne);
-        if (document.getElementById('lib' + idligne).value.substring(0,8) != '[REFUSÉ]'){
+        if (document.getElementById('lib' + idligne).value.substring(0, 8) != '[REFUSÉ]') {
             retient = document.getElementById('lib' + idligne).value;
-            document.getElementById('lib' + idligne).value='[REFUSÉ] ' + retient;
-            
-           
+            document.getElementById('lib' + idligne).value = '[REFUSÉ] ' + retient;
+
+
         }
-       
-        
-        
+
+
+
     }
+   
     function recalculate(idligne) {
         var retient;
         
