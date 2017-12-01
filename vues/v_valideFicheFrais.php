@@ -105,6 +105,7 @@ if ($idetat != 'CL' && $idetat != '') {
 
             <?php
             foreach ($lesVisiteurs as $unVisiteur) {
+
                 $nom = htmlspecialchars($unVisiteur['nom']);
                 $prenom = $unVisiteur['prenom'];
                 $concatiser = $nom . ' ' . $prenom;
@@ -135,8 +136,10 @@ if ($idetat != 'CL' && $idetat != '') {
             foreach ($lesMois as $unMois) {
                 $mois = $unMois['mois'];
                 $unMoisVar = "$mois";
+
                 $numAnnee = substr($unMoisVar, 0, -2);
                 $numMois = substr($unMoisVar, -2);
+
                 if ($unMois[0] == $moisSelect) {
                     ?>
                     <option selected value="<?php echo $mois ?>">
@@ -198,6 +201,7 @@ if ($idetat != 'CL' && $idetat != '') {
         <?php
         if (isset($lesFichesFull)) {
             foreach ($lesFichesFull as $fiche) {
+
                 $nb = $nb + 1;
                 $montant = $fiche['montant'];
                 $datemodif = $fiche['date'];
@@ -276,6 +280,7 @@ if ($idetat != 'CL' && $idetat != '') {
     <br>
 </form>
 <script type="text/javascript">
+
     var i = 1;
     var nbLigne = "<?php echo $nblignemax + 1; ?>";
     document.getElementById("reset").addEventListener("click", function () {
@@ -318,15 +323,38 @@ if ($idetat != 'CL' && $idetat != '') {
     function recalculate(idligne) {
         var retient;
 
+    function calculate(idligne) {
+        var retient;
+        
         console.log(idligne);
-        if (document.getElementById('lib' + idligne).value.substring(0, 8) == '[REFUSÉ]') {
-            retient = document.getElementById('lib' + idligne).value.substring(9);
-            document.getElementById('lib' + idligne).value = retient;
-
-
+        if (document.getElementById('lib' + idligne).value.substring(0,8) != '[REFUSÉ]'){
+            retient = document.getElementById('lib' + idligne).value;
+            document.getElementById('lib' + idligne).value='[REFUSÉ] ' + retient;
+            
+           
         }
-
-
-
+       
+        
+        
     }
+    function recalculate(idligne) {
+        var retient;
+        
+        console.log(idligne);
+        if (document.getElementById('lib' + idligne).value.substring(0,8) == '[REFUSÉ]'){
+            retient = document.getElementById('lib' + idligne).value.substring(9);
+            document.getElementById('lib' + idligne).value=retient;
+            
+           
+        }
+       
+        
+        
+    }
+
+
+
+
+
+
 </script>
