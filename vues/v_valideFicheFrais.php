@@ -4,12 +4,6 @@
  * HTML/CSS
  * Validation des fiche de frais pour le comptable,seul le comptable peut avoir accès ! 
  */
-
-
-
-
-
-
 ?>
 
 
@@ -126,15 +120,15 @@ foreach ($lesVisiteurs as $unVisiteur) {
 
                     <option selected="" value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
 
-        <?php
-    } else {
-        ?>           
+                    <?php
+                } else {
+                    ?>           
                     <option value="<?php echo $concatiser; ?>"> <?php echo $concatiser; ?></option>
 
-        <?php
-    }
-}
-?>
+                    <?php
+                }
+            }
+            ?>
 
         </select> 
     </div>
@@ -156,15 +150,15 @@ foreach ($lesMois as $unMois) {
         ?>
                     <option selected value="<?php echo $mois ?>">
                     <?php echo $numMois . '/' . $numAnnee ?> </option>
-                        <?php
-                    } else {
-                        ?>
+                    <?php
+                } else {
+                    ?>
                     <option value="<?php echo $mois ?>">
-                    <?php echo $numMois . '/' . $numAnnee ?> </option>
+                        <?php echo $numMois . '/' . $numAnnee ?> </option>
                         <?php
-                    }
                 }
-                ?>    
+            }
+            ?>    
 
         </select> 
     </div>
@@ -181,20 +175,20 @@ foreach ($lesMois as $unMois) {
             } else {
                 echo 'style="text-align: center; visibility:hidden" ';
             }
-                ?> >
+            ?> >
         <caption style="border-radius:4px; background-color:#f2993a; color:white;">Descriptif des éléments Hors Forfait - <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
+    if (isset($prenomselect)) {
+        echo $nomselect;
+    }
+    ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
            if (isset($prenomselect)) {
-               echo $nomselect;
+               echo $prenomselect;
            }
-           ?> " disabled/> <input style="width: 15%" type="text" class='form-control input-sm' value="<?php
-            if (isset($prenomselect)) {
-                echo $prenomselect;
+           ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
+            if (isset($moisSelect)) {
+                echo $moisSelect;
             }
-            ?> " disabled/> <input style="visibility:hidden" type='text' id='unmois' value='<?php
-                                                                                                                                 if (isset($moisSelect)) {
-                                                                                                                                     echo $moisSelect;
-                                                                                                                                 }
-                                                                                                                                 ?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php
+            ?> ' class='form-control' name='unmois'> <input style="visibility:hidden" type='text' id='leID' value='<?php
                                                                                                                                  if (isset($uneId)) {
                                                                                                                                      echo $uneId;
                                                                                                                                  }
@@ -220,48 +214,62 @@ if (isset($lesFichesFull)) {
         ?>
                 <tr> <?php echo '<td name="tnb"> <input  id="tdrest', $nb, '" type="number" class="form-control" min="', $nb, '" max="', $nb, '" name="', $nb, '" value="', $nb, '" title="', $restor = "$montant.*.$datemodif.*.$libelleLigne", '"/></td><td> ', "<div class='input-group'><span class='input-group-addon id='group'>€</span><input type='number' id='mont$nb' value='$montant' class='form-control' name='mont$nb' aria-describedby='group'></div>", '</td><td>', "<div class='input-group'><span class='input-group-addon id='group'><span class='glyphicon glyphicon-list-alt'></span></span><input type='text' id='date$nb' value='$datemodif' class='form-control' name='date$nb' aria-describedby='group'></div>", '</td><td> ', "<input type='text' id='lib$nb' value='$libelleLigne' class='form-control' name='lib$nb'>", '</td> ' ?>
 
-                    <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger" <?php if ($idetat != 'CL') {
-            echo 'disabled';
-        } ?>>Réintialiser</button></td>
+                    <td><button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-danger" <?php
+                if ($idetat != 'CL') {
+                    echo 'disabled';
+                }
+                ?>>Réintialiser</button></td>
                 </tr>
 
-                <?php
-            }
-            if ($lesFichesFull == NULL) {
-                ajouterErreur('Aucun éléments hors forfait pour ce mois ou cette utilisateur');
-                include 'v_erreurs.php';
-            }
-        }
-        if (isset($_POST['lstMois'])) {
-            $nbJ = $nbJustifi[0]['nbjustificatifs'];
-            echo ' Nombre de Justification : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
+                        <?php
+                            }
+                            if ($lesFichesFull == NULL) {
+                                ajouterErreur('Aucun éléments hors forfait pour ce mois ou cette utilisateur');
+                                include 'v_erreurs.php';
+                            }
+                        }
+                        if (isset($_POST['lstMois'])) {
+                            $nbJ = $nbJustifi[0]['nbjustificatifs'];
+                            echo ' Nombre de Justification : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
 
-            foreach ($elem as $elements) {
+                            foreach ($elem as $elements) {
 
-                $quanti = $elements['quantite'];
-                $libelem = $elements['libelle'];
-                $montelem = $elements['montant'];
-                $rez = $quanti;
-                echo ' ', $libelem, ' : ', "<input name='n$n' style='width: 6%' type='number' value='$rez' class='form-control'>";
-                $n++;
-            }
-        }
-        echo '<br><br> ';
-        $nblignemax = $nb;
-        ?>    
+                                $quanti = $elements['quantite'];
+                                $libelem = $elements['libelle'];
+                                $montelem = $elements['montant'];
+                                $rez = $quanti;
+                                echo ' ', $libelem, ' : ', "<input name='n$n' style='width: 6%' type='number' value='$rez' class='form-control'>";
+                                $n++;
+                            }
+                            echo ' Coeff. :';
+                            ?>
+                
+                <select name="voiture" class="form-control">
+                <option <?php if($coefVoiture=='1'){echo 'selected';} ?>>0.52 €/Km</option>
+                <option <?php if($coefVoiture=='2'){echo 'selected';} ?>>0.58 €/Km</option>
+                <option <?php if($coefVoiture=='3'){echo 'selected';} ?>>0.62 €/Km</option>
+                <option <?php if($coefVoiture=='4'){echo 'selected';} ?>>0.67 €/Km</option>
+            </select>
+    <?php
+}
+echo '<br><br> ';
+$nblignemax = $nb;
+?>    
     </table>
 
 
 
     <div id="gensub"><input type="submit" class="btn btn-success" value="Valider tout et enregistrer dans la base de donnée"<?php
-                            if (isset($_POST['lstMois'])) {
-                                
-                            } else {
-                                echo 'style="visibility:hidden;" ';
-                            }
-                            ?> <?php if ($idetat != 'CL') {
+        if (isset($_POST['lstMois'])) {
+            
+        } else {
+            echo 'style="visibility:hidden;" ';
+        }
+?> <?php
+                            if ($idetat != 'CL') {
                                 echo 'disabled';
-                            } ?>></div>
+                            }
+                            ?>></div>
 
     <br>
     <br>
