@@ -326,7 +326,7 @@ function getFicheDeFraisNonRefuséEnFonctionDuMois($id, $mois) {
     $req = "SELECT distinct lignefraishorsforfait.mois,lignefraishorsforfait.libelle,date,montant,lignefraishorsforfait.id
     FROM `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
     WHERE '$id' = lignefraishorsforfait.idvisiteur
-    AND lignefraishorsforfait.mois = '$mois' and libelle not like'REFUSÉ%';";
+    AND lignefraishorsforfait.mois = '$mois' and libelle not like'%REFUSÉ%';";
     $res = $pdoSansParam->query($req);
 
     $lesFichesFull = $res->fetchAll();
