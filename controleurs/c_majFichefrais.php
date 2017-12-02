@@ -43,8 +43,8 @@ if (isset($_POST["$j"])) {
     $nbjour = $_POST['nbJ'];
     $voiture = $_POST['voiture'];
     
-    if (ControleInfosFrais($nui, $rep, $km, $etp, $nbJ) != 0) {
-        $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbJ);
+    if (ControleInfosFrais($nui, $rep, $km, $etp, $nbjour) != 0) {
+        $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbjour);
         header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
         exit();
     }
