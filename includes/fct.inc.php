@@ -609,7 +609,7 @@ function majnj($quant, $id, $lemois) {
 }
 
 function majvoiture($id, $lemois, $libvoiture) {
-    $libvoiture='%'.$libvoiture.'%';
+    $libvoiture = '%' . $libvoiture . '%';
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
     $requetePrepare = $pdoSansParam->prepare(
@@ -623,6 +623,20 @@ function majvoiture($id, $lemois, $libvoiture) {
     $requetePrepare->bindParam(':date', $lemois, PDO::PARAM_STR);
     $requetePrepare->execute();
 }
+
+function ControleInfosFrais($nuit, $repas, $route, $etape, $justificatif) {
+    if ($nuit == NULL || $repas == NULL || $route == NULL || $etape == NULL || $justificatif == NULL) {
+        if ($nuit < 0 || $repas < 0 || $route < 0 || $etape < 0 || $justificatif < 0) {
+            return 12;
+        } else {
+            return 13;
+        }
+    } else if ($nuit < 0 || $repas < 0 || $route < 0 || $etape < 0 || $justificatif < 0) {
+        return 14;
+    }
+    return 0;
+}
+
 function valideInfosFraisRetour($dateFrais, $libelle, $montant) {
     if ($dateFrais == '') {
         //return 'Le champ date ne doit pas être vide';

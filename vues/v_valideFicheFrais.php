@@ -27,6 +27,30 @@ if (isset($_SESSION['ok'])) {
         <?php
         $_SESSION['ok'] = 1;
     }
+    if ($_SESSION['ok'] === 12) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Les valeurs des frais ne peuvent pas être vides ou négative</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 13) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Les valeurs des frais ne peuvent pas être vides</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 14) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Les valeurs des frais ne peuvent être négatives</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
     if ($_SESSION['ok'] === 6) {
         ?>
         <div class="alert alert-danger alert-dismissable">
@@ -220,7 +244,7 @@ if ($idetat != 'CL' && $idetat != '') {
                 include 'v_erreurs.php';
             }
         }
-        if (isset($_POST['lstMois'])) {
+        if (isset($_POST['lstMois']) && $elem!=null) {
             $nbJ = $nbJustifi[0]['nbjustificatifs'];
             echo ' Nb. Justificatifs : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
             foreach ($elem as $elements) {
