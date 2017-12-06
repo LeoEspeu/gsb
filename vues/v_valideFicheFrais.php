@@ -27,6 +27,30 @@ if (isset($_SESSION['ok'])) {
         <?php
         $_SESSION['ok'] = 1;
     }
+    if ($_SESSION['ok'] === 12) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Les valeurs des frais ne peuvent pas être vides ou négative</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 13) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Les valeurs des frais ne peuvent pas être vides</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+    if ($_SESSION['ok'] === 14) {
+        ?>
+        <div class = "alert alert-warning fade in " role = "alert">
+            <p>Les valeurs des frais ne peuvent être négatives</p>
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
     if ($_SESSION['ok'] === 6) {
         ?>
         <div class="alert alert-danger alert-dismissable">
@@ -220,9 +244,9 @@ if ($idetat != 'CL' && $idetat != '') {
                 include 'v_erreurs.php';
             }
         }
-        if (isset($_POST['lstMois'])) {
+        if (isset($_POST['lstMois']) && $elem!=null) {
             $nbJ = $nbJustifi[0]['nbjustificatifs'];
-            echo ' Nombre de Justification : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
+            echo ' Nb. Justificatifs : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
             foreach ($elem as $elements) {
                 $quanti = $elements['quantite'];
                 $libelem = $elements['libelle'];
@@ -231,29 +255,29 @@ if ($idetat != 'CL' && $idetat != '') {
                 echo ' ', $libelem, ' : ', "<input name='n$n' style='width: 6%' type='number' value='$rez' class='form-control'>";
                 $n++;
             }
-            echo ' Coef. :';
+            echo ' Voiture :';
             ?>
             <select name="voiture" class="form-control">
                 <option <?php
                 if ($coefVoiture == '1') {
                     echo 'selected';
                 }
-                ?>>0.52 €/Km</option>
+                ?>>4CV Diesel</option>
                 <option <?php
                 if ($coefVoiture == '2') {
                     echo 'selected';
                 }
-                ?>>0.58 €/Km</option>
+                ?>>5/6CV Diesel</option>
                 <option <?php
                 if ($coefVoiture == '3') {
                     echo 'selected';
                 }
-                ?>>0.62 €/Km</option>
+                ?>>4CV Essence</option>
                 <option <?php
                 if ($coefVoiture == '4') {
                     echo 'selected';
                 }
-                ?>>0.68 €/Km</option>
+                ?>>5/6CV Essence</option>
             </select>
             <?php
         }
