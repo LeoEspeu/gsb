@@ -261,6 +261,16 @@ function getMoisVisiteur() {
     return $lesMois;
 }
 
+function getMoisVisiteurCloture($id) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "SELECT distinct mois FROM fichefrais where idvisiteur='$id' and  idetat='CL' order by mois ;";
+    $res = $pdoSansParam->query($req);
+
+    $lesMois = $res->fetchAll();
+    return $lesMois;
+}
+
 /**
  * Fonction qui retourne l'ID des visiteurs avec des fiches de Frais
  * Avec seulement leurs nom et leurs prenom;
@@ -677,4 +687,33 @@ function getnomprenomavecid($ide) {
     $res = $pdoSansParam->query($req);
     $lesLignes = $res->fetchAll();
     return $lesLignes;
+}
+
+function majmois($arrdate, $id, $laDate, $idFiche) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $requetePrepare = $pdoSansParam->prepare(
+            'Update `gsb_frais`.`lignefraishorsforfait`,visiteur,fichefrais
+        set  lignefraishorsforfait.mois = :mois
+        WHERE :id = lignefraishorsforfait.idvisiteur
+        AND lignefraishorsforfait.date = :date
+        AND lignefraishorsforfait.id=:idFiche;'
+    );
+    $requetePrepare->bindParam(':mois', $arrdate, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':date', $laDate, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':idFiche', $idFiche, PDO::PARAM_STR);
+    $requetePrepare->execute();
+}
+
+function maxAnneeVisiteur($id) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "SELECT distinct max(mois) as mois FROM fichefrais,visiteur where idvisiteur='$id' order by mois;";
+    $res = $pdoSansParam->query($req);
+    $lesLignes = $res->fetchAll();
+    foreach ($lesLignes as $anCourant) {
+        $an=$anCourant[mois];
+    }
+    return $an;
 }

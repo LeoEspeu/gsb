@@ -14,6 +14,10 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+if (!isset($_SESSION['idVisiteur'])) {
+    header('Location:index.php');
+}
+
 $idVisiteur = $_SESSION['idVisiteur'];
 $maVoiture='';
 $mois = getMois(date('d/m/Y'));
