@@ -6,7 +6,7 @@ GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais ;
 
-DROP TABLE IF EXISTS lignefraishorsforfait,lignefraisforfait,fichefrais,visiteur,etat,fraisforfait,comptable,voiture;
+DROP TABLE IF EXISTS lignefraishorsforfait,lignefraisforfait,fichefrais,visiteur,etat,fraisforfait,comptable,voiture,duplicata;
 
 -- Création de la structure de la base de données
 CREATE TABLE IF NOT EXISTS fraisforfait (
@@ -479,4 +479,3 @@ INSERT INTO comptable(id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 ('l100', 'espeu', 'léo', 'eleo', old_password('leo96'), '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
 ('m54', 'benbahri', 'léo', 'bmehdi', old_password('mehdi20'), '8 rue de la colline', '46000', 'Cahors', '2003-10-16'),
 ('f55', 'Robert', 'André', 'randre', old_password('ran55'), '9 rue de jonquille', '83000', 'Toulon', '2001-11-13');
-UPDATE fichefrais SET idetat = 'CL';

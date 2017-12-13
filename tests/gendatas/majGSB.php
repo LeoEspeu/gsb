@@ -14,7 +14,7 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
-$moisDebut = '201409';
+$moisDebut = '201609';
 require './fonctions.php';
 
 $pdo = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
