@@ -11,6 +11,17 @@ if (!isset($_SESSION['cocher'])) {
 $nomprenomselect = '';
 $numAnnee = Null;
 $lesMois = getMoisVisiteur();
+$pagesMois = count($lesMois);
+if(!isset($_POST['precedent']) && !isset($_POST['suivant'])){
+    $_SESSION['page'] =0;
+}
+elseif (isset ($_POST['precedent'])) {
+    $_SESSION['page'] -=10;
+}
+ else {
+    $_SESSION['page'] +=10;
+}
+
 if (isset($_POST['payer'])) {
     $nomprenomselect = $_SESSION['cocher'];
     list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
