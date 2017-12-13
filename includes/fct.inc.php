@@ -713,7 +713,26 @@ function maxAnneeVisiteur($id) {
     $res = $pdoSansParam->query($req);
     $lesLignes = $res->fetchAll();
     foreach ($lesLignes as $anCourant) {
-        $an=$anCourant[mois];
+        $an = $anCourant[mois];
     }
     return $an;
+}
+
+function AddToDupli($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "INSERT INTO duplicata (idvisiteur,datepdf) VALUES (:idvisi, :mois)";
+    $res = $pdoSansParam->prepare($req);
+    $res->bindParam(':idvisi', $id, PDO::PARAM_STR);
+    $res->bindParam(':mois', $mois, PDO::PARAM_STR);
+    $res->execute();
+}
+
+function EstDupli($id, $mois) {
+    $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
+    $pdoSansParam->query('SET CHARACTER SET utf8');
+    $req = "SELECT * FROM gsb_frais.duplicata WHERE idvisiteur = '$id' AND datepdf='$mois'; ";
+    $res = $pdoSansParam->query($req);
+    $lesLignes = $res->fetchAll();
+    return $lesLignes; 
 }
