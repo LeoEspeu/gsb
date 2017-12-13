@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS lignefraisforfait (
   FOREIGN KEY (idfraisforfait) REFERENCES fraisforfait(id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS `oxford`.`duplicata` (
+CREATE TABLE IF NOT EXISTS `gsb`.`duplicata` (
   `idduplicata` INT NOT NULL,
   `idvisiteur` INT NOT NULL,
   `datepdf` VARCHAR(45) NULL,

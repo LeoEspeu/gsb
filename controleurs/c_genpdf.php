@@ -16,6 +16,11 @@ $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
 $nomprenom = getnomprenomavecid($idVisiteur);
 
+
+
+
+$dupli=EstDupli($idVisiteur,$leMois);
+AddToDupli($idVisiteur,$leMois);
 class PDF extends FPDF {
 
 // En-tête
@@ -107,17 +112,18 @@ class PDF extends FPDF {
         // Numéro de page
         
     }
-    function Dupli(){
-         $this->Cell(40, 07, utf8_decode('DUPLICATA'), 1, 0, 'L');
-    }
+   
 
 }
 
+
+    
+if(empty($dupli)){
+$_SESSION['pdfdupli']=false;  
 // Instanciation de la classe dérivée
 $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
-$pdf->Dupli();
 
 foreach ($nomprenom as $np) {
     $nom = $np['nom'];
@@ -165,3 +171,9 @@ $pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul);
 $pdf->Signature();
 $pdf->Output();
 
+}
+else{
+    $_SESSION['pdfdupli']=true;
+    header('Location:../index.php?uc=etatFrais&action=selectionnerMois');
+    exit();
+}
