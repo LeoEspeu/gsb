@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['idComptable'])) {
+    header('Location:index.php');
+}
 
 $nomselect = '';
 $btndeval = '';

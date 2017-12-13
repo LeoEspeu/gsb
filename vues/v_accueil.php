@@ -33,45 +33,43 @@
             <?php
             if (isset($_SESSION['idVisiteur'])) {
                 echo '<div class = "panel-heading">';
-            }
-            else{
+            } else {
                 echo '<div class="panel-heading" style=" background-color:#f2993a; color:white;">';
             }
             ?>
-           
-                <h3 class="panel-title">
-                    <span class="glyphicon glyphicon-bookmark"></span>
-                    Navigation
-                </h3>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <?php
-                        if (isset($_SESSION['idVisiteur'])) {
-                            echo '<a href="index.php?uc=gererFrais&action=saisirFrais"
+
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-bookmark"></span>
+                Navigation
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <?php if (isset($_SESSION['idVisiteur'])) { ?>
+                        <a href="index.php?uc=gererFrais&action=saisirFrais"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Renseigner la fiche de frais</a>
                         <a href="index.php?uc=etatFrais&action=selectionnerMois"
                            class="btn btn-primary btn-lg" role="button">
                             <span class="glyphicon glyphicon-list-alt"></span>
-                            <br>Afficher mes fiches de frais</a>';
-                        } else {
-                            echo '
-                            <a href="index.php?uc=validerFrais&action=confirmerFrais"
+                            <br>Afficher mes fiches de frais</a>';<?php
+                    } else {
+                        ?>
+                        <a href="index.php?uc=validerFrais&action=confirmerFrais"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-ok"></span>
                             <br>Valider les fiches de frais</a>
                         <a href="index.php?uc=suivreFrais&action=saisirFrais"
                            class="btn btn-warning btn-lg" role="button">
                             <span class="glyphicon glyphicon-eur"></span>
-                            <br>Suivre le paiement des fiches de frais</a>';
-                        }
-                        ?>
-                    </div>
+                            <br>Suivre le paiement des fiches de frais</a>';<?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>

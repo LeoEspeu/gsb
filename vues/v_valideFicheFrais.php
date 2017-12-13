@@ -51,6 +51,16 @@ if (isset($_SESSION['ok'])) {
         <?php
         $_SESSION['ok'] = 1;
     }
+    if ($_SESSION['ok'] === 15) {
+        $numAnnee = substr($_SESSION['moisreport'], 0, -2);
+        $numMois = substr($_SESSION['moisreport'], -2);
+        ?>
+        <div class="alert alert-success alert-dismissable">
+            Le frais a été reportés avec succès au mois du <?php echo $numMois . '/' . $numAnnee; ?> . 
+        </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
     if ($_SESSION['ok'] === 6) {
         ?>
         <div class="alert alert-danger alert-dismissable">
@@ -233,7 +243,12 @@ if ($idetat != 'CL' && $idetat != '') {
                 ?>
                 <tr> <?php echo '<td name="tnb"> <input  id="tdrest', $nb, '" type="number" class="form-control" min="', $nb, '" max="', $nb, '" name="', $nb, '" value="', $nb, '" title="', $restor = "$montant.*.$datemodif.*.$libelleLigne", '"/></td><td> ', "<div class='input-group'><span class='input-group-addon id='group'>€</span><input type='number' id='mont$nb' value='$montant' class='form-control' name='mont$nb' aria-describedby='group'></div>", '</td><td>', "<div class='input-group'><span class='input-group-addon id='group'><span class='glyphicon glyphicon-list-alt'></span></span><input type='text' id='date$nb' value='$datemodif' class='form-control' name='date$nb' aria-describedby='group'></div>", '</td><td> ', "<input type='text' id='lib$nb' value='$libelleLigne' class='form-control' name='lib$nb'>", '</td> ' ?>
 
-                    <td> <button id="<?php echo $nb ?>" type="button" title="accepter" onclick="recalculate(this.id)" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button> <b style="color:#adadad">|</b> <button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-warning" ><span class="glyphicon glyphicon-refresh"></span></button> <b style="color:#adadad">|</b> <button id="<?php echo $nb ?>" type="button" title="refuser" onclick="calculate(this.id)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button></td>
+                    <td>
+                        <button id="<?php echo $nb ?>" type="button" title="accepter" onclick="recalculate(this.id)" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span></button> <b style="color:#adadad">|</b> 
+                        <button type="button" id="restor" title="<?php echo $nb; ?>" class="btn btn-warning" ><span class="glyphicon glyphicon-refresh"></span></button> <b style="color:#adadad">|</b> 
+                        <button id="<?php echo $nb ?>" type="button" title="refuser" onclick="calculate(this.id)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button> <b style="color:#adadad">|</b>
+                        <button type="submit" title="reporter" class="btn btn-primary" name="reporter<?php echo $nb; ?>" <?php if($idetat != 'CL') { echo 'disabled';}?>><span class="glyphicon glyphicon-arrow-right"></span></button>
+                    </td>
                     <td id="tr<?php echo $nb ?>"></td>
                 </tr>
 
@@ -244,7 +259,7 @@ if ($idetat != 'CL' && $idetat != '') {
                 include 'v_erreurs.php';
             }
         }
-        if (isset($_POST['lstMois']) && $elem!=null) {
+        if (isset($_POST['lstMois']) && $elem != null) {
             $nbJ = $nbJustifi[0]['nbjustificatifs'];
             echo ' Nb. Justificatifs : <b>' . "<input style='width: 7%' name='nbJ' type='number' value='$nbJ' class='form-control' id='usr'>" . '</b>';
             foreach ($elem as $elements) {
@@ -344,20 +359,20 @@ if ($idetat != 'CL' && $idetat != '') {
 
 
     }
-   
+
     function recalculate(idligne) {
         var retient;
-        
+
         console.log(idligne);
-        if (document.getElementById('lib' + idligne).value.substring(0,8) == '[REFUSÉ]'){
+        if (document.getElementById('lib' + idligne).value.substring(0, 8) == '[REFUSÉ]') {
             retient = document.getElementById('lib' + idligne).value.substring(9);
-            document.getElementById('lib' + idligne).value=retient;
-            
-           
+            document.getElementById('lib' + idligne).value = retient;
+
+
         }
-       
-        
-        
+
+
+
     }
 
 
