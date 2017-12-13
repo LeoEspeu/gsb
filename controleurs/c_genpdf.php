@@ -3,7 +3,9 @@
 session_start();
 require('../includes/fpdf181/fpdf.php');
 include '../includes/fct.inc.php';
+include '../includes/class.pdogsb.inc.php';
 
+$pdo = PdoGsb::getPdoGsb();
 $cumul = 0;
 $cumulFF = 0;
 $idVisiteur = $_SESSION['idVisiteur'];
@@ -15,8 +17,14 @@ $elem = getElementForfait($idVisiteur, $leMois);
 $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
 $nomprenom = getnomprenomavecid($idVisiteur);
-
-
+$voitureMois=$pdo->ObtenirVoiture($idVisiteur, $leMois);
+$MoisFicheFrais= estFicheValide($idVisiteur, $leMois);
+foreach ($MoisFicheFrais as $idEtat) {
+    $idEtatFiche=$idEtat['idetat'];
+}
+foreach ($voitureMois as $coef) {
+    $coefVoiture=$coef['coefficient'];
+}
 
 
 $dupli=EstDupli($idVisiteur,$leMois);
@@ -147,6 +155,9 @@ foreach ($elem as $elements) {
     $quanti = $elements['quantite'];
     $libelem = $elements['libelle'];
     $montelem = $elements['montant'];
+    if($libelem=='Frais Kilométrique'){
+        $montelem+=$coefVoiture;
+    }
     $rez = $quanti;
     $cumulFF += $quanti * $montelem;
 
@@ -168,7 +179,9 @@ foreach ($lesFraisHorsForfait as $fiche) {
 }
 $pdf->Ln(8);
 $pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul);
-$pdf->Signature();
+if($idEtatFiche=='RB'){
+    $pdf->Signature();
+}
 $pdf->Output();
 
 }
