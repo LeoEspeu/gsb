@@ -60,6 +60,8 @@ if (isset($_POST["$j"])) {
                             $dateFraisHorsForfait = $date = filter_input(INPUT_POST, "date" . $index, FILTER_SANITIZE_SPECIAL_CHARS);
                             majmois($lesMois[$index1]['mois'], $id, $dateFraisHorsForfait, $idFiche[$index - 1]);
                             $_SESSION['moisreport']=$lesMois[$index1]['mois'];
+                            majdatedemodification($id, $lemois);
+                            majdatedemodification($id, $_SESSION['moisreport']);
                             $_SESSION['ok'] = 15;
                             header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
                             exit();
@@ -128,7 +130,8 @@ if (isset($_POST["$j"])) {
         majrep($rep, $id, $lemois);
         majnj($nbjour, $id, $lemois);
         majvoiture($id, $lemois, $voiture);
-
+        majdatedemodification($id, $lemois);
+        
         $i++;
         $o++;
     }
