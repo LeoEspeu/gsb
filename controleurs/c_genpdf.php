@@ -21,7 +21,11 @@ $nomprenom = getnomprenomavecid($idVisiteur);
 $quo=2.5;
 if (count($lesFraisHorsForfait)>6 && count($lesFraisHorsForfait)<16){
    
-    $quo=2.4;
+    $quo=3.5;
+}
+else if (count($lesFraisHorsForfait)<=5 && count($lesFraisHorsForfait)<=2){
+    
+    $quo=0.1;
 }
 else if (count($lesFraisHorsForfait)<=5){
     
