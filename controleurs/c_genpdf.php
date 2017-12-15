@@ -17,14 +17,29 @@ $elem = getElementForfait($idVisiteur, $leMois);
 $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
 $nomprenom = getnomprenomavecid($idVisiteur);
-$voitureMois=$pdo->ObtenirVoiture($idVisiteur, $leMois);
-$MoisFicheFrais= estFicheValide($idVisiteur, $leMois);
-foreach ($MoisFicheFrais as $idEtat) {
-    $idEtatFiche=$idEtat['idetat'];
+
+$quo=2.5;
+if (count($lesFraisHorsForfait)>6 && count($lesFraisHorsForfait)<13){
+   
+    $quo=2.4;
 }
-foreach ($voitureMois as $coef) {
-    $coefVoiture=$coef['coefficient'];
+else if (count($lesFraisHorsForfait)<=5){
+    
+    $quo=0.6;
 }
+else if (count($lesFraisHorsForfait)<=7){
+    
+    $quo=0.8;
+}
+else if (count($lesFraisHorsForfait)>=10){
+    
+    $quo=3.2;
+}
+else if (count($lesFraisHorsForfait)>=13){
+    
+    $quo=1.0;
+}
+$tailleLigne=count($lesFraisHorsForfait)/$quo;
 
 
 $dupli=EstDupli($idVisiteur,$leMois);
@@ -70,35 +85,35 @@ class PDF extends FPDF {
         $this->SetTextColor(0, 0, 0);
     }
 
-    function Tableau($libelem, $nuiteQ, $nuit) {
+    function Tableau($libelem, $nuiteQ, $nuit,$tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->SetDrawColor(122, 147, 178);
-        $this->Cell(40, 07, utf8_decode($libelem), 1, 0, 'L');
-        $this->Cell(50, 07, $nuiteQ, 1, 0, 'R');
-        $this->Cell(50, 07, $nuit, 1, 0, 'R');
-        $this->Cell(40, 07, $nuit * $nuiteQ, 1, 1, 'R');
+        $this->Cell(40, $tailleLigne, utf8_decode($libelem), 1, 0, 'L');
+        $this->Cell(50, $tailleLigne, $nuiteQ, 1, 0, 'R');
+        $this->Cell(50, $tailleLigne, $nuit, 1, 0, 'R');
+        $this->Cell(40, $tailleLigne, $nuit * $nuiteQ, 1, 1, 'R');
     }
 
-    function FraisHF() {
-        $this->SetTextColor(122, 147, 178);
+    function FraisHF($tailleLigne) {
+        $this->SetTextColor(122, 147, 178,$tailleLigne);
         $this->SetFont('Times', 'BI', 11);
-        $this->Cell(60, 10, utf8_decode('Date'), 1, 0, 'C');
-        $this->Cell(80, 10, utf8_decode('Libellé'), 1, 0, 'C');
-        $this->Cell(40, 10, utf8_decode('Montant'), 1, 1, 'C');
+        $this->Cell(60, $tailleLigne, utf8_decode('Date'), 1, 0, 'C');
+        $this->Cell(80, $tailleLigne, utf8_decode('Libellé'), 1, 0, 'C');
+        $this->Cell(40, $tailleLigne, utf8_decode('Montant'), 1, 1, 'C');
         $this->SetTextColor(0, 0, 0);
     }
 
-    function LigneFraisHF($date, $libelle, $montant) {
+    function LigneFraisHF($date, $libelle, $montant,$tailleLigne) {
         $this->SetFont('Times', '', 11);
-        $this->Cell(60, 07, $date, 1, 0, 'L');
-        $this->Cell(80, 07, $libelle, 1, 0, 'L');
-        $this->Cell(40, 07, $montant, 1, 1, 'R');
+        $this->Cell(60, $tailleLigne, $date, 1, 0, 'L');
+        $this->Cell(80, $tailleLigne, $libelle, 1, 0, 'L');
+        $this->Cell(40, $tailleLigne, $montant, 1, 1, 'R');
     }
 
-    function Total($date, $total) {
+    function Total($date, $total,$tailleLigne) {
         $this->setX(110);
-        $this->Cell(40, 07, 'Total : ' . $date, 1, 0, 'L');
-        $this->Cell(40, 07, $total, 1, 1, 'R');
+        $this->Cell(40, $tailleLigne, 'Total : ' . $date, 1, 0, 'L');
+        $this->Cell(40, $tailleLigne, $total, 1, 1, 'R');
     }
 
     function Signature() {
@@ -161,32 +176,31 @@ foreach ($elem as $elements) {
     $rez = $quanti;
     $cumulFF += $quanti * $montelem;
 
-    $pdf->Tableau($libelem, $quanti, $montelem);
+    $pdf->Tableau($libelem, $quanti, $montelem,$tailleLigne);
 }
 $pdf->SetTextColor(122, 147, 178);
 $pdf->SetFont('Times', 'BI', 11);
 $pdf->Cell(180, 10, 'Autres Frais', 1, 1, 'C');
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Times', '', 11);
-$pdf->FraisHF();
+$pdf->FraisHF($tailleLigne);
 foreach ($lesFraisHorsForfait as $fiche) {
 
     $montant = $fiche['montant'];
     $datemodif = $fiche['date'];
     $libelleLigne = $fiche['libelle'];
     $cumul += $fiche['montant'];
-    $pdf->LigneFraisHF($datemodif, utf8_decode($libelleLigne), $montant);
+    $pdf->LigneFraisHF($datemodif, utf8_decode($libelleLigne), $montant,$tailleLigne);
 }
 $pdf->Ln(8);
-$pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul);
-if($idEtatFiche=='RB'){
-    $pdf->Signature();
-}
+$pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul,$tailleLigne);
+$pdf->Signature();
 $pdf->Output();
 
 }
 else{
-    $_SESSION['pdfdupli']=true;
+    var_dump($lesFraisHorsForfait);
+    $_SESSION['pdfdupli']=true;  
     header('Location:../index.php?uc=etatFrais&action=selectionnerMois');
     exit();
 }

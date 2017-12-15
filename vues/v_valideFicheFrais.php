@@ -221,7 +221,7 @@ if ($idetat != 'CL' && $idetat != '') {
             <th>Date du frais :  </th>
             <th>Etat de la fiche: </th>
             <th> Outils:</th>
-            <th> </th>
+           
         </tr>
         <br>
         <?php
@@ -241,7 +241,7 @@ if ($idetat != 'CL' && $idetat != '') {
                         <button id="<?php echo $nb ?>" type="button" title="refuser" onclick="calculate(this.id)" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button> <b style="color:#adadad">|</b>
                         <button type="submit" title="reporter" class="btn btn-primary" name="reporter<?php echo $nb; ?>" <?php if($idetat != 'CL') { echo 'disabled';}?>><span class="glyphicon glyphicon-arrow-right"></span></button>
                     </td>
-                    <td id="tr<?php echo $nb ?>"></td>
+                    
                 </tr>
 
                 <?php
@@ -306,6 +306,7 @@ if ($idetat != 'CL' && $idetat != '') {
                                 echo 'disabled';
                             }
                             ?>></div>
+    <img id="charge" style="visibility:hidden" src="images/Loading_icon.gif" alt="Image de chargement" width="70" height="50">
 
     <br>
     <br>
@@ -359,7 +360,7 @@ if ($idetat != 'CL' && $idetat != '') {
         if (document.getElementById('lib' + idligne).value.substring(0, 8) == '[REFUSÉ]') {
             retient = document.getElementById('lib' + idligne).value.substring(9);
             document.getElementById('lib' + idligne).value = retient;
-
+            
 
         }
 
