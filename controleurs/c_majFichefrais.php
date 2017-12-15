@@ -37,7 +37,7 @@ var_dump($idFiche);
 
 
 if (isset($_POST["$j"])) {
-
+    //La fiche de frais est cloturé et a des frais hors forfaits
     $etp = $_POST['n1'];
     $km = $_POST['n2'];
     $nui = $_POST['n3'];
@@ -49,6 +49,8 @@ if (isset($_POST["$j"])) {
         $max++;
         $j++;
     }
+    
+    //Boucle sur l'action de report des frais hors-forfaits
     for ($index = 1; $index < $max; $index++) {
         if (isset($_POST['reporter' . $index])) {
             while ($cloture == false) {
@@ -91,6 +93,7 @@ if (isset($_POST["$j"])) {
         }
     }
 
+    //Controle sur les frais
     if (ControleInfosFrais($nui, $rep, $km, $etp, $nbjour) != 0) {
         $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbjour);
         header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
@@ -136,6 +139,7 @@ if (isset($_POST["$j"])) {
         $o++;
     }
 } else {
+    //La fiche de frais est cloturé mais n'a pas de frais hors forfait
     $etp = $_POST['n1'];
     $km = $_POST['n2'];
     $nui = $_POST['n3'];
