@@ -171,7 +171,7 @@ foreach ($elem as $elements) {
     $libelem = $elements['libelle'];
     $montelem = $elements['montant'];
     if($libelem=='Frais Kilométrique'){
-        $montelem+=$coefVoiture;
+       
     }
     $rez = $quanti;
     $cumulFF += $quanti * $montelem;
