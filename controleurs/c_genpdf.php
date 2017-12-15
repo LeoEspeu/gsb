@@ -18,6 +18,15 @@ $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
 $nomprenom = getnomprenomavecid($idVisiteur);
 
+$voitureMois = $pdo->ObtenirVoiture($idVisiteur, $leMois);
+$MoisFicheFrais = estFicheValide($idVisiteur, $leMois);
+foreach ($MoisFicheFrais as $idEtat) {
+    $idEtatFiche = $idEtat['idetat'];
+}
+foreach ($voitureMois as $coef) {
+    $coefVoiture = $coef['coefficient'];
+}
+
 $quo=2.5;
 if (count($lesFraisHorsForfait)>6 && count($lesFraisHorsForfait)<13){
    
@@ -194,7 +203,9 @@ foreach ($lesFraisHorsForfait as $fiche) {
 }
 $pdf->Ln(8);
 $pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul,$tailleLigne);
-$pdf->Signature();
+if($idEtatFiche=='RB'){
+    $pdf->Signature();
+}
 $pdf->Output();
 
 }
