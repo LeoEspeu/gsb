@@ -28,24 +28,28 @@ foreach ($voitureMois as $coef) {
 }
 
 $quo=2.5;
-if (count($lesFraisHorsForfait)>6 && count($lesFraisHorsForfait)<13){
+if (count($lesFraisHorsForfait)>6 && count($lesFraisHorsForfait)<16){
    
-    $quo=2.4;
+    $quo=3.5;
+}
+else if (count($lesFraisHorsForfait)<=5 && count($lesFraisHorsForfait)<=2){
+    
+    $quo=0.1;
 }
 else if (count($lesFraisHorsForfait)<=5){
     
-    $quo=0.6;
+    $quo=0.7;
 }
 else if (count($lesFraisHorsForfait)<=7){
     
-    $quo=0.8;
+    $quo=1;
 }
 else if (count($lesFraisHorsForfait)>=10){
-    
-    $quo=3.2;
+   
+    $quo=3.5;
 }
-else if (count($lesFraisHorsForfait)>=13){
-    
+else if (count($lesFraisHorsForfait)>=16){
+   
     $quo=1.0;
 }
 $tailleLigne=count($lesFraisHorsForfait)/$quo;
@@ -180,7 +184,7 @@ foreach ($elem as $elements) {
     $libelem = $elements['libelle'];
     $montelem = $elements['montant'];
     if($libelem=='Frais Kilométrique'){
-        $montelem+=$coefVoiture;
+       $montelem+=$coefVoiture;
     }
     $rez = $quanti;
     $cumulFF += $quanti * $montelem;
@@ -206,12 +210,13 @@ $pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul,$tailleLigne);
 if($idEtatFiche=='RB'){
     $pdf->Signature();
 }
-$pdf->Output();
-
+$pdf->Output("../pdf/pdf".$idVisiteur.$leMois.".pdf","F");
+header('Location:../pdf/pdf'.$idVisiteur.$leMois.'.pdf');
+exit();
 }
 else{
-    var_dump($lesFraisHorsForfait);
-    $_SESSION['pdfdupli']=true;  
-    header('Location:../index.php?uc=etatFrais&action=selectionnerMois');
+    
+    
+    header('Location:../pdf/pdf'.$idVisiteur.$leMois.'.pdf');
     exit();
 }
