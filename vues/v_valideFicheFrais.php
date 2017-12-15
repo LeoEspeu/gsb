@@ -69,14 +69,6 @@ if (isset($_SESSION['ok'])) {
         <?php
         $_SESSION['ok'] = 1;
     }
-    if ($_SESSION['ok'] === 7) {
-        ?>
-        <div class="alert alert-danger alert-dismissable">
-            date d'enregistrement du frais dépassé, plus de 1 an 
-        </div>
-        <?php
-        $_SESSION['ok'] = 1;
-    }
     if ($_SESSION['ok'] === 8) {
         ?>
         <div class="alert alert-danger alert-dismissable">

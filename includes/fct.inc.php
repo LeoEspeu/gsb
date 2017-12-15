@@ -655,11 +655,6 @@ function valideInfosFraisRetour($dateFrais, $libelle, $montant) {
         if (!estDatevalide($dateFrais)) {
             //return 'Date invalide';
             return 6;
-        } else {
-            if (estDateDepassee($dateFrais)) {
-                //return "date d'enregistrement du frais dépassé, plus de 1 an";
-                return 7;
-            }
         }
     }
     if ($libelle == '') {
