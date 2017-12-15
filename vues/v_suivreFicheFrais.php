@@ -27,7 +27,7 @@
     <?php
     $compteur = 0;
     if (isset($_POST['listVisiteur'])) {
-        if (isset($_POST['cocher']) || isset($_POST['payer']) || isset($_POST[$btndeval])) {
+        if (isset($_POST['cocher']) || isset($_POST['payer']) || isset($_POST[$btndeval])||isset($_POST['precedent']) || isset($_POST['suivant'])) {
             $concatiser = $_SESSION['cocher'];
         } else {
             $concatiser = $_POST['listVisiteur'];

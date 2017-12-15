@@ -12,13 +12,13 @@ $nomprenomselect = '';
 $numAnnee = Null;
 $lesMois = getMoisVisiteur();
 $pagesMois = count($lesMois);
-if(!isset($_POST['precedent']) && !isset($_POST['suivant'])){
+if(!isset($_POST['precedent']) && !isset($_POST['suivant']) && !isset($_POST['cocher']) && !isset($_POST['payer'])){
     $_SESSION['page'] =0;
 }
-elseif (isset ($_POST['precedent'])) {
+elseif (isset ($_POST['precedent']) && !isset($_POST['cocher']) && !isset($_POST['payer'])) {
     $_SESSION['page'] -=10;
 }
- else {
+ elseif (!isset($_POST['cocher']) && !isset($_POST['payer'])) {
     $_SESSION['page'] +=10;
 }
 

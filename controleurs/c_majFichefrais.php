@@ -59,7 +59,9 @@ if (isset($_POST["$j"])) {
                         if ($lemois < $moisCourant) {
                             $dateFraisHorsForfait = $date = filter_input(INPUT_POST, "date" . $index, FILTER_SANITIZE_SPECIAL_CHARS);
                             majmois($lesMois[$index1]['mois'], $id, $dateFraisHorsForfait, $idFiche[$index - 1]);
-                            $_SESSION['moisreport']=$lesMois[$index1]['mois'];
+                            $_SESSION['moisreport'] = $lesMois[$index1]['mois'];
+                            majdatedemodification($id, $lemois);
+                            majdatedemodification($id, $_SESSION['moisreport']);
                             $_SESSION['ok'] = 15;
                             header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
                             exit();
@@ -88,13 +90,13 @@ if (isset($_POST["$j"])) {
             }
         }
     }
-    
+
     if (ControleInfosFrais($nui, $rep, $km, $etp, $nbjour) != 0) {
         $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbjour);
         header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
         exit();
     }
-    
+
     while ($i < $max) {
         //filter
         $arrmont[$i] = $montant = filter_input(INPUT_POST, "mont$i", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -128,14 +130,31 @@ if (isset($_POST["$j"])) {
         majrep($rep, $id, $lemois);
         majnj($nbjour, $id, $lemois);
         majvoiture($id, $lemois, $voiture);
+        majdatedemodification($id, $lemois);
 
         $i++;
         $o++;
     }
 } else {
-    $_SESSION['ok'] = -1;
-    header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
-    exit();
+    $etp = $_POST['n1'];
+    $km = $_POST['n2'];
+    $nui = $_POST['n3'];
+    $rep = $_POST['n4'];
+    $nbjour = $_POST['nbJ'];
+    $voiture = $_POST['voiture'];
+    if (ControleInfosFrais($nui, $rep, $km, $etp, $nbjour) != 0) {
+        $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbjour);
+        header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+        exit();
+    }
+    majetp($etp, $id, $lemois);
+    majkm($km, $id, $lemois);
+    majnuit($nui, $id, $lemois);
+    majrep($rep, $id, $lemois);
+    majnj($nbjour, $id, $lemois);
+    majvoiture($id, $lemois, $voiture);
+    majdatedemodification($id, $lemois);
+    validerUneFicheDeFais($id, $lemois);
 }
 
 $_SESSION['ok'] = 0;

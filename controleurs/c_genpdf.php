@@ -3,7 +3,9 @@
 session_start();
 require('../includes/fpdf181/fpdf.php');
 include '../includes/fct.inc.php';
+include '../includes/class.pdogsb.inc.php';
 
+$pdo = PdoGsb::getPdoGsb();
 $cumul = 0;
 $cumulFF = 0;
 $idVisiteur = $_SESSION['idVisiteur'];
@@ -168,6 +170,9 @@ foreach ($elem as $elements) {
     $quanti = $elements['quantite'];
     $libelem = $elements['libelle'];
     $montelem = $elements['montant'];
+    if($libelem=='Frais Kilométrique'){
+        $montelem+=$coefVoiture;
+    }
     $rez = $quanti;
     $cumulFF += $quanti * $montelem;
 
