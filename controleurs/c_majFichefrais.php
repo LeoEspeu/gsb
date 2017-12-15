@@ -60,6 +60,7 @@ if (isset($_POST["$j"])) {
                         $lemoisnum = intval($lemois);
                         if ($lemois < $moisCourant) {
                             $dateFraisHorsForfait = $date = filter_input(INPUT_POST, "date" . $index, FILTER_SANITIZE_SPECIAL_CHARS);
+                            $montantDeduit = $montant = filter_input(INPUT_POST, "mont". $index, FILTER_SANITIZE_NUMBER_FLOAT);
                             majmois($lesMois[$index1]['mois'], $id, $dateFraisHorsForfait, $idFiche[$index - 1]);
                             $_SESSION['moisreport'] = $lesMois[$index1]['mois'];
                             majdatedemodification($id, $lemois);
@@ -138,6 +139,11 @@ if (isset($_POST["$j"])) {
         $i++;
         $o++;
     }
+    $lesFichesFull = getFicheDeFraisNonRefuséEnFonctionDuMois($id, $lemois);
+    foreach ($lesFichesFull as $value) {
+        $_SESSION['MontantValide']+=$value['montant'];
+    }
+    $pdo->majMontantValideFicheFrais($id,$lemois,$_SESSION['MontantValide']);
 } else {
     //La fiche de frais est cloturé mais n'a pas de frais hors forfait
     $etp = $_POST['n1'];
@@ -159,6 +165,7 @@ if (isset($_POST["$j"])) {
     majvoiture($id, $lemois, $voiture);
     majdatedemodification($id, $lemois);
     validerUneFicheDeFais($id, $lemois);
+    $pdo->majMontantValideFicheFrais($id,$lemois,$_SESSION['MontantValide']);
 }
 
 $_SESSION['ok'] = 0;

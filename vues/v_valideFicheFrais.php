@@ -258,6 +258,12 @@ if ($idetat != 'CL' && $idetat != '') {
                 $quanti = $elements['quantite'];
                 $libelem = $elements['libelle'];
                 $montelem = $elements['montant'];
+                if($libelem=='Frais Kilométrique'){
+                    $_SESSION['MontantValide']+=($montelem+$coefNBVoiture)*$quanti;
+                }
+                else {
+                    $_SESSION['MontantValide']+=$montelem*$quanti;
+                }
                 $rez = $quanti;
                 echo ' ', $libelem, ' : ', "<input name='n$n' style='width: 6%' type='number' value='$rez' class='form-control'>";
                 $n++;

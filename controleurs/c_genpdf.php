@@ -11,6 +11,7 @@ $cumulFF = 0;
 $idVisiteur = $_SESSION['idVisiteur'];
 $leMois = $_SESSION['moissle'];
 
+$lesFraisHorsForfaitValides = getFicheDeFraisNonRefuséEnFonctionDuMois($idVisiteur, $leMois);
 $lesFraisHorsForfait = getFicheDeFraisEnFonctionDuMois($idVisiteur, $leMois);
 $lesFraisForfait = getElementForfait($idVisiteur, $leMois);
 $elem = getElementForfait($idVisiteur, $leMois);
@@ -202,7 +203,11 @@ foreach ($lesFraisHorsForfait as $fiche) {
     $montant = $fiche['montant'];
     $datemodif = $fiche['date'];
     $libelleLigne = $fiche['libelle'];
-    $cumul += $fiche['montant'];
+    foreach ($lesFraisHorsForfaitValides as $ficheValide) {
+        if($fiche['id']==$ficheValide['id']){
+            $cumul += $fiche['montant'];
+        }
+    }
     $pdf->LigneFraisHF($datemodif, utf8_decode($libelleLigne), $montant,$tailleLigne);
 }
 $pdf->Ln(8);

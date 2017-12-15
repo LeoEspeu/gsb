@@ -9,7 +9,9 @@ if (!isset($_SESSION['idComptable'])) {
     header('Location:index.php');
 }
 
+$_SESSION['MontantValide']=0;
 $coefVoiture=null;
+$coefNBVoiture=null;
 $idetat='';
 $nomselect = '';
 $nomprenomselect = '';
@@ -56,6 +58,7 @@ if (isset($_POST['listVisiteur'])) {
     }
     foreach ($voitureVisiteur as $value) {
         $coefVoiture= $value['idvoiture'];
+        $coefNBVoiture=$value['coefficient'];
     }
 }
 

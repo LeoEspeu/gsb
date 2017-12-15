@@ -546,4 +546,18 @@ class PdoGsb
         $requetePrepare->execute();
     }
     
+    public function majMontantValideFicheFrais($idVisiteur, $mois, $montant)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE ficheFrais '
+            . 'SET montantvalide = :unMontant '
+            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+            . 'AND fichefrais.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
 }
