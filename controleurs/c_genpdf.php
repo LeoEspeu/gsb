@@ -18,36 +18,24 @@ $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
 $nomprenom = getnomprenomavecid($idVisiteur);
 
-$quo=2.5;
-if (count($lesFraisHorsForfait)>6 && count($lesFraisHorsForfait)<16){
-   
-    $quo=3.5;
-}
-else if (count($lesFraisHorsForfait)<=5 && count($lesFraisHorsForfait)<=2){
-    
-    $quo=0.1;
-}
-else if (count($lesFraisHorsForfait)<=5){
-    
-    $quo=0.7;
-}
-else if (count($lesFraisHorsForfait)<=7){
-    
-    $quo=1;
-}
-else if (count($lesFraisHorsForfait)>=10){
-   
-    $quo=3.5;
-}
-else if (count($lesFraisHorsForfait)>=16){
-   
-    $quo=1.0;
-}
-$tailleLigne=count($lesFraisHorsForfait)/$quo;
+$quo = 2;
+if (count($lesFraisHorsForfait) >= 10) {
 
+    $tailleLigne = count($lesFraisHorsForfait) * $quo / 5;
+}
+if (count($lesFraisHorsForfait) < 10) {
+    if (count($lesFraisHorsForfait) <= 9) {
+        $tailleLigne = count($lesFraisHorsForfait) * $quo / 3;
+    }
+    else{
+    $tailleLigne = count($lesFraisHorsForfait) * $quo / 2;
+    }
+}
+$tailleLigne * 0.5;
 
-$dupli=EstDupli($idVisiteur,$leMois);
-AddToDupli($idVisiteur,$leMois);
+$dupli = EstDupli($idVisiteur, $leMois);
+AddToDupli($idVisiteur, $leMois);
+
 class PDF extends FPDF {
 
 // En-tête
@@ -60,10 +48,7 @@ class PDF extends FPDF {
         // Police Arial gras 15
         $this->SetFont('Times', 'B', 15);
         // Décalage à droite
-        
         // Titre
-
-        
         // Saut de ligne
     }
 
@@ -81,7 +66,7 @@ class PDF extends FPDF {
     function EnteteTableau() {
         $this->SetDrawColor(122, 147, 178);
         $this->SetFont('Times', 'BI', 11);
-        
+
         $this->Cell(40, 10, utf8_decode('Frais Forfaitaires'), 1, 0, 'C');
         $this->Cell(50, 10, utf8_decode('Quantité'), 1, 0, 'C');
         $this->Cell(50, 10, utf8_decode('Montant unitaire'), 1, 0, 'C');
@@ -89,7 +74,7 @@ class PDF extends FPDF {
         $this->SetTextColor(0, 0, 0);
     }
 
-    function Tableau($libelem, $nuiteQ, $nuit,$tailleLigne) {
+    function Tableau($libelem, $nuiteQ, $nuit, $tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->SetDrawColor(122, 147, 178);
         $this->Cell(40, $tailleLigne, utf8_decode($libelem), 1, 0, 'L');
@@ -99,7 +84,7 @@ class PDF extends FPDF {
     }
 
     function FraisHF($tailleLigne) {
-        $this->SetTextColor(122, 147, 178,$tailleLigne);
+        $this->SetTextColor(122, 147, 178, $tailleLigne);
         $this->SetFont('Times', 'BI', 11);
         $this->Cell(60, $tailleLigne, utf8_decode('Date'), 1, 0, 'C');
         $this->Cell(80, $tailleLigne, utf8_decode('Libellé'), 1, 0, 'C');
@@ -107,14 +92,14 @@ class PDF extends FPDF {
         $this->SetTextColor(0, 0, 0);
     }
 
-    function LigneFraisHF($date, $libelle, $montant,$tailleLigne) {
+    function LigneFraisHF($date, $libelle, $montant, $tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->Cell(60, $tailleLigne, $date, 1, 0, 'L');
         $this->Cell(80, $tailleLigne, $libelle, 1, 0, 'L');
         $this->Cell(40, $tailleLigne, $montant, 1, 1, 'R');
     }
 
-    function Total($date, $total,$tailleLigne) {
+    function Total($date, $total, $tailleLigne) {
         $this->setX(110);
         $this->Cell(40, $tailleLigne, 'Total : ' . $date, 1, 0, 'L');
         $this->Cell(40, $tailleLigne, $total, 1, 1, 'R');
@@ -127,7 +112,7 @@ class PDF extends FPDF {
         $this->setX(150);
         $this->Cell(40, 10, utf8_decode('Vu par l\'agent comptable'), 0, 0, 'R');
         $this->Ln(12);
-        $this->Image('../images/sig.png', 120, null, 70, 20);
+        $this->Image('../images/sig.png', 145, null, 50, 10);
     }
 
 // Pied de page
@@ -137,75 +122,70 @@ class PDF extends FPDF {
         // Police Arial italique 8
         $this->SetFont('Times', 'I', 8);
         // Numéro de page
-        
     }
-   
 
 }
 
-
-    
-if(empty($dupli)){
-$_SESSION['pdfdupli']=false;  
+if (empty($dupli)) {
+    $_SESSION['pdfdupli'] = false;
 // Instanciation de la classe dérivée
-$pdf = new PDF();
-$pdf->AliasNbPages();
-$pdf->AddPage();
+    $pdf = new PDF();
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
 
-foreach ($nomprenom as $np) {
-    $nom = $np['nom'];
-    $prenom = $np['prenom'];
-    $pdf->Resultat($prenom . ' ' . $nom, $numMois . '/' . $numAnnee, $idVisiteur);
-}
-
-
-$pdf->Ln(10);
-$pdf->SetDrawColor(122, 147, 178);
-$pdf->SetTextColor(122, 147, 178);
-$pdf->SetFont('Times', 'BI', 11);
-$pdf->Cell(180, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 1, 'C');
-$pdf->SetFont('Times', '', 11);
-
-
-$pdf->EnteteTableau();
-
-foreach ($elem as $elements) {
-
-    $quanti = $elements['quantite'];
-    $libelem = $elements['libelle'];
-    $montelem = $elements['montant'];
-    if($libelem=='Frais Kilométrique'){
-       
+    foreach ($nomprenom as $np) {
+        $nom = $np['nom'];
+        $prenom = $np['prenom'];
+        $pdf->Resultat($prenom . ' ' . $nom, $numMois . '/' . $numAnnee, $idVisiteur);
     }
-    $rez = $quanti;
-    $cumulFF += $quanti * $montelem;
 
-    $pdf->Tableau($libelem, $quanti, $montelem,$tailleLigne);
-}
-$pdf->SetTextColor(122, 147, 178);
-$pdf->SetFont('Times', 'BI', 11);
-$pdf->Cell(180, 10, 'Autres Frais', 1, 1, 'C');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->SetFont('Times', '', 11);
-$pdf->FraisHF($tailleLigne);
-foreach ($lesFraisHorsForfait as $fiche) {
 
-    $montant = $fiche['montant'];
-    $datemodif = $fiche['date'];
-    $libelleLigne = $fiche['libelle'];
-    $cumul += $fiche['montant'];
-    $pdf->LigneFraisHF($datemodif, utf8_decode($libelleLigne), $montant,$tailleLigne);
-}
-$pdf->Ln(8);
-$pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul,$tailleLigne);
-$pdf->Signature();
-$pdf->Output("../pdf/pdf".$idVisiteur.$leMois.".pdf","F");
-header('Location:../pdf/pdf'.$idVisiteur.$leMois.'.pdf');
-exit();
-}
-else{
-    
-    
-    header('Location:../pdf/pdf'.$idVisiteur.$leMois.'.pdf');
+    $pdf->Ln(10);
+    $pdf->SetDrawColor(122, 147, 178);
+    $pdf->SetTextColor(122, 147, 178);
+    $pdf->SetFont('Times', 'BI', 11);
+    $pdf->Cell(180, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 1, 'C');
+    $pdf->SetFont('Times', '', 11);
+
+
+    $pdf->EnteteTableau();
+
+    foreach ($elem as $elements) {
+
+        $quanti = $elements['quantite'];
+        $libelem = $elements['libelle'];
+        $montelem = $elements['montant'];
+        if ($libelem == 'Frais Kilométrique') {
+            
+        }
+        $rez = $quanti;
+        $cumulFF += $quanti * $montelem;
+
+        $pdf->Tableau($libelem, $quanti, $montelem, $tailleLigne);
+    }
+    $pdf->SetTextColor(122, 147, 178);
+    $pdf->SetFont('Times', 'BI', 11);
+    $pdf->Cell(180, 10, 'Autres Frais', 1, 1, 'C');
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetFont('Times', '', 11);
+    $pdf->FraisHF($tailleLigne);
+    foreach ($lesFraisHorsForfait as $fiche) {
+
+        $montant = $fiche['montant'];
+        $datemodif = $fiche['date'];
+        $libelleLigne = $fiche['libelle'];
+        $cumul += $fiche['montant'];
+        $pdf->LigneFraisHF($datemodif, utf8_decode($libelleLigne), $montant, $tailleLigne);
+    }
+    $pdf->Ln(8);
+    $pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul, $tailleLigne);
+    $pdf->Signature();
+    $pdf->Output("../pdf/pdf" . $idVisiteur . $leMois . ".pdf", "F");
+    header('Location:../pdf/pdf' . $idVisiteur . $leMois . '.pdf');
+    exit();
+} else {
+
+
+    header('Location:../pdf/pdf' . $idVisiteur . $leMois . '.pdf');
     exit();
 }
