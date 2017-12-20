@@ -481,3 +481,6 @@ INSERT INTO comptable(id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 ('m80', 'Gil', 'José', 'jgil', old_password('12345'), ' Avenue Winston Churchill', '83000', 'Toulon', '2003-10-16'),
 ('m81', 'Roche', 'Benoit', 'broche', old_password('12345'), ' Avenue Winston Churchill', '83000', 'Toulon', '2003-10-16'),
 ('m55', 'Robert', 'André', 'randre', old_password('ran55'), '9 rue de jonquille', '83000', 'Toulon', '2001-11-13');
+SET SQL_SAFE_UPDATES = 0;
+UPDATE fichefrais SET idetat='CL';
+SET SQL_SAFE_UPDATES = 1;
