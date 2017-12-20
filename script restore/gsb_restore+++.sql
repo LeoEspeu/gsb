@@ -476,6 +476,8 @@ INSERT INTO `fichefrais` (`idvisiteur`,`mois`,`nbjustificatifs`,`montantvalide`,
 
 -- Récupération des comptables
 INSERT INTO comptable(id, nom, prenom, login, mdp, adresse, cp, ville, dateembauche) VALUES
-('l100', 'espeu', 'léo', 'eleo', old_password('leo96'), '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
-('m54', 'benbahri', 'léo', 'bmehdi', old_password('mehdi20'), '8 rue de la colline', '46000', 'Cahors', '2003-10-16'),
-('f55', 'Robert', 'André', 'randre', old_password('ran55'), '9 rue de jonquille', '83000', 'Toulon', '2001-11-13');
+('m13', 'espeu', 'léo', 'eleo', old_password('leo96'), '8 rue des Charmes', '46000', 'Cahors', '2005-12-21'),
+('m54', 'benbahri', 'mehdi', 'bmehdi', old_password('12345'), '8 rue de la colline', '46000', 'Cahors', '2003-10-16'),
+('m80', 'Gil', 'José', 'jgil', old_password('12345'), ' Avenue Winston Churchill', '83000', 'Toulon', '2003-10-16'),
+('m81', 'Roche', 'Benoit', 'broche', old_password('12345'), ' Avenue Winston Churchill', '83000', 'Toulon', '2003-10-16'),
+('m55', 'Robert', 'André', 'randre', old_password('ran55'), '9 rue de jonquille', '83000', 'Toulon', '2001-11-13');
