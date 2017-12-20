@@ -35,7 +35,12 @@ $dupli = EstDupli($idVisiteur, $leMois);
 AddToDupli($idVisiteur, $leMois);
 
 
-
+//vérification si le pdf existe déjà si non il lance tout le script de vérification 
+//si oui pas besoin de regénéré le pdf on redirige l'utilisateur vers une copie
+//qui existe sur le serveur.
+//Ici on instancie un object de la class pdf (dans le dossier "includes") qui est une classe
+//Héritière de la class FPDF (voir la doc de ce dernier)
+//Ensuite on appelle une à une les fonctions d'une classe
 if (empty($dupli)) {
     $_SESSION['pdfdupli'] = false;
 // Instanciation de la classe dérivée
@@ -97,13 +102,14 @@ if (empty($dupli)) {
         $pdf->Signature();
     }
     
-
+    //enregistrement du PDF
     $pdf->Output("../pdf/pdf" . $idVisiteur . $leMois . ".pdf", "F");
+    //redirection après l'enregistrement pour lui montrer le pdf
     header('Location:../pdf/pdf' . $idVisiteur . $leMois . '.pdf');
     exit();
 } else {
 
-
+    // redirection au cas ou le pdf existe déjà
     header('Location:../pdf/pdf' . $idVisiteur . $leMois . '.pdf');
     exit();
 }

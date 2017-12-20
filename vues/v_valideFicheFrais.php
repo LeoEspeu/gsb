@@ -10,6 +10,12 @@
 <?php
 $nb = 0;
 $n = 1;
+
+//Gestion des Alertes:
+//$_SESSION['ok'] Va se voir attribuer un nombre dans le controleur (c_valideFicheFrais) : 0 si ça s'est bien passé
+// 1 si le message à déjà été montrer.
+// -1 si il n'y a pas d'utilisateur séléctionner
+// tout le reste sont des messages d'erreur détaillé en bas.
 if (isset($_SESSION['ok'])) {
     if ($_SESSION['ok'] === 0) {
         ?>
@@ -102,6 +108,7 @@ if (isset($_SESSION['ok'])) {
         $_SESSION['ok'] = 1;
     }
 }
+//Message d'erreur au cas: 
 if ($idetat != 'CL' && $idetat != '') {
     ?>
     <div class="alert alert-danger alert-dismissable">

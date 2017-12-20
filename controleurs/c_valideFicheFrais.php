@@ -8,7 +8,7 @@
 if (!isset($_SESSION['idComptable'])) {
     header('Location:index.php');
 }
-
+//récupération de toute les variable ou initialisation de celle ci:
 $_SESSION['MontantValide']=0;
 $coefVoiture=null;
 $coefNBVoiture=null;

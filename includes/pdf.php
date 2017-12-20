@@ -16,7 +16,7 @@ class PDF extends FPDF {
         // Saut de ligne
         $this->Ln(20);
     }
-
+//Affiche le resultat
     function Resultat($visiteur, $mois, $idVisiteur) {
         // Positionnement au millieu
         $this->SetY(60);
@@ -27,7 +27,7 @@ class PDF extends FPDF {
         $this->Cell(125, 10, '', 0, 0, 'C');
         // Saut de ligne
     }
-
+//Affiche l'entête du table qui affiche les ligne de frais de frais forfait
     function EnteteTableau() {
         $this->SetDrawColor(122, 147, 178);
         $this->SetFont('Times', 'BI', 11);
@@ -38,7 +38,7 @@ class PDF extends FPDF {
         $this->Cell(40, 10, utf8_decode('Total'), 1, 1, 'C');
         $this->SetTextColor(0, 0, 0);
     }
-
+//Affiche de les ligne de frais de frais forfait
     function Tableau($libelem, $nuiteQ, $nuit, $tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->SetDrawColor(122, 147, 178);
@@ -47,7 +47,7 @@ class PDF extends FPDF {
         $this->Cell(50, $tailleLigne, $nuit, 1, 0, 'R');
         $this->Cell(40, $tailleLigne, $nuit * $nuiteQ, 1, 1, 'R');
     }
-
+//Affiche l'entête du table qui affiche les ligne de frais de frais hors forfait
     function FraisHF($tailleLigne) {
         $this->SetTextColor(122, 147, 178, $tailleLigne);
         $this->SetFont('Times', 'BI', 11);
@@ -56,20 +56,20 @@ class PDF extends FPDF {
         $this->Cell(40, $tailleLigne, utf8_decode('Montant'), 1, 1, 'C');
         $this->SetTextColor(0, 0, 0);
     }
-
+//Affiche de les ligne de frais de frais hors forfait
     function LigneFraisHF($date, $libelle, $montant, $tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->Cell(60, $tailleLigne, $date, 1, 0, 'L');
         $this->Cell(80, $tailleLigne, $libelle, 1, 0, 'L');
         $this->Cell(40, $tailleLigne, $montant, 1, 1, 'R');
     }
-
+//Fonction afficher le total en pied de page 
     function Total($date, $total, $tailleLigne) {
         $this->setX(110);
         $this->Cell(40, $tailleLigne, 'Total : ' . $date, 1, 0, 'L');
         $this->Cell(40, $tailleLigne, $total, 1, 1, 'R');
     }
-
+//Fonction pour la signature
     function Signature() {
         $this->Ln(12);
         $this->setX(150);
