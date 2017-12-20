@@ -13,6 +13,9 @@ $numAnnee = Null;
 $lesMois = getMoisVisiteur();
 $pagesMois = count($lesMois);
 
+/**
+ * Action mettant en payement puis en remboursement une fiche de frais
+ */
 if (isset($_POST['payer'])) {
     $nomprenomselect = $_SESSION['cocher'];
     list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
@@ -30,6 +33,10 @@ if (isset($_POST['payer'])) {
         }
     }
 }
+
+/**
+ * Boucle permettant de "devalider" une fiche de frais
+ */
 for ($index1 = 0; $index1 < count($lesMois); $index1++) {
     if (isset($_POST['deval' . $index1])) {
         $btndeval = 'deval' . $index1;
@@ -47,12 +54,21 @@ for ($index1 = 0; $index1 < count($lesMois); $index1++) {
     }
 }
 
+/**
+ * Si on selectionne un nouvel utilisateur ,on revient la premiére page de mois
+ */
 if(!isset($_POST['precedent']) && !isset($_POST['suivant']) && !isset($_POST['cocher']) && !isset($_POST['payer']) && !isset($_POST[$btndeval])){
     $_SESSION['page'] =0;
 }
+/**
+ * On va sur la page affichant les mois qui précedent
+ */
 elseif (isset ($_POST['precedent']) && !isset($_POST['cocher']) && !isset($_POST['payer']) && !isset($_POST[$btndeval])) {
     $_SESSION['page'] -=10;
 }
+/**
+ * On va sur la page affichant la suite des mois
+ */
  elseif (!isset($_POST['cocher']) && !isset($_POST['payer']) && !isset($_POST[$btndeval])) {
     $_SESSION['page'] +=10;
 }
