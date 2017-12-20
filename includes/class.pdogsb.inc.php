@@ -546,6 +546,12 @@ class PdoGsb
         $requetePrepare->execute();
     }
     
+    /**
+     * 
+     * @param type $idVisiteur Id du visiteur
+     * @param type $mois       Mois de la fiche de frais
+     * @param type $montant    Nouveau montant validé
+     */
     public function majMontantValideFicheFrais($idVisiteur, $mois, $montant)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(

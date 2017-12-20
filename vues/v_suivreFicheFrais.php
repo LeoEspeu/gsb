@@ -1,3 +1,23 @@
+<?php
+
+if (isset($_SESSION['ok'])) {
+    if ($_SESSION['ok'] == 16) {
+        ?>
+                <div class="alert alert-success alert-dismissable">
+                    Fiche de frais mis en payement avec succés. 
+                </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    } elseif ($_SESSION['ok'] == 17){
+        ?>
+                <div class="alert alert-success alert-dismissable">
+                    Fiche de frais dévalidés avec succés. 
+                </div>
+        <?php
+        $_SESSION['ok'] = 1;
+    }
+}
+?>
 <form action="index.php?uc=suivreFrais&action=confirmerFrais" method="post">
     <div class="input-group">
         <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-user"></span> Choix du visiteur</span>

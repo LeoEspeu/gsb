@@ -26,6 +26,7 @@ if (isset($_POST['payer'])) {
             fairePayement($monId, $_POST['case' . $index]);
             faireremboursement($monId, $_POST['case' . $index]);
             majdatedemodification($monId, $_POST['case' . $index]);
+            $_SESSION['ok'] = 16;
         }
     }
 }
@@ -41,6 +42,7 @@ for ($index1 = 0; $index1 < count($lesMois); $index1++) {
         }
         fairedevalider($monId, $_POST[$btndeval]);
         majdatedemodification($monId, $_POST[$btndeval]);
+        $_SESSION['ok'] = 17;
         $pdo->majMontantValideFicheFrais($monId,$_POST[$btndeval],0);
     }
 }

@@ -66,7 +66,7 @@ if (empty($dupli)) {
         $libelem = $elements['libelle'];
         $montelem = $elements['montant'];
         if ($libelem == 'Frais Kilométrique') {
-            
+            $montelem +=$coefVoiture;
         }
         $rez = $quanti;
         $cumulFF += $quanti * $montelem;
@@ -84,12 +84,18 @@ if (empty($dupli)) {
         $montant = $fiche['montant'];
         $datemodif = $fiche['date'];
         $libelleLigne = $fiche['libelle'];
-        $cumul += $fiche['montant'];
+        foreach ($lesFraisHorsForfaitValides as $ficheValide) {
+            if($fiche['id']==$ficheValide['id']){
+                $cumul += $fiche['montant'];
+            }
+        }
         $pdf->LigneFraisHF($datemodif, utf8_decode($libelleLigne), $montant, $tailleLigne);
     }
     $pdf->Ln(8);
     $pdf->Total($numMois . '/' . $numAnnee, $cumulFF + $cumul, $tailleLigne);
-    $pdf->Signature();
+    if($idEtatFiche=='RB'){
+        $pdf->Signature();
+    }
     
 
     $pdf->Output("../pdf/pdf" . $idVisiteur . $leMois . ".pdf", "F");

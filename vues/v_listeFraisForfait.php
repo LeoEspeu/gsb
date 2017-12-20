@@ -46,25 +46,25 @@
                     <div class="radio">
                         <label>
                             <input type="radio" name="voiture" id="optionsRadios1" value="1" <?php if($maVoiture==1){echo 'checked';} ?>>                            
-                            (Véhicule  4CV Diesel) 0.52 € / Km
+                            Véhicule  4CV Diesel
                         </label>
                     </div>
                     <div class="radio">
                         <label>
                             <input type="radio" name="voiture" id="optionsRadios1" value="2" <?php if($maVoiture==2){echo 'checked';} ?>>
-                            (Véhicule 5/6CV Diesel) 0.58 € / Km
+                            Véhicule 5/6CV Diesel
                         </label>
                     </div>
                     <div class="radio">
                         <label>
                             <input type="radio" name="voiture" id="optionsRadios1" value="3" <?php if($maVoiture==3){echo 'checked';}?>>
-                            (Véhicule  4CV Essence) 0.62 € / Km
+                            Véhicule  4CV Essence
                         </label>
                     </div>
                     <div class="radio">
                         <label>
                             <input type="radio" name="voiture" id="optionsRadios1" value="4" <?php if($maVoiture==4){echo 'checked';} ?>>
-                            (Véhicule 5/6CV Essence) 0.67 € / Km
+                            Véhicule 5/6CV Essence
                         </label>
                     </div>
                 </div>

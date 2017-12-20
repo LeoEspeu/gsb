@@ -24,6 +24,11 @@ function estConnecte() {
     return isset($_SESSION['idVisiteur']);
 }
 
+/**
+ * Teste si un comptable est connecté
+ * 
+ * @return vrai ou faux
+ */
 function estConnecteComptable() {
     return isset($_SESSION['idComptable']);
 }
@@ -261,6 +266,12 @@ function getMoisVisiteur() {
     return $lesMois;
 }
 
+/**
+ * Méthode permettant d'obtenir les mois des fiche de frais cloturé
+ * 
+ * @param Id du visiteur
+ * @return Retourne une liste de mois 
+ */
 function getMoisVisiteurCloture($id) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -343,6 +354,12 @@ function getFicheDeFraisNonRefuséEnFonctionDuMois($id, $mois) {
     return $lesFichesFull;
 }
 
+/**
+ * Retourne le nombre de justificatifs en fonction du mois et du visiteur
+ * 
+ * @param Id du visiteur et mois de la fiche de frais
+ * @return type
+ */
 function getNbJustificatif($id, $mois) {
 
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
@@ -364,6 +381,12 @@ function getNbJustificatif($id, $mois) {
     }
 }
 
+/**
+ *  Retourne les frais hors-forfaits en fonction du mois et du visiteur
+ * 
+ * @param Id du visiteur et mois de la fiche de frais
+ * @return Liste de frais hors-forfaits ou message d'erreur
+ */
 function getElementForfait($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -428,6 +451,11 @@ function faireremboursement($id, $mois) {
     $res->execute();
 }
 
+/**
+ * Passe une fiche de frais de l'état de validé à cloturé
+ * 
+ * @param Id du visiteur et mois de la fiche de frais
+ */
 function fairedevalider($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -436,6 +464,11 @@ function fairedevalider($id, $mois) {
     $res->execute();
 }
 
+/**
+ * Met à jour la date de modification de la fiche de frais à la date d'aujourd'hui
+ * 
+ * @param Id du visiteur et mois de la fiche de frais
+ */
 function majdatedemodification($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -444,6 +477,14 @@ function majdatedemodification($id, $mois) {
     $res->execute();
 }
 
+/**
+ * Met à jour le libellé du frais hors-forfait
+ * 
+ * @param Nouveau libellé 
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ * @param Id du frais hors-forfait
+ */
 function majlibelle($arrlib, $id, $lemois, $idFiche) {
 
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
@@ -462,6 +503,14 @@ function majlibelle($arrlib, $id, $lemois, $idFiche) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour la date du frais hors-forfait
+ * 
+ * @param Nouvelle date
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ * @param Id du frais hors-forfait
+ */
 function majdate($arrdate, $id, $lemois, $idFiche) {
 
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
@@ -480,6 +529,14 @@ function majdate($arrdate, $id, $lemois, $idFiche) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour le montant du frais hors-forfait
+ * 
+ * @param Nouveau montant du frais hors-forfait
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ * @param Id du frais hors-forfait
+ */
 function majmont($arrmont, $id, $lemois, $idFiche) {
 
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
@@ -498,6 +555,12 @@ function majmont($arrmont, $id, $lemois, $idFiche) {
     $requetePrepare->execute();
 }
 
+/**
+ * Passe une fiche de frais de l'état de cloturé à validé
+ * 
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ */
 function validerUneFicheDeFais($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -506,6 +569,13 @@ function validerUneFicheDeFais($id, $mois) {
     $res->execute();
 }
 
+/**
+ * Met à jour la quantité des frais d'étape en fonction du mois et du visiteur
+ * 
+ * @param Nouvelle quantité des frais d'étape
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ */
 function majetp($quant, $id, $lemois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -529,6 +599,13 @@ function majetp($quant, $id, $lemois) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour la quantité de frais kilométrique en fonction du mois et du visiteur
+ * 
+ * @param Nouvelle quantité de frais kilométrique
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ */
 function majkm($quant, $id, $lemois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -552,6 +629,13 @@ function majkm($quant, $id, $lemois) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour la quantité de frais de nuitée en fonction du mois et du visiteur
+ * 
+ * @param Nouvelle quantité de frais de nuitée
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ */
 function majnuit($quant, $id, $lemois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -575,6 +659,13 @@ function majnuit($quant, $id, $lemois) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour la quantité de frais de repas en fonction du mois et du viditeur
+ * 
+ * @param Nouvelle quantité de frais de repas
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ */
 function majrep($quant, $id, $lemois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -598,6 +689,13 @@ function majrep($quant, $id, $lemois) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour la quantité de justificatifs en fonction du mois et du visiteur
+ * 
+ * @param Nouvelle quantité de justificatifs
+ * @param Id du visiteur
+ * @param Mois du frais hors-forfait
+ */
 function majnj($quant, $id, $lemois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -618,6 +716,13 @@ function majnj($quant, $id, $lemois) {
     $requetePrepare->execute();
 }
 
+/**
+ * Met à jour la voiture utilisée en fonction du mois et du visiteur
+ * 
+ * @param Id du visiteur
+ * @param Mois du frais hors
+ * @param Libellé de la nouvelle voiture
+ */
 function majvoiture($id, $lemois, $libvoiture) {
     $libvoiture = '%' . $libvoiture . '%';
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
@@ -634,6 +739,16 @@ function majvoiture($id, $lemois, $libvoiture) {
     $requetePrepare->execute();
 }
 
+/**
+ * Controle l'etat des valeurs des frais hors forfaits saisis 
+ * 
+ * @param nuit
+ * @param repas
+ * @param route
+ * @param etape
+ * @param justificatif
+ * @return Valeur correspondant à une erreur ou si il n'y a rien 
+ */
 function ControleInfosFrais($nuit, $repas, $route, $etape, $justificatif) {
     if ($nuit == NULL || $repas == NULL || $route == NULL || $etape == NULL || $justificatif == NULL) {
         if ($nuit < 0 || $repas < 0 || $route < 0 || $etape < 0 || $justificatif < 0) {
@@ -647,6 +762,14 @@ function ControleInfosFrais($nuit, $repas, $route, $etape, $justificatif) {
     return 0;
 }
 
+/**
+ * Controle l'etat des valeurs des frais saisis 
+ * 
+ * @param dateFrais
+ * @param libelle
+ * @param montant
+ * @return Valeur correspondant à une erreur ou si il n'y a rien 
+ */
 function valideInfosFraisRetour($dateFrais, $libelle, $montant) {
     if ($dateFrais == '') {
         //return 'Le champ date ne doit pas être vide';
@@ -675,6 +798,12 @@ function valideInfosFraisRetour($dateFrais, $libelle, $montant) {
     return 0;
 }
 
+/**
+ * Retourne le nom et prénom du visiteur en fonction de son id
+ * 
+ * @param type $ide
+ * @return Nom et prenom du visiteur
+ */
 function getnomprenomavecid($ide) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -684,6 +813,14 @@ function getnomprenomavecid($ide) {
     return $lesLignes;
 }
 
+/**
+ * Met à jour le mois d'un frais hors-forfait
+ * 
+ * @param arrdate
+ * @param id
+ * @param laDate
+ * @param idFiche
+ */
 function majmois($arrdate, $id, $laDate, $idFiche) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -701,6 +838,12 @@ function majmois($arrdate, $id, $laDate, $idFiche) {
     $requetePrepare->execute();
 }
 
+/**
+ * Retourne le mois correspondant à la derniére fiche de frais cloturé d'un visiteur
+ * 
+ * @param Id du visiteur
+ * @return Retourne un mois
+ */
 function maxAnneeVisiteur($id) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -713,6 +856,11 @@ function maxAnneeVisiteur($id) {
     return $an;
 }
 
+/**
+ * Ajoute un pdf duppliqué en fonction du mois et du visiteur
+ * 
+ * @param Id du visiteur et mois de la fiche de frais
+ */
 function AddToDupli($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
@@ -723,6 +871,12 @@ function AddToDupli($id, $mois) {
     $res->execute();
 }
 
+/**
+ * Détermine si le pdf est dupliqué ou non en fonction du mois et de l'id du visiteur
+ * 
+ * @param Id du visiteur et mois de la fiche de frai
+ * @return Retourne vrais ou faux selon si le pdf est duppliqué
+ */
 function EstDupli($id, $mois) {
     $pdoSansParam = new PDO('mysql:host=localhost;dbname=gsb_frais', 'root', '');
     $pdoSansParam->query('SET CHARACTER SET utf8');
