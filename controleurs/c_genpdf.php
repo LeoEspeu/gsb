@@ -12,16 +12,16 @@ $cumulFF = 0;
 $idVisiteur = $_SESSION['idVisiteur'];
 $leMois = $_SESSION['moissle'];
 
-$lesFraisHorsForfaitValides = getFicheDeFraisNonRefuséEnFonctionDuMois($idVisiteur, $leMois);
-$lesFraisHorsForfait = getFicheDeFraisEnFonctionDuMois($idVisiteur, $leMois);
-$lesFraisForfait = getElementForfait($idVisiteur, $leMois);
-$elem = getElementForfait($idVisiteur, $leMois);
+$lesFraisHorsForfaitValides = $pdo->getFicheDeFraisNonRefuséEnFonctionDuMois($idVisiteur, $leMois);
+$lesFraisHorsForfait = $pdo->getFicheDeFraisEnFonctionDuMois($idVisiteur, $leMois);
+$lesFraisForfait = $pdo->getElementForfait($idVisiteur, $leMois);
+$elem = $pdo->getElementForfait($idVisiteur, $leMois);
 $numAnnee = substr($leMois, 0, 4);
 $numMois = substr($leMois, 4, 2);
-$nomprenom = getnomprenomavecid($idVisiteur);
+$nomprenom = $pdo->getnomprenomavecid($idVisiteur);
 
 $voitureMois = $pdo->ObtenirVoiture($idVisiteur, $leMois);
-$MoisFicheFrais = estFicheValide($idVisiteur, $leMois);
+$MoisFicheFrais = $pdo->estFicheValide($idVisiteur, $leMois);
 foreach ($MoisFicheFrais as $idEtat) {
     $idEtatFiche = $idEtat['idetat'];
 }
@@ -31,8 +31,8 @@ foreach ($voitureMois as $coef) {
 
 $tailleLigne = 7;
 
-$dupli = EstDupli($idVisiteur, $leMois);
-AddToDupli($idVisiteur, $leMois);
+$dupli = $pdo->EstDupli($idVisiteur, $leMois);
+$pdo->AddToDupli($idVisiteur, $leMois);
 
 
 //vérification si le pdf existe déjà si non il lance tout le script de vérification 

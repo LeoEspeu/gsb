@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS lignefraisforfait (
 
 CREATE TABLE IF NOT EXISTS duplicata (
   `idduplicata` INT NOT NULL,
-  `idvisiteur` INT NOT NULL,
-  `datepdf` VARCHAR(45) NULL,
+  `idvisiteur` char(4) NULL,
+  `datepdf` char(6) NULL,
   PRIMARY KEY (`idduplicata`));
 ALTER TABLE duplicata 
 CHANGE COLUMN `idduplicata` `idduplicata` INT(11) NOT NULL AUTO_INCREMENT ;

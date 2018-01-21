@@ -37,7 +37,7 @@ if (isset($_POST['listVisiteur'])) {
 
   
 
-    $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
+    $idDuVisiteur = $pdo->getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
 
     foreach ($idDuVisiteur as $uneId) {
         $uneId = $idDuVisiteur['id'];
@@ -46,11 +46,11 @@ if (isset($_POST['listVisiteur'])) {
 
 
 
-    $lesFichesFull = getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
+    $lesFichesFull = $pdo->getFicheDeFraisEnFonctionDuMois($uneId, $moisBDD);
     echo '<br><br>';
-    $nbJustifi= getNbJustificatif($uneId, $moisBDD);
-    $elem= getElementForfait($uneId, $moisBDD);
-    $idetatVisiteur= estFicheValide($uneId, $moisBDD);
+    $nbJustifi= $pdo->getNbJustificatif($uneId, $moisBDD);
+    $elem= $pdo->getElementForfait($uneId, $moisBDD);
+    $idetatVisiteur= $pdo->estFicheValide($uneId, $moisBDD);
     $voitureVisiteur = $pdo->ObtenirVoiture($uneId, $moisBDD);
     $idetat='';
     foreach ($idetatVisiteur as $value) {
@@ -63,7 +63,7 @@ if (isset($_POST['listVisiteur'])) {
     
 }
 
-$lesMois = getMoisVisiteur();
-$lesVisiteurs = getLesVisiteursAvecFicheDeFrais();
+$lesMois = $pdo->getMoisVisiteur();
+$lesVisiteurs = $pdo->getLesVisiteursAvecFicheDeFrais();
 
 require './vues/v_valideFicheFrais.php';

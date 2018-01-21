@@ -23,8 +23,8 @@ $max = 1;
 
 $id = $_POST['leID'];
 $lemois = $_POST['unmois'];
-$lesFichesFull = getFicheDeFraisEnFonctionDuMois($id, $lemois);
-$lesMois = getMoisVisiteurCloture($id);
+$lesFichesFull = $pdo->getFicheDeFraisEnFonctionDuMois($id, $lemois);
+$lesMois = $pdo->getMoisVisiteurCloture($id);
 
 foreach ($lesFichesFull as $fiche) {
 
@@ -61,10 +61,10 @@ if (isset($_POST["$j"])) {
                         if ($lemois < $moisCourant) {
                             $dateFraisHorsForfait = $date = filter_input(INPUT_POST, "date" . $index, FILTER_SANITIZE_SPECIAL_CHARS);
                             $montantDeduit = $montant = filter_input(INPUT_POST, "mont". $index, FILTER_SANITIZE_NUMBER_FLOAT);
-                            majmois($lesMois[$index1]['mois'], $id, $dateFraisHorsForfait, $idFiche[$index - 1]);
+                            $pdo->majmois($lesMois[$index1]['mois'], $id, $dateFraisHorsForfait, $idFiche[$index - 1]);
                             $_SESSION['moisreport'] = $lesMois[$index1]['mois'];
-                            majdatedemodification($id, $lemois);
-                            majdatedemodification($id, $_SESSION['moisreport']);
+                            $pdo->majdatedemodification($id, $lemois);
+                            $pdo->majdatedemodification($id, $_SESSION['moisreport']);
                             $_SESSION['ok'] = 15;
                             header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
                             exit();
@@ -72,14 +72,14 @@ if (isset($_POST["$j"])) {
                     }
                 }
                 if ($cloture == false) {
-                    $dernierMois = maxAnneeVisiteur($id);
+                    $dernierMois = $pdo->maxAnneeVisiteur($id);
                     $numAnnee = substr($dernierMois, 0, -2);
                     $numMois = substr($dernierMois, -2);
                     if ($numMois == '12') {
                         $anneeValNewFiche = intval($numAnnee) + 1;
                         $anneeStringNewFiche = $anneeValNewFiche . '01';
                         $pdo->creeNouvellesLignesFrais($id, $anneeStringNewFiche);
-                        $lesMois = getMoisVisiteurCloture($id);
+                        $lesMois = $pdo->getMoisVisiteurCloture($id);
                     } else {
                         if (intval($numMois + 1) >= 10) {
                             $anneeStringNewFiche = $numAnnee . intval($numMois + 1);
@@ -87,7 +87,7 @@ if (isset($_POST["$j"])) {
                             $anneeStringNewFiche = $numAnnee . '0' . intval($numMois + 1);
                         }
                         $pdo->creeNouvellesLignesFrais($id, $anneeStringNewFiche);
-                        $lesMois = getMoisVisiteurCloture($id);
+                        $lesMois = $pdo->getMoisVisiteurCloture($id);
                     }
                 }
             }
@@ -120,26 +120,26 @@ if (isset($_POST["$j"])) {
 
 
         //on peut envoyer dans la BDD
-        majlibelle($arrlib[$i], $id, $lemois, $idFiche[$o]);
+        $pdo->majlibelle($arrlib[$i], $id, $lemois, $idFiche[$o]);
 
-        majdate($arrdate[$i], $id, $lemois, $idFiche[$o]);
+        $pdo->majdate($arrdate[$i], $id, $lemois, $idFiche[$o]);
 
-        majmont($arrmont[$i], $id, $lemois, $idFiche[$o]);
+        $pdo->majmont($arrmont[$i], $id, $lemois, $idFiche[$o]);
 
-        validerUneFicheDeFais($id, $lemois);
+        $pdo->validerUneFicheDeFais($id, $lemois);
 
-        majetp($etp, $id, $lemois);
-        majkm($km, $id, $lemois);
-        majnuit($nui, $id, $lemois);
-        majrep($rep, $id, $lemois);
-        majnj($nbjour, $id, $lemois);
-        majvoiture($id, $lemois, $voiture);
-        majdatedemodification($id, $lemois);
+        $pdo->majetp($etp, $id, $lemois);
+        $pdo->majkm($km, $id, $lemois);
+        $pdo->majnuit($nui, $id, $lemois);
+        $pdo->majrep($rep, $id, $lemois);
+        $pdo->majnj($nbjour, $id, $lemois);
+        $pdo->majvoiture($id, $lemois, $voiture);
+        $pdo->majdatedemodification($id, $lemois);
 
         $i++;
         $o++;
     }
-    $lesFichesFull = getFicheDeFraisNonRefuséEnFonctionDuMois($id, $lemois);
+    $lesFichesFull = $pdo->getFicheDeFraisNonRefuséEnFonctionDuMois($id, $lemois);
     foreach ($lesFichesFull as $value) {
         $_SESSION['MontantValide']+=$value['montant'];
     }
@@ -157,14 +157,14 @@ if (isset($_POST["$j"])) {
         header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
         exit();
     }
-    majetp($etp, $id, $lemois);
-    majkm($km, $id, $lemois);
-    majnuit($nui, $id, $lemois);
-    majrep($rep, $id, $lemois);
-    majnj($nbjour, $id, $lemois);
-    majvoiture($id, $lemois, $voiture);
-    majdatedemodification($id, $lemois);
-    validerUneFicheDeFais($id, $lemois);
+    $pdo->majetp($etp, $id, $lemois);
+    $pdo->majkm($km, $id, $lemois);
+    $pdo->majnuit($nui, $id, $lemois);
+    $pdo->majrep($rep, $id, $lemois);
+    $pdo->majnj($nbjour, $id, $lemois);
+    $pdo->majvoiture($id, $lemois, $voiture);
+    $pdo->majdatedemodification($id, $lemois);
+    $pdo->validerUneFicheDeFais($id, $lemois);
     $pdo->majMontantValideFicheFrais($id,$lemois,$_SESSION['MontantValide']);
 }
 

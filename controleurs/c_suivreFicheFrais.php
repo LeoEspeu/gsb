@@ -10,7 +10,7 @@ if (!isset($_SESSION['cocher'])) {
 }
 $nomprenomselect = '';
 $numAnnee = Null;
-$lesMois = getMoisVisiteur();
+$lesMois = $pdo->getMoisVisiteur();
 $pagesMois = count($lesMois);
 
 /**
@@ -19,16 +19,16 @@ $pagesMois = count($lesMois);
 if (isset($_POST['payer'])) {
     $nomprenomselect = $_SESSION['cocher'];
     list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
-    $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
+    $idDuVisiteur = $pdo->getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
     $monId = '';
     foreach ($idDuVisiteur as $value) {
         $monId = $idDuVisiteur['id'];
     }
     for ($index = 0; $index < count($lesMois); $index++) {
         if (isset($_POST['case' . $index])) {
-            fairePayement($monId, $_POST['case' . $index]);
-            faireremboursement($monId, $_POST['case' . $index]);
-            majdatedemodification($monId, $_POST['case' . $index]);
+            $pdo->fairePayement($monId, $_POST['case' . $index]);
+            $pdo->faireremboursement($monId, $_POST['case' . $index]);
+            $pdo->majdatedemodification($monId, $_POST['case' . $index]);
             $_SESSION['ok'] = 16;
         }
     }
@@ -42,13 +42,13 @@ for ($index1 = 0; $index1 < count($lesMois); $index1++) {
         $btndeval = 'deval' . $index1;
         $nomprenomselect = $_SESSION['cocher'];
         list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
-        $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
+        $idDuVisiteur = $pdo->getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
         $monId = '';
         foreach ($idDuVisiteur as $value) {
             $monId = $idDuVisiteur['id'];
         }
-        fairedevalider($monId, $_POST[$btndeval]);
-        majdatedemodification($monId, $_POST[$btndeval]);
+        $pdo->fairedevalider($monId, $_POST[$btndeval]);
+        $pdo->majdatedemodification($monId, $_POST[$btndeval]);
         $_SESSION['ok'] = 17;
         $pdo->majMontantValideFicheFrais($monId,$_POST[$btndeval],0);
     }
@@ -74,6 +74,6 @@ elseif (isset ($_POST['precedent']) && !isset($_POST['cocher']) && !isset($_POST
 }
 
 $_SESSION['MontantValide']=0;
-$lesVisiteurs = getLesVisiteursAvecFicheDeFrais();
+$lesVisiteurs = $pdo->getLesVisiteursAvecFicheDeFrais();
 require './vues/v_suivreFicheFrais.php';
 ?>

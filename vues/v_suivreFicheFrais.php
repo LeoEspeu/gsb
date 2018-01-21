@@ -81,7 +81,7 @@ if (isset($_SESSION['ok'])) {
                     $moisBDD = preg_replace('#/#', '', $moisSelect);
                     list($nomselect, $prenomselect) = explode(" ", $nomprenomselect, 2);
 
-                    $idDuVisiteur = getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
+                    $idDuVisiteur = $pdo->getIdVisiteurAPartirDuNomEtDuPrenom($nomselect);
 
                     foreach ($idDuVisiteur as $uneId) {
                         $uneId = $idDuVisiteur['id'];
@@ -90,15 +90,15 @@ if (isset($_SESSION['ok'])) {
                     foreach ($monvisiteur as $value) {
                         $maVoiture = $value['coefficient'];
                     }
-                    $lesFichesFull = getFicheDeFraisNonRefuséEnFonctionDuMois($uneId, $moisBDD);
-                    $fichesValide = estFicheValide($uneId, $moisBDD);
+                    $lesFichesFull = $pdo->getFicheDeFraisNonRefuséEnFonctionDuMois($uneId, $moisBDD);
+                    $fichesValide = $pdo->estFicheValide($uneId, $moisBDD);
                     $monIdetatFiche = '';
                     foreach ($fichesValide as $value) {
                         $monIdetatFiche = $value['idetat'];
                     }
 
-                    $nbJustifi = getNbJustificatif($uneId, $moisBDD);
-                    $elem = getElementForfait($uneId, $moisBDD);
+                    $nbJustifi = $pdo->getNbJustificatif($uneId, $moisBDD);
+                    $elem = $pdo->getElementForfait($uneId, $moisBDD);
                     ?>
                     <tr>
                         <?php
@@ -165,7 +165,7 @@ if (isset($_SESSION['ok'])) {
                         ?>
 
                         <?php
-                        $nbJustifi = getNbJustificatif($uneId, $moisBDD);
+                        $nbJustifi = $pdo->getNbJustificatif($uneId, $moisBDD);
                         $nbJ = $nbJustifi[0]['nbjustificatifs'];
                         if ($elem != NULL && $monIdetatFiche == 'VA') {
                             echo '<th style="text-align: center"> <h4>', $nbJ, '</h4></th> ';

@@ -1,8 +1,12 @@
 <?php
-
+/**
+ * Classe permettant de générer le PDF d'une fiche de frais 
+ */
 class PDF extends FPDF {
 
-// En-tête
+    /**
+     * Génération du header du PDf
+     */
     function Header() {
         $this->SetDrawColor(122, 147, 178);
         $this->SetTextColor(122, 147, 178);
@@ -16,7 +20,13 @@ class PDF extends FPDF {
         // Saut de ligne
         $this->Ln(20);
     }
-//Affiche le resultat
+    
+    /**
+     * 
+     * @param type $visiteur    Nom et Prénom du visiteur
+     * @param type $mois        Mois de la fiche de frais du visiteur
+     * @param type $idVisiteur  Id du visiteur
+     */
     function Resultat($visiteur, $mois, $idVisiteur) {
         // Positionnement au millieu
         $this->SetY(60);
@@ -27,7 +37,10 @@ class PDF extends FPDF {
         $this->Cell(125, 10, '', 0, 0, 'C');
         // Saut de ligne
     }
-//Affiche l'entête du table qui affiche les ligne de frais de frais forfait
+    
+    /**
+     * Affiche l'entête du table qui affiche les ligne de frais de frais forfait
+     */
     function EnteteTableau() {
         $this->SetDrawColor(122, 147, 178);
         $this->SetFont('Times', 'BI', 11);
@@ -38,7 +51,14 @@ class PDF extends FPDF {
         $this->Cell(40, 10, utf8_decode('Total'), 1, 1, 'C');
         $this->SetTextColor(0, 0, 0);
     }
-//Affiche de les ligne de frais de frais forfait
+    
+    /**
+     * Affiche de les ligne de frais de frais forfait
+     * @param type $libelem      Libellé du frais forfait
+     * @param type $nuiteQ       Quantité du frais forfait
+     * @param type $nuit         Montant forfaitaire
+     * @param type $tailleLigne  Taille de la ligne du tableau
+     */
     function Tableau($libelem, $nuiteQ, $nuit, $tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->SetDrawColor(122, 147, 178);
@@ -47,7 +67,11 @@ class PDF extends FPDF {
         $this->Cell(50, $tailleLigne, $nuit, 1, 0, 'R');
         $this->Cell(40, $tailleLigne, $nuit * $nuiteQ, 1, 1, 'R');
     }
-//Affiche l'entête du table qui affiche les ligne de frais de frais hors forfait
+    
+    /**
+     * Affiche l'entête du table qui affiche les ligne de frais de frais hors forfait
+     * @param type $tailleLigne  Taille de la ligne du tableau
+     */
     function FraisHF($tailleLigne) {
         $this->SetTextColor(122, 147, 178, $tailleLigne);
         $this->SetFont('Times', 'BI', 11);
@@ -56,20 +80,36 @@ class PDF extends FPDF {
         $this->Cell(40, $tailleLigne, utf8_decode('Montant'), 1, 1, 'C');
         $this->SetTextColor(0, 0, 0);
     }
-//Affiche de les ligne de frais de frais hors forfait
+    
+    /**
+     * Affiche des lignes de frais de frais hors forfait
+     * @param type $date        Date du frais hors forfait
+     * @param type $libelle     Libellé du frais hors forfait
+     * @param type $montant     Montant du frais hors forfait
+     * @param type $tailleLigne Taille de la ligne du tableau
+     */
     function LigneFraisHF($date, $libelle, $montant, $tailleLigne) {
         $this->SetFont('Times', '', 11);
         $this->Cell(60, $tailleLigne, $date, 1, 0, 'L');
         $this->Cell(80, $tailleLigne, $libelle, 1, 0, 'L');
         $this->Cell(40, $tailleLigne, $montant, 1, 1, 'R');
     }
-//Fonction afficher le total en pied de page 
+    
+    /**
+     * Fonction afficher le total en pied de page
+     * @param type $date        Date de la fiche de frais
+     * @param type $total       Montant total validé
+     * @param type $tailleLigne Taille de la ligne
+     */
     function Total($date, $total, $tailleLigne) {
         $this->setX(110);
         $this->Cell(40, $tailleLigne, 'Total : ' . $date, 1, 0, 'L');
         $this->Cell(40, $tailleLigne, $total, 1, 1, 'R');
     }
-//Fonction pour la signature
+    
+    /**
+     * Fonction pour la signature
+     */
     function Signature() {
         $this->Ln(12);
         $this->setX(150);
@@ -79,8 +119,10 @@ class PDF extends FPDF {
         $this->Ln(12);
         $this->Image('../images/sig.png', 145, null, 40, 7);
     }
-
-// Pied de page
+    
+    /**
+     * Affichage du pied de page
+     */
     function Footer() {
         // Positionnement à 1,5 cm du bas
         $this->SetY(-15);
