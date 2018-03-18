@@ -66,7 +66,7 @@ if (isset($_POST["$j"])) {
                             $pdo->majdatedemodification($id, $lemois);
                             $pdo->majdatedemodification($id, $_SESSION['moisreport']);
                             $_SESSION['ok'] = 15;
-                            header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+                            header('Location: ../index.php?uc=validerFrais&action=confirmerFrais');
                             exit();
                         }
                     }
@@ -97,7 +97,7 @@ if (isset($_POST["$j"])) {
     //Controle sur les frais
     if (ControleInfosFrais($nui, $rep, $km, $etp, $nbjour) != 0) {
         $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbjour);
-        header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+        header('Location: ../index.php?uc=validerFrais&action=confirmerFrais');
         exit();
     }
 
@@ -114,7 +114,7 @@ if (isset($_POST["$j"])) {
             //message d'erreur dans la vue.
             $_SESSION['ok'] = valideInfosFraisRetour(dateAnglaisVersFrancais($arrdate[$i]), $arrlib[$i], $arrmont[$i]);
             echo $_SESSION['ok'];
-            header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+            header('Location: ../index.php?uc=validerFrais&action=confirmerFrais');
             exit();
         }
 
@@ -154,7 +154,7 @@ if (isset($_POST["$j"])) {
     $voiture = $_POST['voiture'];
     if (ControleInfosFrais($nui, $rep, $km, $etp, $nbjour) != 0) {
         $_SESSION['ok'] = ControleInfosFrais($nui, $rep, $km, $etp, $nbjour);
-        header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+        header('Location: ../index.php?uc=validerFrais&action=confirmerFrais');
         exit();
     }
     $pdo->majetp($etp, $id, $lemois);
@@ -169,6 +169,6 @@ if (isset($_POST["$j"])) {
 }
 
 $_SESSION['ok'] = 0;
-header('Location: /GSB/index.php?uc=validerFrais&action=confirmerFrais');
+header('Location: ../index.php?uc=validerFrais&action=confirmerFrais');
 exit();
 
